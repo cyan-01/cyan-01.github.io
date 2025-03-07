@@ -236,7 +236,8 @@
   <entry>
     <title>力扣hot100python题解</title>
     <url>/2025/03/04/%E5%8A%9B%E6%89%A3hot100python%E9%A2%98%E8%A7%A3/</url>
-    <content><![CDATA[<ul>
+    <content><![CDATA[<h1>哈希</h1>
+<ul>
 <li>两数之和</li>
 </ul>
 <p>给定一个整数数组 <code>nums</code> 和一个整数目标值 <code>target</code>，请你在该数组中找出 <strong>和为目标值</strong> <em><code>target</code></em> 的那 <strong>两个</strong> 整数，并返回它们的数组下标。</p>
@@ -255,6 +256,7 @@
 <p>给定一个未排序的整数数组 <code>nums</code> ，找出数字连续的最长序列（不要求序列元素在原数组中连续）的长度。</p>
 <p>请你设计并实现时间复杂度为 <code>O(n)</code> 的算法解决此问题。</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">class Solution:</span><br><span class="line">    def longestConsecutive(self, nums: List[int]) -&gt; int:</span><br><span class="line">        ans = 0 </span><br><span class="line">        st = set(nums)</span><br><span class="line">        for x in st:</span><br><span class="line">            if x-1 in st:</span><br><span class="line">                continue</span><br><span class="line">            y = x+1 </span><br><span class="line">            while y in st:</span><br><span class="line">                y = y + 1</span><br><span class="line">            ans = max(ans,y -x)</span><br><span class="line">        return ans  </span><br></pre></td></tr></table></figure>
+<h1>双指针</h1>
 <ul>
 <li>移动0</li>
 </ul>
@@ -278,6 +280,7 @@
 <p>接雨水</p>
 <p>给定 <code>n</code> 个非负整数表示每个宽度为 <code>1</code> 的柱子的高度图，计算按此排列的柱子，下雨之后能接多少雨水。</p>
 <figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span>:</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">trap</span>(<span class="params">self, height: <span class="type">List</span>[<span class="built_in">int</span>]</span>) -&gt; <span class="built_in">int</span>:</span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> height:</span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line"></span><br><span class="line">        left, right = <span class="number">0</span>, <span class="built_in">len</span>(height) - <span class="number">1</span>  <span class="comment"># 两个指针</span></span><br><span class="line">        left_max, right_max = height[left], height[right]  <span class="comment"># 左右最大边界</span></span><br><span class="line">        ans = <span class="number">0</span>  <span class="comment"># 结果累加器</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span> left &lt; right:</span><br><span class="line">            <span class="keyword">if</span> height[left] &lt; height[right]:</span><br><span class="line">                left += <span class="number">1</span></span><br><span class="line">                <span class="keyword">if</span> height[left] &gt; left_max:</span><br><span class="line">                    left_max = height[left]</span><br><span class="line">                <span class="keyword">else</span>:</span><br><span class="line">                    ans += left_max - height[left]</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                right -= <span class="number">1</span></span><br><span class="line">                <span class="keyword">if</span> height[right] &gt; right_max:</span><br><span class="line">                    right_max = height[right]</span><br><span class="line">                <span class="keyword">else</span>:</span><br><span class="line">                    ans += right_max - height[right]</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> ans</span><br></pre></td></tr></table></figure>
+<h1>滑动窗口</h1>
 </li>
 <li>
 <p>无重复字符的最长字串</p>
@@ -292,6 +295,7 @@
 </li>
 </ul>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">class Solution:</span><br><span class="line">    def findAnagrams(self, s: str, p: str) -&gt; List[int]:</span><br><span class="line">        # 获取字符串 s 和 p 的长度</span><br><span class="line">        s_len, p_len = len(s), len(p)</span><br><span class="line">        </span><br><span class="line">        # 如果 s 的长度小于 p 的长度，直接返回空列表，因为无法形成异位词子串</span><br><span class="line">        if s_len &lt; p_len:</span><br><span class="line">            return []</span><br><span class="line"></span><br><span class="line">        # 初始化结果列表，用于存储异位词子串的起始索引</span><br><span class="line">        ans = []</span><br><span class="line"></span><br><span class="line">        # 初始化两个长度为 26 的数组，用于统计字符频率</span><br><span class="line">        # s_count 用于统计当前窗口内的字符频率</span><br><span class="line">        # p_count 用于统计字符串 p 的字符频率</span><br><span class="line">        s_count = [0] * 26</span><br><span class="line">        p_count = [0] * 26</span><br><span class="line"></span><br><span class="line">        # 遍历 p 的前 p_len 个字符，初始化 s_count 和 p_count</span><br><span class="line">        for i in range(p_len):</span><br><span class="line">            # 统计 s 的前 p_len 个字符的频率</span><br><span class="line">            s_count[ord(s[i]) - 97] += 1</span><br><span class="line">            # 统计 p 的前 p_len 个字符的频率</span><br><span class="line">            p_count[ord(p[i]) - 97] += 1</span><br><span class="line"></span><br><span class="line">        # 如果初始窗口的字符频率与 p 的字符频率相等，说明第一个窗口就是异位词</span><br><span class="line">        # 将起始索引 0 加入结果列表</span><br><span class="line">        if s_count == p_count:</span><br><span class="line">            ans.append(0)</span><br><span class="line"></span><br><span class="line">        # 滑动窗口遍历 s 的剩余部分</span><br><span class="line">        for i in range(s_len - p_len):</span><br><span class="line">            # 窗口滑动时，移除窗口左侧的字符，将其频率减 1</span><br><span class="line">            s_count[ord(s[i]) - 97] -= 1</span><br><span class="line">            # 添加窗口右侧的新字符，将其频率加 1</span><br><span class="line">            s_count[ord(s[i + p_len]) - 97] += 1</span><br><span class="line">            </span><br><span class="line">            # 检查当前窗口的字符频率是否与 p 的字符频率相等</span><br><span class="line">            # 如果相等，说明当前窗口是异位词，将起始索引（i + 1）加入结果列表</span><br><span class="line">            if s_count == p_count:</span><br><span class="line">                ans.append(i + 1)</span><br><span class="line"></span><br><span class="line">        # 返回结果列表</span><br><span class="line">        return ans</span><br></pre></td></tr></table></figure>
+<h1>子串</h1>
 <ul>
 <li>
 <p>和为 k的子数组</p>
@@ -311,6 +315,7 @@
 </ul>
 <p>给你一个字符串 <code>s</code> 、一个字符串 <code>t</code> 。返回 <code>s</code> 中涵盖 <code>t</code> 所有字符的最小子串。如果 <code>s</code> 中不存在涵盖 <code>t</code> 所有字符的子串，则返回空字符串 <code>&quot;&quot;</code> 。</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">class Solution:</span><br><span class="line">    def minWindow(self, s: str, t: str) -&gt; str:</span><br><span class="line">        ans_left, ans_right = -1, len(s)</span><br><span class="line">        cnt = defaultdict(int)  # 比 Counter 更快</span><br><span class="line">        for c in t:</span><br><span class="line">            cnt[c] += 1</span><br><span class="line">        less = len(cnt)</span><br><span class="line"></span><br><span class="line">        left = 0</span><br><span class="line">        for right, c in enumerate(s):</span><br><span class="line">            cnt[c] -= 1</span><br><span class="line">            if cnt[c] == 0:</span><br><span class="line">                less -= 1</span><br><span class="line">            while less == 0:</span><br><span class="line">                if right - left &lt; ans_right - ans_left:</span><br><span class="line">                    ans_left, ans_right = left, right</span><br><span class="line">                x = s[left]</span><br><span class="line">                if cnt[x] == 0:</span><br><span class="line">                    less += 1</span><br><span class="line">                cnt[x] += 1</span><br><span class="line">                left += 1</span><br><span class="line"></span><br><span class="line">        return &quot;&quot; if ans_left &lt; 0 else s[ans_left: ans_right + 1]</span><br></pre></td></tr></table></figure>
+<h1>普通数组</h1>
 <ul>
 <li>最大子数组和</li>
 </ul>
@@ -340,6 +345,7 @@
 <p>给你一个未排序的整数数组 <code>nums</code> ，请你找出其中没有出现的最小的正整数。</p>
 <p>请你实现时间复杂度为 <code>O(n)</code> 并且只使用常数级别额外空间的解决方案。</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">class Solution:</span><br><span class="line">    def firstMissingPositive(self, nums: List[int]) -&gt; int:</span><br><span class="line">        N = len(nums)</span><br><span class="line">        num_list = [0]*(N+1)</span><br><span class="line">        for num in nums:</span><br><span class="line">            if num&gt;N or num&lt;=0:</span><br><span class="line">                continue</span><br><span class="line">            num_list[num] = 1</span><br><span class="line">        </span><br><span class="line">        for i in range(1,N+1):</span><br><span class="line">            if num_list[i] == 0:</span><br><span class="line">                return i</span><br><span class="line">        return N+1</span><br></pre></td></tr></table></figure>
+<h1>矩阵</h1>
 <ul>
 <li>矩阵置零</li>
 </ul>
@@ -356,16 +362,29 @@
 <p>给定一个 <em>n</em> × <em>n</em> 的二维矩阵 <code>matrix</code> 表示一个图像。请你将图像顺时针旋转 90 度。</p>
 <p>你必须在**<a href="https://baike.baidu.com/item/%E5%8E%9F%E5%9C%B0%E7%AE%97%E6%B3%95"> 原地</a>** 旋转图像，这意味着你需要直接修改输入的二维矩阵。<strong>请不要</strong> 使用另一个矩阵来旋转图像。</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">class Solution:</span><br><span class="line">    def rotate(self, matrix: List[List[int]]) -&gt; None:</span><br><span class="line">        n = len(matrix)</span><br><span class="line">        # 深拷贝 matrix -&gt; tmp</span><br><span class="line">        tmp = copy.deepcopy(matrix)</span><br><span class="line">        # 根据元素旋转公式，遍历修改原矩阵 matrix 的各元素</span><br><span class="line">        for i in range(n):</span><br><span class="line">            for j in range(n):</span><br><span class="line">                matrix[j][n - 1 - i] = tmp[i][j]</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h1>链表</h1>
 <ul>
 <li>相交链表</li>
 </ul>
 <p>给你两个单链表的头节点 <code>headA</code> 和 <code>headB</code> ，请你找出并返回两个单链表相交的起始节点。如果两个链表不存在相交节点，返回 <code>null</code> 。</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">class Solution:</span><br><span class="line">    def getIntersectionNode(self, headA: ListNode, headB: ListNode) -&gt; ListNode:</span><br><span class="line">        A, B = headA, headB</span><br><span class="line">        while A != B:</span><br><span class="line">            A = A.next if A else headB</span><br><span class="line">            B = B.next if B else headA</span><br><span class="line">        return A</span><br></pre></td></tr></table></figure>
 <ul>
+<li>反转链表</li>
+</ul>
+<p>给你单链表的头节点 <code>head</code> ，请你反转链表，并返回反转后的链表。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># Definition for singly-linked list.</span><br><span class="line"># class ListNode:</span><br><span class="line">#     def __init__(self, val=0, next=None):</span><br><span class="line">#         self.val = val</span><br><span class="line">#         self.next = next</span><br><span class="line">class Solution:</span><br><span class="line">    def reverseList(self, head: Optional[ListNode]) -&gt; Optional[ListNode]:</span><br><span class="line">        cur ,pre = head, None</span><br><span class="line">        while cur:</span><br><span class="line">            temp = cur.next</span><br><span class="line">            cur.next = pre</span><br><span class="line">            pre = cur</span><br><span class="line">            cur = temp</span><br><span class="line">        return pre</span><br></pre></td></tr></table></figure>
+<h1>二叉树</h1>
+<ul>
 <li>二叉树的中序遍历</li>
 </ul>
 <p>给定一个二叉树的根节点 <code>root</code> ，返回 <em>它的 <strong>中序</strong> 遍历</em></p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">class Solution:</span><br><span class="line">    def inorderTraversal(self, root: TreeNode) -&gt; List[int]:</span><br><span class="line">        # 初始化栈和结果列表</span><br><span class="line">        stack, rst = [root], []  # stack 用于模拟递归调用栈，rst 用于存储遍历结果</span><br><span class="line"></span><br><span class="line">        # 开始遍历</span><br><span class="line">        while stack:  # 当栈不为空时，继续遍历</span><br><span class="line">            i = stack.pop()  # 弹出栈顶元素</span><br><span class="line"></span><br><span class="line">            # 如果当前元素是 TreeNode 类型</span><br><span class="line">            if isinstance(i, TreeNode):</span><br><span class="line">                # 将右子树、当前节点的值、左子树按顺序压入栈</span><br><span class="line">                stack.extend([i.right, i.val, i.left])  # 注意顺序：右 -&gt; 值 -&gt; 左</span><br><span class="line"></span><br><span class="line">            # 如果当前元素是整数类型（节点的值）</span><br><span class="line">            elif isinstance(i, int):</span><br><span class="line">                rst.append(i)  # 将节点的值加入结果列表</span><br><span class="line"></span><br><span class="line">        # 返回结果列表</span><br><span class="line">        return rst</span><br></pre></td></tr></table></figure>
+<ul>
+<li>二叉树的最大深度</li>
+</ul>
+<p>给定一个二叉树 <code>root</code> ，返回其最大深度。二叉树的 <strong>最大深度</strong> 是指从根节点到最远叶子节点的最长路径上的节点数。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">class Solution:</span><br><span class="line">    def maxDepth(self, root: Optional[TreeNode]) -&gt; int:</span><br><span class="line">        if not root: return 0</span><br><span class="line">        return max(self.maxDepth(root.left),self.maxDepth(root.right))+1</span><br></pre></td></tr></table></figure>
+<h1>图论</h1>
 <ul>
 <li>岛屿数量</li>
 </ul>
@@ -373,15 +392,34 @@
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">输入：grid = [</span><br><span class="line">  [&quot;1&quot;,&quot;1&quot;,&quot;0&quot;,&quot;0&quot;,&quot;0&quot;],</span><br><span class="line">  [&quot;1&quot;,&quot;1&quot;,&quot;0&quot;,&quot;0&quot;,&quot;0&quot;],</span><br><span class="line">  [&quot;0&quot;,&quot;0&quot;,&quot;1&quot;,&quot;0&quot;,&quot;0&quot;],</span><br><span class="line">  [&quot;0&quot;,&quot;0&quot;,&quot;0&quot;,&quot;1&quot;,&quot;1&quot;]</span><br><span class="line">]</span><br><span class="line">输出：3</span><br></pre></td></tr></table></figure>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">class Solution:</span><br><span class="line">    def numIslands(self, grid: List[List[str]]) -&gt; int:</span><br><span class="line">        n_l = 0  # 初始化岛屿数量为 0</span><br><span class="line"></span><br><span class="line">        # 遍历整个网格</span><br><span class="line">        for i in range(len(grid)):</span><br><span class="line">            for j in range(len(grid[0])):</span><br><span class="line">                # 如果当前单元格是陆地（&#x27;1&#x27;），则开始 DFS 遍历</span><br><span class="line">                if grid[i][j] == &#x27;1&#x27;:</span><br><span class="line">                    self.landpaint(grid, i, j)  # 标记当前岛屿的所有陆地</span><br><span class="line">                    n_l += 1  # 岛屿数量加 1</span><br><span class="line"></span><br><span class="line">        # 返回岛屿数量</span><br><span class="line">        return n_l</span><br><span class="line"></span><br><span class="line">    # DFS 函数：标记当前岛屿的所有陆地</span><br><span class="line">    def landpaint(self, grid, x, y):</span><br><span class="line">        # 将当前陆地标记为已访问（&#x27;2&#x27;）</span><br><span class="line">        grid[x][y] = &#x27;2&#x27;</span><br><span class="line"></span><br><span class="line">        # 检查下方单元格</span><br><span class="line">        if x + 1 &lt; len(grid) and grid[x + 1][y] == &#x27;1&#x27;:</span><br><span class="line">            self.landpaint(grid, x + 1, y)</span><br><span class="line"></span><br><span class="line">        # 检查右方单元格</span><br><span class="line">        if y + 1 &lt; len(grid[0]) and grid[x][y + 1] == &#x27;1&#x27;:</span><br><span class="line">            self.landpaint(grid, x, y + 1)</span><br><span class="line"></span><br><span class="line">        # 检查上方单元格</span><br><span class="line">        if x - 1 &gt;= 0 and grid[x - 1][y] == &#x27;1&#x27;:</span><br><span class="line">            self.landpaint(grid, x - 1, y)</span><br><span class="line"></span><br><span class="line">        # 检查左方单元格</span><br><span class="line">        if y - 1 &gt;= 0 and grid[x][y - 1] == &#x27;1&#x27;:</span><br><span class="line">            self.landpaint(grid, x, y - 1)</span><br></pre></td></tr></table></figure>
 <ul>
+<li>腐烂的橘子</li>
+</ul>
+<p>在给定的 <code>m x n</code> 网格 <code>grid</code> 中，每个单元格可以有以下三个值之一：值 <code>0</code> 代表空单元格；值 <code>1</code> 代表新鲜橘子；值 <code>2</code> 代表腐烂的橘子。</p>
+<p>每分钟，腐烂的橘子 <strong>周围 4 个方向上相邻</strong> 的新鲜橘子都会腐烂。返回 <em>直到单元格中没有新鲜橘子为止所必须经过的最小分钟数。如果不可能，返回 <code>-1</code></em> 。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">class Solution:</span><br><span class="line">    def orangesRotting(self, grid: List[List[int]]) -&gt; int:</span><br><span class="line">        m,n=len(grid),len(grid[0])</span><br><span class="line">        fresh=0</span><br><span class="line">        q=[]</span><br><span class="line">        for i,row in enumerate(grid):</span><br><span class="line">            for j,x in enumerate(row):</span><br><span class="line">                if x==1:</span><br><span class="line">                    fresh+=1</span><br><span class="line">                elif x==2:</span><br><span class="line">                    q.append((i,j))</span><br><span class="line"></span><br><span class="line">        ans=0</span><br><span class="line">        while q and fresh:</span><br><span class="line">            ans+=1</span><br><span class="line">            tmp=q</span><br><span class="line">            q=[]</span><br><span class="line">            for x,y in tmp:</span><br><span class="line">                for i, j in (x - 1, y), (x + 1, y), (x, y - 1), (x, y + 1):  # 四方向</span><br><span class="line">                    if 0 &lt;= i &lt; m and 0 &lt;= j &lt; n and grid[i][j] == 1:  # 新鲜橘子</span><br><span class="line">                        fresh -= 1</span><br><span class="line">                        grid[i][j] = 2  # 变成腐烂橘子</span><br><span class="line">                        q.append((i, j))</span><br><span class="line">        return -1  if fresh else ans</span><br></pre></td></tr></table></figure>
+<h1>回溯</h1>
+<ul>
 <li>全排列</li>
 </ul>
 <p>给定一个不含重复数字的数组 <code>nums</code> ，返回其 <em>所有可能的全排列</em> 。你可以 <strong>按任意顺序</strong> 返回答案。</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">class Solution:</span><br><span class="line">    def permute(self, nums: List[int]) -&gt; List[List[int]]:</span><br><span class="line">        # 定义 DFS 函数</span><br><span class="line">        def dfs(nums, size, depth, path, used, res):</span><br><span class="line">            # 如果当前深度等于数组大小，说明找到一个完整排列</span><br><span class="line">            if depth == size:</span><br><span class="line">                res.append(path[:])  # 将当前排列加入结果列表</span><br><span class="line">                return</span><br><span class="line"></span><br><span class="line">            # 遍历数组中的每个元素</span><br><span class="line">            for i in range(size):</span><br><span class="line">                # 检查当前元素是否已经被使用过</span><br><span class="line">                if not used[i]:</span><br><span class="line">                    # 标记当前元素为已使用</span><br><span class="line">                    used[i] = True</span><br><span class="line">                    # 将当前元素加入路径</span><br><span class="line">                    path.append(nums[i])</span><br><span class="line">                    # 递归调用 DFS，继续生成下一个位置的元素</span><br><span class="line">                    dfs(nums, size, depth + 1, path, used, res)</span><br><span class="line">                    # 回溯：移除当前元素，恢复状态</span><br><span class="line">                    path.pop()</span><br><span class="line">                    used[i] = False</span><br><span class="line"></span><br><span class="line">        # 获取数组的长度</span><br><span class="line">        size = len(nums)</span><br><span class="line">        # 如果数组为空，直接返回空列表</span><br><span class="line">        if size == 0:</span><br><span class="line">            return []</span><br><span class="line"></span><br><span class="line">        # 初始化 used 数组和结果列表</span><br><span class="line">        used = [False] * size  # 记录元素是否被使用</span><br><span class="line">        res = []  # 结果列表，用于存储所有排列</span><br><span class="line"></span><br><span class="line">        # 调用 DFS 函数，开始生成排列</span><br><span class="line">        dfs(nums, size, 0, [], used, res)</span><br><span class="line"></span><br><span class="line">        # 返回结果列表</span><br><span class="line">        return res</span><br></pre></td></tr></table></figure>
 <ul>
+<li>子集</li>
+</ul>
+<p>给你一个整数数组 <code>nums</code> ，数组中的元素 <strong>互不相同</strong> 。返回该数组所有可能的子集（幂集）。解集 <strong>不能</strong> 包含重复的子集。你可以按 <strong>任意顺序</strong> 返回解集。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">class Solution:</span><br><span class="line">    def subsets(self, nums: List[int]) -&gt; List[List[int]]:</span><br><span class="line">        # 初始化结果列表</span><br><span class="line">        res = []</span><br><span class="line">        # 获取数组的长度</span><br><span class="line">        n = len(nums)</span><br><span class="line">        </span><br><span class="line">        # 定义回溯函数</span><br><span class="line">        def helper(i, tmp):</span><br><span class="line">            # 将当前子集加入结果列表</span><br><span class="line">            res.append(tmp)</span><br><span class="line">            # 遍历数组，生成新的子集</span><br><span class="line">            for j in range(i, n):</span><br><span class="line">                # 递归调用，更新子集</span><br><span class="line">                helper(j + 1, tmp + [nums[j]])</span><br><span class="line">        </span><br><span class="line">        # 调用回溯函数，从索引 0 和空子集开始</span><br><span class="line">        helper(0, [])</span><br><span class="line">        # 返回结果列表</span><br><span class="line">        return res</span><br></pre></td></tr></table></figure>
+<h3 id="二分查找">二分查找</h3>
+<ul>
 <li>搜索插入位置</li>
 </ul>
 <p>给定一个排序数组和一个目标值，在数组中找到目标值，并返回其索引。如果目标值不存在于数组中，返回它将会被按顺序插入的位置。</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">class Solution:</span><br><span class="line">    def searchInsert(self, nums: List[int], target: int) -&gt; int:</span><br><span class="line">        left, right = 0, len(nums) - 1</span><br><span class="line">        </span><br><span class="line">        while left &lt;= right:</span><br><span class="line">            mid = (left + right) // 2</span><br><span class="line">            if nums[mid] == target:</span><br><span class="line">                return mid</span><br><span class="line">            elif nums[mid] &lt; target:</span><br><span class="line">                left = mid + 1</span><br><span class="line">            else:</span><br><span class="line">                right = mid - 1</span><br><span class="line">        </span><br><span class="line">        return left  # left 位置即为插入位置</span><br></pre></td></tr></table></figure>
+<ul>
+<li>搜索二维矩阵</li>
+</ul>
+<p>给你一个满足下述两条属性的 <code>m x n</code> 整数矩阵：每行中的整数从左到右按非严格递增顺序排列。每行的第一个整数大于前一行的最后一个整数。给你一个整数 <code>target</code> ，如果 <code>target</code> 在矩阵中，返回 <code>true</code> ；否则，返回 <code>false</code> 。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">class Solution:</span><br><span class="line">    def searchMatrix(self, matrix: List[List[int]], target: int) -&gt; bool:</span><br><span class="line">        # 获取矩阵的行数和列数</span><br><span class="line">        m, n = len(matrix), len(matrix[0])</span><br><span class="line">        </span><br><span class="line">        # 初始化二分查找的左右边界</span><br><span class="line">        l, r = 0, m * n  # 将二维矩阵视为一维数组</span><br><span class="line">        </span><br><span class="line">        # 开始二分查找</span><br><span class="line">        while l &lt; r:</span><br><span class="line">            # 计算中间位置</span><br><span class="line">            mid = (l + r) &gt;&gt; 1  # 等价于 (l + r) // 2</span><br><span class="line">            # 将一维索引 mid 转换为二维索引</span><br><span class="line">            x = matrix[mid // n][mid % n]</span><br><span class="line">            </span><br><span class="line">            # 判断中间元素与目标值的关系</span><br><span class="line">            if x == target:</span><br><span class="line">                return True  # 找到目标值，返回 True</span><br><span class="line">            if x &lt; target:</span><br><span class="line">                l = mid + 1  # 目标值在右半部分</span><br><span class="line">            else:</span><br><span class="line">                r = mid  # 目标值在左半部分</span><br><span class="line">        </span><br><span class="line">        # 未找到目标值，返回 False</span><br><span class="line">        return False</span><br></pre></td></tr></table></figure>
+<h1>栈</h1>
 <ul>
 <li>有效的括号</li>
 </ul>
@@ -400,26 +438,54 @@
 </li>
 </ol>
 <ul>
+<li>最小栈</li>
+</ul>
+<p>设计一个支持 <code>push</code> ，<code>pop</code> ，<code>top</code> 操作，并能在常数时间内检索到最小元素的栈。实现 <code>MinStack</code> 类:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">- `MinStack()` 初始化堆栈对象。</span><br><span class="line">- `void push(int val)` 将元素val推入堆栈。</span><br><span class="line">- `void pop()` 删除堆栈顶部的元素。</span><br><span class="line">- `int top()` 获取堆栈顶部的元素。</span><br><span class="line">- `int getMin()` 获取堆栈中的最小元素。</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">class MinStack:</span><br><span class="line"></span><br><span class="line">    def __init__(self):</span><br><span class="line">        self.stack = []</span><br><span class="line">        self.min_stack = [math.inf]</span><br><span class="line"></span><br><span class="line">    def push(self, val: int) -&gt; None:</span><br><span class="line">        self.stack.append(val) </span><br><span class="line">        self.min_stack.append(min(val,self.min_stack[-1]))</span><br><span class="line"></span><br><span class="line">    def pop(self) -&gt; None:</span><br><span class="line">        self.stack.pop()</span><br><span class="line">        self.min_stack.pop()</span><br><span class="line"></span><br><span class="line">    def top(self) -&gt; int:</span><br><span class="line">        return self.stack[-1]</span><br><span class="line"></span><br><span class="line">    def getMin(self) -&gt; int:</span><br><span class="line">        return self.min_stack[-1]</span><br></pre></td></tr></table></figure>
+<h3 id="堆">堆</h3>
+<ul>
 <li>数组中的第k个最大元素</li>
 </ul>
 <p>给定整数数组 <code>nums</code> 和整数 <code>k</code>，请返回数组中第 <code>**k**</code> 个最大的元素。请注意，你需要找的是数组排序后的第 <code>k</code> 个最大的元素，而不是第 <code>k</code> 个不同的元素。</p>
 <p>你必须设计并实现时间复杂度为 <code>O(n)</code> 的算法解决此问题。</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">class Solution:</span><br><span class="line">    def findKthLargest(self, nums: List[int], k: int) -&gt; int:</span><br><span class="line">        # 定义快速选择函数</span><br><span class="line">        def quick_select(nums, k):</span><br><span class="line">            # 随机选择一个基准元素（pivot）</span><br><span class="line">            pivot = random.choice(nums)</span><br><span class="line">            </span><br><span class="line">            # 初始化三个列表/变量：</span><br><span class="line">            # - big：存储比 pivot 大的元素</span><br><span class="line">            # - equal：记录与 pivot 相等的元素个数</span><br><span class="line">            # - small：存储比 pivot 小的元素</span><br><span class="line">            big, equal, small = [], 0, []</span><br><span class="line">            </span><br><span class="line">            # 遍历数组，将元素分类</span><br><span class="line">            for num in nums:</span><br><span class="line">                if num &gt; pivot:</span><br><span class="line">                    big.append(num)  # 比 pivot 大的元素放入 big</span><br><span class="line">                elif num &lt; pivot:</span><br><span class="line">                    small.append(num)  # 比 pivot 小的元素放入 small</span><br><span class="line">                else:</span><br><span class="line">                    equal += 1  # 与 pivot 相等的元素计数</span><br><span class="line">            </span><br><span class="line">            # 如果 k 小于等于 big 的长度，说明第 k 个最大元素在 big 中</span><br><span class="line">            if k &lt;= len(big):</span><br><span class="line">                return quick_select(big, k)  # 递归在 big 中查找</span><br><span class="line">            </span><br><span class="line">            # 如果 k 大于 big 和 equal 的总长度，说明第 k 个最大元素在 small 中</span><br><span class="line">            if len(big) + equal &lt; k:</span><br><span class="line">                return quick_select(small, k - len(big) - equal)  # 递归在 small 中查找</span><br><span class="line">            </span><br><span class="line">            # 如果以上条件都不满足，说明第 k 个最大元素就是 pivot</span><br><span class="line">            return pivot</span><br><span class="line"></span><br><span class="line">        # 调用快速选择函数，返回第 k 个最大元素</span><br><span class="line">        return quick_select(nums, k)</span><br></pre></td></tr></table></figure>
 <ul>
-<li>买卖股票的最佳时期</li>
+<li>前k个高频元素</li>
 </ul>
-<p>给定一个数组 <code>prices</code> ，它的第 <code>i</code> 个元素 <code>prices[i]</code> 表示一支给定股票第 <code>i</code> 天的价格。你只能选择 <strong>某一天</strong> 买入这只股票，并选择在 <strong>未来的某一个不同的日子</strong> 卖出该股票。设计一个算法来计算你所能获取的最大利润。返回你可以从这笔交易中获取的最大利润。如果你不能获取任何利润，返回 <code>0</code> 。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">class Solution:</span><br><span class="line">    def maxProfit(self, prices: List[int]) -&gt; int:</span><br><span class="line">        profit = 0</span><br><span class="line">        low=high=prices[0]</span><br><span class="line">        for p in prices:</span><br><span class="line">            if p &lt; low: #对每个新的最低点来说，之前的最高点不再有效，需要结利</span><br><span class="line">                profit = max(profit, high-low)</span><br><span class="line">                low=high=p</span><br><span class="line">            elif p &gt; high:</span><br><span class="line">                high=p</span><br><span class="line">        profit = max(profit, high-low)</span><br><span class="line">        return profit</span><br></pre></td></tr></table></figure>
-<ul>
-<li>爬楼梯</li>
-</ul>
-<p>假设你正在爬楼梯。需要 <code>n</code> 阶你才能到达楼顶。每次你可以爬 <code>1</code> 或 <code>2</code> 个台阶。你有多少种不同的方法可以爬到楼顶呢？</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">class Solution:</span><br><span class="line">    def climbStairs(self, n: int) -&gt; int:</span><br><span class="line">        a, b = 1, 1</span><br><span class="line">        for _ in range(n - 1):</span><br><span class="line">            a, b = b, a + b</span><br><span class="line">        return b</span><br></pre></td></tr></table></figure>
-<ul>
-<li>不同路径</li>
-</ul>
-<p>一个机器人位于一个 <code>m x n</code> 网格的左上角 （起始点在下图中标记为 “Start” ）。机器人每次只能向下或者向右移动一步。机器人试图达到网格的右下角（在下图中标记为 “Finish” ）。问总共有多少条不同的路径？</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">class Solution:</span><br><span class="line">    def uniquePaths(self, m: int, n: int) -&gt; int:</span><br><span class="line">        f = [1] * n</span><br><span class="line">        for i in range(1, m):</span><br><span class="line">            for j in range(1, n):</span><br><span class="line">                f[j] += f[j - 1]</span><br><span class="line">        return f[n - 1]</span><br></pre></td></tr></table></figure>
+<p>给你一个整数数组 <code>nums</code> 和一个整数 <code>k</code> ，请你返回其中出现频率前 <code>k</code> 高的元素。你可以按 <strong>任意顺序</strong> 返回答案。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">~~~</span><br><span class="line"></span><br><span class="line">- 买卖股票的最佳时期</span><br><span class="line"></span><br><span class="line">给定一个数组 `prices` ，它的第 `i` 个元素 `prices[i]` 表示一支给定股票第 `i` 天的价格。你只能选择 **某一天** 买入这只股票，并选择在 **未来的某一个不同的日子** 卖出该股票。设计一个算法来计算你所能获取的最大利润。返回你可以从这笔交易中获取的最大利润。如果你不能获取任何利润，返回 `0` 。</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>class Solution:<br>
+def maxProfit(self, prices: List[int]) -&gt; int:<br>
+profit = 0<br>
+low=high=prices[0]<br>
+for p in prices:<br>
+if p &lt; low: #对每个新的最低点来说，之前的最高点不再有效，需要结利<br>
+profit = max(profit, high-low)<br>
+low=high=p<br>
+elif p &gt; high:<br>
+high=p<br>
+profit = max(profit, high-low)<br>
+return profit</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">- 爬楼梯</span><br><span class="line"></span><br><span class="line">假设你正在爬楼梯。需要 `n` 阶你才能到达楼顶。每次你可以爬 `1` 或 `2` 个台阶。你有多少种不同的方法可以爬到楼顶呢？</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>class Solution:<br>
+def climbStairs(self, n: int) -&gt; int:<br>
+a, b = 1, 1<br>
+for _ in range(n - 1):<br>
+a, b = b, a + b<br>
+return b</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">- 不同路径</span><br><span class="line"></span><br><span class="line">一个机器人位于一个 `m x n` 网格的左上角 （起始点在下图中标记为 “Start” ）。机器人每次只能向下或者向右移动一步。机器人试图达到网格的右下角（在下图中标记为 “Finish” ）。问总共有多少条不同的路径？</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>class Solution:<br>
+def uniquePaths(self, m: int, n: int) -&gt; int:<br>
+f = [1] * n<br>
+for i in range(1, m):<br>
+for j in range(1, n):<br>
+f[j] += f[j - 1]<br>
+return f[n - 1]</p>
+<pre><code>
+
+
+</code></pre>
 ]]></content>
       <tags>
         <tag>python</tag>
