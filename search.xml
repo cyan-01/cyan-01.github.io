@@ -496,7 +496,84 @@
   <entry>
     <title>算法</title>
     <url>/2025/03/10/%E7%AE%97%E6%B3%95/</url>
-    <content><![CDATA[]]></content>
+    <content><![CDATA[<h1>哈希</h1>
+<h2 id="题目特征">题目特征</h2>
+<ol>
+<li><strong>快速查找需求</strong>
+<ul>
+<li>如判断元素是否存在（重复、交集等），或需要快速查询互补值（如两数之和）。</li>
+</ul>
+</li>
+<li><strong>统计频率/次数</strong>
+<ul>
+<li>统计字符、数字等的出现次数，例如变位词、多数元素问题。</li>
+</ul>
+</li>
+<li><strong>唯一性/去重问题</strong>
+<ul>
+<li>如找第一个不重复字符、去重后保留特定顺序等。</li>
+</ul>
+</li>
+<li><strong>映射关系维护</strong>
+<ul>
+<li>需建立元素间映射（如字符串同构），或记录元素的位置信息（如子数组问题）。</li>
+</ul>
+</li>
+<li><strong>前缀和优化</strong>
+<ul>
+<li>结合哈希表快速计算子数组和、差值等（如和为K的子数组）</li>
+</ul>
+</li>
+</ol>
+<h2 id="常见解题思路">常见解题思路</h2>
+<ol>
+<li><strong>哈希集合（HashSet）</strong>
+<ul>
+<li>存储唯一元素，用于去重或存在性判断。<br>
+<strong>示例题</strong>：环形链表、快乐数、数组交集。</li>
+</ul>
+</li>
+<li><strong>哈希映射（HashMap）</strong>
+<ul>
+<li>记录键值对，存储元素及其索引、频率或其他关联信息。<br>
+<strong>示例题</strong>：两数之和、变位词分组、克隆图的深拷贝。</li>
+</ul>
+</li>
+<li><strong>前缀和 + 哈希表</strong>
+<ul>
+<li>计算前缀和，用哈希表记录和的出现次数或最早出现位置。<br>
+<strong>示例题</strong>：和为K的子数组、连续数组（0和1数量相等的最长子数组）。</li>
+</ul>
+</li>
+<li><strong>滑动窗口 + 哈希表</strong>
+<ul>
+<li>维护窗口内元素的哈希统计，用于子串/子数组问题。<br>
+<strong>示例题</strong>：无重复字符的最长子串、最小覆盖子串。</li>
+</ul>
+</li>
+<li><strong>频率统计与比较</strong>
+<ul>
+<li>用哈希表统计频率后比较（如变位词），或用数组替代哈希优化空间（如仅小写字母的场景）。</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h2 id="优化技巧"><strong>优化技巧</strong></h2>
+<ul>
+<li><strong>数组替代哈希表</strong>：若元素范围有限（如字母、固定范围的数字），使用数组更高效。</li>
+<li><strong>双向映射</strong>：处理同构问题时，需双向检查两个哈希表的映射关系。</li>
+<li><strong>延迟更新</strong>：在滑动窗口中，可延迟删除哈希表中的元素以简化逻辑（如某些子串问题）。</li>
+</ul>
+<hr>
+<h2 id="典型例题"><strong>典型例题</strong></h2>
+<ol>
+<li><strong>两数之和</strong>（HashMap记录值与索引）</li>
+<li><strong>无重复字符的最长子串</strong>（滑动窗口 + HashMap记录字符最新位置）</li>
+<li><strong>字母异位词分组</strong>（HashMap以排序后的字符串为Key）</li>
+<li><strong>和为K的子数组</strong>（前缀和 + HashMap统计和出现次数）</li>
+<li><strong>最长连续序列</strong>（HashSet快速查找连续元素）</li>
+</ol>
+]]></content>
       <tags>
         <tag>算法</tag>
       </tags>
@@ -672,9 +749,158 @@ token 存储在服务器的数据库，通常是通过登录或者⼀个特定�
 <li>常⻅的接⼝请求头</li>
 </ul>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Accept</span><br><span class="line">X-Requested-With</span><br><span class="line">User-Agent</span><br><span class="line">Content-Type</span><br></pre></td></tr></table></figure>
+<ul>
+<li>接⼝测试常⽤检查点</li>
+</ul>
+<h1>接口测试检查点（按检查类型分类）</h1>
+<table>
+<thead>
+<tr>
+<th><strong>检查类型</strong></th>
+<th><strong>检查点</strong></th>
+<th><strong>描述</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>业务测试</strong></td>
+<td>正常流程返回数据的正确性</td>
+<td>验证接口在正常业务流程下返回的数据内容、格式、逻辑是否符合预期。</td>
+</tr>
+<tr>
+<td></td>
+<td>接口文档符合性</td>
+<td>验证返回值是否按接口文档规定格式（如JSON/XML）、编码（UTF-8）、字段命名（如<code>return_msg</code>）返回。</td>
+</tr>
+<tr>
+<td></td>
+<td>参数类型传递正确性</td>
+<td>验证接口是否正确处理参数类型（如数字、字符串、布尔值等）。</td>
+</tr>
+<tr>
+<td></td>
+<td>接口依赖关系测试</td>
+<td>验证接口依赖的其他服务或数据源异常时，是否能正确处理（如降级、超时）。</td>
+</tr>
+<tr>
+<td></td>
+<td>异常业务处理逻辑</td>
+<td>验证业务异常场景（如余额不足、库存为负）是否返回明确的错误码和描述。</td>
+</tr>
+<tr>
+<td><strong>参数测试</strong></td>
+<td>参数值全量覆盖验证</td>
+<td>对参数所有可能取值（枚举值、布尔值等）进行覆盖测试。</td>
+</tr>
+<tr>
+<td></td>
+<td>必填参数正确性验证</td>
+<td>必填参数传入有效值时，接口返回预期结果。</td>
+</tr>
+<tr>
+<td></td>
+<td>必填/非必填参数组合验证</td>
+<td>测试不同必填与非必填参数组合下的接口行为（如缺少非必填参数是否影响功能）。</td>
+</tr>
+<tr>
+<td></td>
+<td>参数边界值验证</td>
+<td>验证参数在边界值（如最大值、最小值、空值、超长字符串）下的处理逻辑。</td>
+</tr>
+<tr>
+<td><strong>异常测试</strong></td>
+<td>必填参数缺失</td>
+<td>缺失必填参数时是否返回明确错误码（如<code>400 Bad Request</code>）。</td>
+</tr>
+<tr>
+<td></td>
+<td>非法参数值</td>
+<td>传入非法参数（如非数字传入数字字段）是否返回类型错误提示。</td>
+</tr>
+<tr>
+<td></td>
+<td>超限参数值</td>
+<td>参数超过允许范围（如金额超限）是否触发业务规则校验。</td>
+</tr>
+<tr>
+<td><strong>性能测试</strong></td>
+<td>响应时间</td>
+<td>单请求响应时间是否在SLA要求范围内（如≤500ms）。</td>
+</tr>
+<tr>
+<td></td>
+<td>并发处理能力</td>
+<td>高并发场景下接口是否稳定（如100并发用户请求成功率≥99%）。</td>
+</tr>
+<tr>
+<td></td>
+<td>大数据量处理</td>
+<td>处理大量数据时（如万级列表查询）是否返回正确且性能达标。</td>
+</tr>
+<tr>
+<td><strong>安全性测试</strong></td>
+<td>敏感信息加密</td>
+<td>返回的敏感数据（如手机号、身份证号）是否脱敏或加密。</td>
+</tr>
+<tr>
+<td></td>
+<td>未授权访问防护</td>
+<td>未携带Token或权限不足时是否返回<code>401 Unauthorized</code>。</td>
+</tr>
+<tr>
+<td></td>
+<td>SQL注入防护</td>
+<td>传入SQL注入语句（如<code>' OR 1=1 --</code>）是否被拦截并返回错误。</td>
+</tr>
+<tr>
+<td><strong>幂等性测试</strong></td>
+<td>重复请求一致性</td>
+<td>多次提交相同请求（如支付）是否仅产生一次有效结果。</td>
+</tr>
+<tr>
+<td><strong>兼容性测试</strong></td>
+<td>多版本兼容</td>
+<td>新旧版本接口参数格式（如v1/v2）是否能兼容处理。</td>
+</tr>
+<tr>
+<td></td>
+<td>多客户端兼容</td>
+<td>不同客户端（Web/App/第三方）调用接口时返回数据格式是否一致。</td>
+</tr>
+</tbody>
+</table>
+<h2 id="功能测试">功能测试</h2>
+<ul>
+<li>测试环境没问题，但⽣产/灰度环境有问题，会从哪些原因去定位排查</li>
+</ul>
+<p>1、部署原因，⽣产/灰度环境的代码与测试环境验证通过的不⼀致<br>
+2、测试数据问题，有些bug需要特殊的数据才能重现出来<br>
+3、配置原因，⽣产/灰度环境的配置出问题</p>
 ]]></content>
       <tags>
         <tag>测试</tag>
       </tags>
+  </entry>
+  <entry>
+    <title>leetcode</title>
+    <url>/2025/03/17/leetcode/</url>
+    <content><![CDATA[<h1>哈希</h1>
+<h2 id="1-两数之和">1.两数之和</h2>
+<p>快速查找需求</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span>&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function">vector&lt;<span class="type">int</span>&gt; <span class="title">twoSum</span><span class="params">(vector&lt;<span class="type">int</span>&gt;&amp; nums,<span class="type">int</span> target)</span></span>&#123;</span><br><span class="line">        unordered_map&lt;<span class="type">int</span>,<span class="type">int</span>&gt; hashtable;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;nums.<span class="built_in">size</span>();i++)&#123;</span><br><span class="line">            <span class="keyword">auto</span> it = hashtable.<span class="built_in">find</span>(target-nums[i]);</span><br><span class="line">            <span class="keyword">if</span>(it !=hashtable.<span class="built_in">end</span>())&#123;</span><br><span class="line">                <span class="keyword">return</span> &#123;i,it-&gt;second&#125;;</span><br><span class="line">            &#125;</span><br><span class="line">            hashtable[nums[i]]=i;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> &#123;&#125;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span>:</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">twoSum</span>(<span class="params">self, nums: <span class="type">List</span>[<span class="built_in">int</span>], target: <span class="built_in">int</span></span>) -&gt; <span class="type">List</span>[<span class="built_in">int</span>]:</span><br><span class="line">        hashtable=&#123;&#125;</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(nums)):</span><br><span class="line">            <span class="keyword">if</span> target-nums[i] <span class="keyword">in</span> hashtable:</span><br><span class="line">                <span class="keyword">return</span> [i,hashtable[target-nums[i]]]</span><br><span class="line">            hashtable[nums[i]] =i</span><br><span class="line">        <span class="keyword">return</span> []</span><br></pre></td></tr></table></figure>
+<h2 id="面试题-16-15-珠玑妙算">面试题 16.15 珠玑妙算</h2>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function">vector&lt;<span class="type">int</span>&gt; <span class="title">masterMind</span><span class="params">(string solution, string guess)</span> </span>&#123;</span><br><span class="line">        <span class="type">int</span> ri= <span class="number">0</span>,fr=<span class="number">0</span>;</span><br><span class="line">        <span class="type">int</span> dic[<span class="number">4</span>][<span class="number">2</span>] = &#123;<span class="number">0</span>&#125;;</span><br><span class="line">        unordered_map&lt;<span class="type">char</span>,<span class="type">int</span>&gt; char_to_index = &#123;&#123;<span class="string">&#x27;R&#x27;</span>,<span class="number">0</span>&#125;,&#123;<span class="string">&#x27;Y&#x27;</span>,<span class="number">1</span>&#125;,&#123;<span class="string">&#x27;G&#x27;</span>,<span class="number">2</span>&#125;,&#123;<span class="string">&#x27;B&#x27;</span>,<span class="number">3</span>&#125;&#125;;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;<span class="number">4</span>;i++)&#123;</span><br><span class="line">            <span class="type">char</span> s=solution[i],g = guess[i];</span><br><span class="line">            <span class="keyword">if</span>(s==g)</span><br><span class="line">                ri++;</span><br><span class="line">            <span class="keyword">else</span>&#123;</span><br><span class="line">                dic[char_to_index[s]][<span class="number">0</span>]++;</span><br><span class="line">                dic[char_to_index[g]][<span class="number">1</span>]++;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;<span class="number">4</span>;i++)</span><br><span class="line">            fr+=<span class="built_in">min</span>(dic[i][<span class="number">0</span>],dic[i][<span class="number">1</span>]);</span><br><span class="line">        <span class="keyword">return</span> &#123;ri,fr&#125;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 低效</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span>:</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">masterMind</span>(<span class="params">self, solution: <span class="built_in">str</span>, guess: <span class="built_in">str</span></span>) -&gt; <span class="type">List</span>[<span class="built_in">int</span>]:</span><br><span class="line">        hash_sol,hash_gue = defaultdict(<span class="built_in">int</span>),defaultdict(<span class="built_in">int</span>)</span><br><span class="line">        right,fr=<span class="number">0</span>,<span class="number">0</span></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">4</span>):</span><br><span class="line">            <span class="keyword">if</span> solution[i]==guess[i]:</span><br><span class="line">                right += <span class="number">1</span></span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                hash_gue[guess[i]]+=<span class="number">1</span></span><br><span class="line">                hash_sol[solution[i]]+=<span class="number">1</span></span><br><span class="line">        <span class="keyword">for</span> key <span class="keyword">in</span> hash_gue:</span><br><span class="line">            <span class="keyword">if</span> key <span class="keyword">in</span> hash_sol:</span><br><span class="line">                fr += <span class="built_in">min</span> (hash_sol[key],hash_gue[key])</span><br><span class="line">        <span class="keyword">return</span> [right,fr]</span><br><span class="line"><span class="comment"># 优化</span></span><br><span class="line"><span class="keyword">from</span> typing <span class="keyword">import</span> <span class="type">List</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span>:</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">masterMind</span>(<span class="params">self, solution: <span class="built_in">str</span>, guess: <span class="built_in">str</span></span>) -&gt; <span class="type">List</span>[<span class="built_in">int</span>]:</span><br><span class="line">        <span class="comment"># 初始化猜中次数和伪猜中次数</span></span><br><span class="line">        corr, err = <span class="number">0</span>, <span class="number">0</span></span><br><span class="line">        </span><br><span class="line">        <span class="comment"># 使用列表代替字典，索引对应字符：</span></span><br><span class="line">        <span class="comment"># 0: &#x27;R&#x27;, 1: &#x27;Y&#x27;, 2: &#x27;G&#x27;, 3: &#x27;B&#x27;</span></span><br><span class="line">        <span class="comment"># dic[char][0]: solution 中未匹配的字符数量</span></span><br><span class="line">        <span class="comment"># dic[char][1]: guess 中未匹配的字符数量</span></span><br><span class="line">        dic = [[<span class="number">0</span>, <span class="number">0</span>] <span class="keyword">for</span> _ <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">4</span>)]</span><br><span class="line">        </span><br><span class="line">        <span class="comment"># 字符到索引的映射</span></span><br><span class="line">        char_to_index = &#123;<span class="string">&#x27;R&#x27;</span>: <span class="number">0</span>, <span class="string">&#x27;Y&#x27;</span>: <span class="number">1</span>, <span class="string">&#x27;G&#x27;</span>: <span class="number">2</span>, <span class="string">&#x27;B&#x27;</span>: <span class="number">3</span>&#125;</span><br><span class="line">        </span><br><span class="line">        <span class="comment"># 遍历字符串，统计猜中次数和未匹配字符</span></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">4</span>):</span><br><span class="line">            s, g = solution[i], guess[i]</span><br><span class="line">            <span class="keyword">if</span> s == g:</span><br><span class="line">                corr += <span class="number">1</span></span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                <span class="comment"># 更新 solution 中未匹配字符的数量</span></span><br><span class="line">                dic[char_to_index[s]][<span class="number">0</span>] += <span class="number">1</span></span><br><span class="line">                <span class="comment"># 更新 guess 中未匹配字符的数量</span></span><br><span class="line">                dic[char_to_index[g]][<span class="number">1</span>] += <span class="number">1</span></span><br><span class="line">        </span><br><span class="line">        <span class="comment"># 计算伪猜中次数</span></span><br><span class="line">        <span class="keyword">for</span> count_sol, count_gue <span class="keyword">in</span> dic:</span><br><span class="line">            err += <span class="built_in">min</span>(count_sol, count_gue)</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">return</span> [corr, err]</span><br></pre></td></tr></table></figure>
+<h2 id="1941-检查是否所有字符出现次数相同">1941 检查是否所有字符出现次数相同</h2>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">bool</span> <span class="title">areOccurrencesEqual</span><span class="params">(string s)</span> </span>&#123;</span><br><span class="line">        unordered_map&lt;<span class="type">char</span> ,<span class="type">int</span>&gt; hashtable;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">char</span> c :s)</span><br><span class="line">            hashtable[c]++;</span><br><span class="line">        <span class="type">int</span> n = hashtable[s[<span class="number">0</span>]];</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">char</span> c :s)&#123;</span><br><span class="line">            <span class="keyword">if</span>(hashtable[c]!=n)</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span>:</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">areOccurrencesEqual</span>(<span class="params">self, s: <span class="built_in">str</span></span>) -&gt; <span class="built_in">bool</span>:</span><br><span class="line">        hashtable = defaultdict(<span class="built_in">int</span>)</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> s:</span><br><span class="line">            hashtable[i]+=<span class="number">1</span></span><br><span class="line">        n = hashtable[s[<span class="number">0</span>]]</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> hashtable:</span><br><span class="line">            <span class="keyword">if</span> n!=hashtable[i]:</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">False</span></span><br><span class="line">        <span class="keyword">return</span> <span class="literal">True</span></span><br><span class="line"><span class="comment"># 优化</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span>:</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">areOccurrencesEqual</span>(<span class="params">self, s: <span class="built_in">str</span></span>) -&gt; <span class="built_in">bool</span>:</span><br><span class="line">        c = Counter(s)</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">len</span>(<span class="built_in">set</span>(c.values())) == <span class="number">1</span></span><br></pre></td></tr></table></figure>
+<h2 id="13-罗马数字转整数">13 罗马数字转整数</h2>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">romanToInt</span><span class="params">(string s)</span> </span>&#123;</span><br><span class="line">        unordered_map &lt;<span class="type">char</span>,<span class="type">int</span>&gt; dic = &#123;&#123;<span class="string">&#x27;I&#x27;</span>,<span class="number">1</span>&#125;,&#123;<span class="string">&#x27;V&#x27;</span>,<span class="number">5</span>&#125;,&#123;<span class="string">&#x27;X&#x27;</span>,<span class="number">10</span>&#125;,&#123;<span class="string">&#x27;L&#x27;</span>,<span class="number">50</span>&#125;,&#123;<span class="string">&#x27;C&#x27;</span>,<span class="number">100</span>&#125;,&#123;<span class="string">&#x27;D&#x27;</span>,<span class="number">500</span>&#125;,&#123;<span class="string">&#x27;M&#x27;</span>,<span class="number">1000</span>&#125;&#125;;</span><br><span class="line">        <span class="comment">/*</span></span><br><span class="line"><span class="comment">        // 使用数组代替 unordered_map更快</span></span><br><span class="line"><span class="comment">        int dic[256] = &#123;0&#125;; // ASCII 表大小为 256</span></span><br><span class="line"><span class="comment">        dic[&#x27;I&#x27;] = 1;</span></span><br><span class="line"><span class="comment">        dic[&#x27;V&#x27;] = 5;</span></span><br><span class="line"><span class="comment">        dic[&#x27;X&#x27;] = 10;</span></span><br><span class="line"><span class="comment">        dic[&#x27;L&#x27;] = 50;</span></span><br><span class="line"><span class="comment">        dic[&#x27;C&#x27;] = 100;</span></span><br><span class="line"><span class="comment">        dic[&#x27;D&#x27;] = 500;</span></span><br><span class="line"><span class="comment">        dic[&#x27;M&#x27;] = 1000;</span></span><br><span class="line"><span class="comment">        */</span></span><br><span class="line">        <span class="type">int</span> result = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i =<span class="number">0</span>;i&lt;s.<span class="built_in">length</span>();i++)&#123;</span><br><span class="line">            <span class="keyword">if</span>(i!=s.<span class="built_in">length</span>()<span class="number">-1</span> &amp;&amp; dic[s[i]]&lt;dic[s[i<span class="number">+1</span>]])</span><br><span class="line">                result-=dic[s[i]];</span><br><span class="line">            <span class="keyword">else</span></span><br><span class="line">                result+=dic[s[i]];</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> result;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span>:</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">romanToInt</span>(<span class="params">self, s: <span class="built_in">str</span></span>) -&gt; <span class="built_in">int</span>:</span><br><span class="line">        dic = &#123;<span class="string">&quot;I&quot;</span>:<span class="number">1</span>,<span class="string">&quot;V&quot;</span>:<span class="number">5</span>,<span class="string">&quot;X&quot;</span>:<span class="number">10</span>,<span class="string">&quot;L&quot;</span>:<span class="number">50</span>,<span class="string">&quot;C&quot;</span>:<span class="number">100</span>,<span class="string">&quot;D&quot;</span>:<span class="number">500</span>,<span class="string">&quot;M&quot;</span>:<span class="number">1000</span>&#125;</span><br><span class="line">        result = <span class="number">0</span></span><br><span class="line">        <span class="keyword">for</span>  i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(s)):</span><br><span class="line">            <span class="keyword">if</span> i !=<span class="built_in">len</span>(s)-<span class="number">1</span> <span class="keyword">and</span> dic[s[i]] &lt; dic[s[i+<span class="number">1</span>]]  :</span><br><span class="line">                result -= dic[s[i]]</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                result += dic[s[i]]</span><br><span class="line">        <span class="keyword">return</span> result</span><br></pre></td></tr></table></figure>
+<h2 id="3-无重复字符的最长子串">3.无重复字符的最长子串</h2>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">lengthOfLongestSubstring</span><span class="params">(string s)</span> </span>&#123;</span><br><span class="line">        unordered_set&lt;<span class="type">char</span>&gt; set;</span><br><span class="line">        <span class="type">int</span> n=s.<span class="built_in">length</span>(),r=<span class="number">0</span>,ans=<span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> l = <span class="number">0</span>;l&lt;n;l++)&#123;</span><br><span class="line">            <span class="keyword">if</span>(l!=<span class="number">0</span>)&#123;</span><br><span class="line">                set.<span class="built_in">erase</span>(s[l<span class="number">-1</span>]);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">while</span>(r&lt;n &amp;&amp; set.<span class="built_in">count</span>(s[r])==<span class="number">0</span>)&#123;</span><br><span class="line">                set.<span class="built_in">insert</span>(s[r]);</span><br><span class="line">                r++;</span><br><span class="line">            &#125;</span><br><span class="line">            ans = <span class="built_in">max</span>(ans,r-l);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> ans;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span>:</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">lengthOfLongestSubstring</span>(<span class="params">self, s: <span class="built_in">str</span></span>) -&gt; <span class="built_in">int</span>:</span><br><span class="line">        occ = <span class="built_in">set</span>()</span><br><span class="line">        n = <span class="built_in">len</span>(s)</span><br><span class="line">        r,ans=<span class="number">0</span>,<span class="number">0</span></span><br><span class="line">        <span class="keyword">for</span> l <span class="keyword">in</span> <span class="built_in">range</span>(n):</span><br><span class="line">            <span class="keyword">if</span> l != <span class="number">0</span>:</span><br><span class="line">                occ.remove(s[l-<span class="number">1</span>])</span><br><span class="line">            <span class="keyword">while</span> r&lt;n <span class="keyword">and</span> s[r] <span class="keyword">not</span> <span class="keyword">in</span> occ:</span><br><span class="line">                occ.add(s[r])</span><br><span class="line">                r+=<span class="number">1</span></span><br><span class="line">            ans = <span class="built_in">max</span> (ans,r-l)</span><br><span class="line">        <span class="keyword">return</span> ans</span><br></pre></td></tr></table></figure>
+]]></content>
   </entry>
 </search>
