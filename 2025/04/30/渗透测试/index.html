@@ -1,0 +1,430 @@
+<!DOCTYPE html><html lang="en" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>渗透测试 | 听风的博客</title><meta name="author" content="听风"><meta name="copyright" content="听风"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="123456789网络适配器-&gt;WLAN点下拉geng&#x27;d-&gt;共享clash verge: 打开系统代理和Tun 端口号7897ip: VMnet8的IPv4地址git 全局代理：	添加：git config --global http.proxy http:&#x2F;&#x2F;IP:7897		 git config --global https.proxy http:&#x2F;&#x2F;IP:7897">
+<meta property="og:type" content="article">
+<meta property="og:title" content="渗透测试">
+<meta property="og:url" content="http://example.com/2025/04/30/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/index.html">
+<meta property="og:site_name" content="听风的博客">
+<meta property="og:description" content="123456789网络适配器-&gt;WLAN点下拉geng&#x27;d-&gt;共享clash verge: 打开系统代理和Tun 端口号7897ip: VMnet8的IPv4地址git 全局代理：	添加：git config --global http.proxy http:&#x2F;&#x2F;IP:7897		 git config --global https.proxy http:&#x2F;&#x2F;IP:7897">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/img/cover1.jpg">
+<meta property="article:published_time" content="2025-04-30T12:41:44.000Z">
+<meta property="article:modified_time" content="2025-05-06T10:01:52.296Z">
+<meta property="article:author" content="听风">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/img/cover1.jpg"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "渗透测试",
+  "url": "http://example.com/2025/04/30/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/",
+  "image": "http://example.com/img/cover1.jpg",
+  "datePublished": "2025-04-30T12:41:44.000Z",
+  "dateModified": "2025-05-06T10:01:52.296Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "听风",
+      "url": "http://example.com/"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://example.com/2025/04/30/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"top_n_per_article":5,"unescape":false,"languages":{"hits_empty":"No results found for: ${query}","hits_stats":"${hits} articles found"}},
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"简"},
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":200,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: 'Copy Successful',
+    error: 'Copy Failed',
+    noSupport: 'Browser Not Supported'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: 'Just now',
+    min: 'minutes ago',
+    hour: 'hours ago',
+    day: 'days ago',
+    month: 'months ago'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: 'Load More'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '渗透测试',
+  isHighlightShrink: flase,
+  isToc: true,
+  pageType: 'post'
+}</script><meta name="generator" content="Hexo 7.3.0"></head><body><div id="web_bg" style="background-image: url(/img/top.png);"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">7</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">3</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">0</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tag</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-list"></i><span> List</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/link/"><i class="fa-fw fas fa-link"></i><span> Link</span></a></li><li><a class="site-page child" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></li></ul></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/img/cover1.jpg);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">听风的博客</span></a><a class="nav-page-title" href="/"><span class="site-name">渗透测试</span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> Search</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tag</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-list"></i><span> List</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/link/"><i class="fa-fw fas fa-link"></i><span> Link</span></a></li><li><a class="site-page child" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></li></ul></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">渗透测试</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">Created</span><time class="post-meta-date-created" datetime="2025-04-30T12:41:44.000Z" title="Created 2025-04-30 20:41:44">2025-04-30</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">Updated</span><time class="post-meta-date-updated" datetime="2025-05-06T10:01:52.296Z" title="Updated 2025-05-06 18:01:52">2025-05-06</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">Post Views:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">网络适配器-&gt;WLAN点下拉geng&#x27;d-&gt;共享</span><br><span class="line">clash verge: 打开系统代理和Tun 端口号7897</span><br><span class="line">ip: VMnet8的IPv4地址</span><br><span class="line">git 全局代理：</span><br><span class="line">	添加：git config --global http.proxy http://IP:7897</span><br><span class="line">		 git config --global https.proxy http://IP:7897</span><br><span class="line">	取消：git config --global --unset http.proxy</span><br><span class="line">		 git config --global --unset https.proxy</span><br><span class="line">	查看：git config --global -l</span><br></pre></td></tr></table></figure>
+<h1>信息收集</h1>
+<h2 id="需收集的信息：">需收集的信息：</h2>
+<ul>
+<li>域名信息(whois.、备案信息、子域名)</li>
+<li>服务器信息（端口、服务、真实IP)</li>
+<li>网站信息（网站架构、操作系统、中间件、数据库、编程语言、指纹信息、W八F、敏感目录、敏感文件、源码泄露、旁站、C段)</li>
+<li>管理员信息（姓名、职务、生日、联系电话、邮件地址）</li>
+</ul>
+<h2 id="域名信息">域名信息</h2>
+<h3 id="whois">whois</h3>
+<h4 id="域名查询whois">域名查询whois</h4>
+<p>根据已知域名反查,获取:注册人邮箱;注册人姓名;注册人手机;注册更新时间等信息</p>
+<ul>
+<li>
+<p>脚本</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd yjtools</span><br><span class="line">python whois_check.py</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>命令行</p>
+</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">whois [域名]</span><br></pre></td></tr></table></figure>
+<ul>
+<li>接口</li>
+</ul>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://whois.aliyun.com/">https://whois.aliyun.com/</a><br>
+<a target="_blank" rel="noopener" href="https://www.whois365.com/cn/">https://www.whois365.com/cn/</a><br>
+<a target="_blank" rel="noopener" href="http://whois.chinaz.com/">http://whois.chinaz.com/</a></p>
+</blockquote>
+<h4 id="whois反查域名">whois反查域名</h4>
+<p>根据已知域名WHOIS中的信息来反查其它与此信息相同的域名列表,但可能是代理商</p>
+<ul>
+<li>接口</li>
+</ul>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://whois.chinaz.com/">https://whois.chinaz.com/</a>                              查询到的邮箱名前几位隐蔽</p>
+<p><a target="_blank" rel="noopener" href="https://whois.aizhan.com/reverse-whois/">https://whois.aizhan.com/reverse-whois/</a></p>
+</blockquote>
+<h3 id="备案号">备案号</h3>
+<p>网页最下方通常有备案号,通过备案号查询该公司旗下其他域名或资产</p>
+<ul>
+<li>接口</li>
+</ul>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://beian.miit.gov.cn/">https://beian.miit.gov.cn/</a></p>
+<p><a target="_blank" rel="noopener" href="https://icp.chinaz.com/">https://icp.chinaz.com/</a></p>
+<p><a target="_blank" rel="noopener" href="https://icp.chinaz.com/">https://icp.chinaz.com/</a></p>
+</blockquote>
+<h3 id="子域名">子域名</h3>
+<h4 id="google-hacking">google hacking</h4>
+<ul>
+<li>语法</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>字符</th>
+<th>注释</th>
+<th>例子</th>
+<th>注释</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>intext</td>
+<td>寻找正文中含有关 键字的网页</td>
+<td>intext：后台登录</td>
+<td>将只返回正文中包含“后台登录”的网页</td>
+</tr>
+<tr>
+<td>intitle</td>
+<td>寻找标题中含有关 键字的网页</td>
+<td>intitle：后台登录</td>
+<td>将只返回标题中包含“后台 登录”的网页，intitle：后台登录密码将返回标题中 包含“后台登录而正文中包 含密码的网页</td>
+</tr>
+<tr>
+<td>allinitle</td>
+<td>用法和intitle类 似，只不过可以指 定多个词</td>
+<td>alltitle：后台登录 管理员</td>
+<td>将返回标题中包含“后台登录”和“管理员”的网页</td>
+</tr>
+<tr>
+<td>inurl</td>
+<td>将返回ur中含有关 键词的网页</td>
+<td>inurl:Login</td>
+<td>将返回ur1中含有Login 的网页</td>
+</tr>
+<tr>
+<td>allinurl</td>
+<td>用法和inurl类似， 只不过可以指定多 个词 n</td>
+<td>allinurl:Login admin</td>
+<td>将返回ur1中含有Login 和admin的网页</td>
+</tr>
+<tr>
+<td>site</td>
+<td>指定访问的站点</td>
+<td>site:baidu.com inurl:Login</td>
+<td>将只在baidu.com中查找 urI中含有Login的网页</td>
+</tr>
+<tr>
+<td>filetype</td>
+<td>指定访问的文件类 型</td>
+<td>site:baidu.com filetype:pdf</td>
+<td>将只返回baidu.com站点 上文件类型为pdf的网页</td>
+</tr>
+<tr>
+<td>link</td>
+<td>指定链接的网页</td>
+<td>link:www.baidu.com</td>
+<td>将返回所有包含指向 www.baidu.com的网页</td>
+</tr>
+<tr>
+<td>related</td>
+<td>相似类型的网页</td>
+<td>related:www.xjtu.edu.cn</td>
+<td>将返回与 www.xjtu.edu.cn相似的 页面，相似指的是网页的布局相似</td>
+</tr>
+<tr>
+<td>info</td>
+<td>返回站点的指定信 意</td>
+<td>info:www.baidu.com corn</td>
+<td>将返回百度的一些信息</td>
+</tr>
+<tr>
+<td>define</td>
+<td>返回某个词语的定 发</td>
+<td>define:Hacker</td>
+<td>将返回关于 Hacker的定义</td>
+</tr>
+<tr>
+<td>cache</td>
+<td>网页快照，谷歌将 返回给你它存储下 莱的房使货</td>
+<td>cache:www.hackingspirits.com guest</td>
+<td>将返回指定网站的缓存，并 且正文中含有guest</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>示例</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>语法</th>
+<th>注释</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>inurl://admin/login.php</td>
+<td>查找管理员登录页面</td>
+</tr>
+<tr>
+<td>inurl:/phpmyadmin/index.php</td>
+<td>查找后台数据库管理页面</td>
+</tr>
+<tr>
+<td>site:baidu.com inurl:Login</td>
+<td>只在baidu.com中查找url 中含有Login的网页</td>
+</tr>
+<tr>
+<td>site:baidu.com filetype:pdf ed</td>
+<td>只返回baidu.com站点上 文件类型为pdf的网页</td>
+</tr>
+<tr>
+<td>link:www.baidu.com</td>
+<td>返回所有包含指向 www.baidu.com的网页</td>
+</tr>
+<tr>
+<td>related:www.1lhc.edu.cn</td>
+<td>返回与 www.11hc.edu.cn网页 布局相似的页面</td>
+</tr>
+<tr>
+<td>site:xx.comintext:管理site:xx.cominurl:login site:xx.comintitle:后台</td>
+<td>查找网站后台</td>
+</tr>
+<tr>
+<td>site:xx.com filetype:php site:xx.com filetype:asp site:xx.com filetype:jsp site:xx.com filetype:aspx</td>
+<td>查看服务器使用的程序</td>
+</tr>
+<tr>
+<td>site:xx.com inurl:file site:xx.com inurl:load</td>
+<td>查看上传漏洞</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>Index of目录发现</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">index of /admin</span><br><span class="line">index of /passwd</span><br><span class="line">index of /password</span><br><span class="line">index of /mail</span><br><span class="line">&quot;index of /&quot; +passwd</span><br><span class="line">&quot;index of /&quot; +password.txt</span><br><span class="line">&quot;index of /&quot; +.htaccess</span><br><span class="line">&quot;index of /root&quot;</span><br><span class="line">&quot;index of /cgi-bin&quot;</span><br><span class="line">&quot;index of /logs&quot;</span><br><span class="line">&quot;index of /config&quot;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>子域名查询</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">site:[域名]</span><br></pre></td></tr></table></figure>
+<ul>
+<li>接口查询</li>
+</ul>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://dnsdumpster.com/">https://dnsdumpster.com/</a><br>
+<a target="_blank" rel="noopener" href="https://www.dnsgrep.cn/">https://www.dnsgrep.cn/</a><br>
+<a target="_blank" rel="noopener" href="https://developers.virustotal.com/reference/domains-relationships">https://developers.virustotal.com/reference/domains-relationships</a><br>
+<a target="_blank" rel="noopener" href="http://tool.chinaz.com/subdomain">http://tool.chinaz.com/subdomain</a><br>
+<a target="_blank" rel="noopener" href="https://www.nmmapper.com/sys/tools/subdomainfinder/">https://www.nmmapper.com/sys/tools/subdomainfinder/</a></p>
+</blockquote>
+<h4 id="网络空间测绘工具">网络空间测绘工具</h4>
+<table>
+<thead>
+<tr>
+<th>工具名称</th>
+<th>网址</th>
+<th>语法</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FOFA</td>
+<td><a target="_blank" rel="noopener" href="https://fofa.info/">https://fofa.info/</a></td>
+<td>domain=“[域名]”</td>
+</tr>
+<tr>
+<td>鹰图</td>
+<td><a target="_blank" rel="noopener" href="https://hunter.qianxin.com/">https://hunter.qianxin.com/</a></td>
+<td>domain=“[域名]”</td>
+</tr>
+<tr>
+<td>钟馗之眼</td>
+<td><a target="_blank" rel="noopener" href="https://www.zoomeye.org/">https://www.zoomeye.org/</a></td>
+<td>site:“[域名]”</td>
+</tr>
+<tr>
+<td>shodan</td>
+<td><a target="_blank" rel="noopener" href="https://www.shodan.io/">https://www.shodan.io/</a></td>
+<td>hostname:[域名]</td>
+</tr>
+</tbody>
+</table>
+<h4 id="SSL证书查询">SSL证书查询</h4>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://crt.sh/">https://crt.sh/</a></p>
+<p><a target="_blank" rel="noopener" href="https://developers.facebook.com/tools/ct/search/">https://developers.facebook.com/tools/ct/search/</a></p>
+</blockquote>
+<h4 id="JS文件发现">JS文件发现</h4>
+<ul>
+<li>
+<p>脚本</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd JSFinder</span><br><span class="line">python JSFinder.py -u http://[域名]</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h4 id="聚合工具">聚合工具</h4>
+<p>OneForAll</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">conda active py39\</span><br><span class="line">cd OneForAll/</span><br><span class="line">python oneforall.py --target [域名] run</span><br><span class="line">(谷歌联网)</span><br><span class="line">(查看 ./results/[域名].csv)</span><br></pre></td></tr></table></figure>
+<h4 id="爆破">爆破</h4>
+<p>子域名挖掘机(主机D://渗透)</p>
+<h2 id="服务器信息">服务器信息</h2>
+<h3 id="IP及端口">IP及端口</h3>
+<h4 id="IP反查域名">IP反查域名</h4>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="http://stool.chinaz.com/same">http://stool.chinaz.com/same</a><br>
+<a target="_blank" rel="noopener" href="https://tools.ipip.net/ipdomain.php">https://tools.ipip.net/ipdomain.php</a><br>
+<a target="_blank" rel="noopener" href="https://www.dnsgrep.cn/">https://www.dnsgrep.cn/</a><br>
+<a target="_blank" rel="noopener" href="https://site.ip138.com/">https://site.ip138.com/</a></p>
+</blockquote>
+<h4 id="域名查IP">域名查IP</h4>
+<p><a target="_blank" rel="noopener" href="http://ip.tool.chinaz.com/">http://ip.tool.chinaz.com/</a><br>
+<a target="_blank" rel="noopener" href="https://ipchaxun.com/">https://ipchaxun.com/</a><br>
+<a target="_blank" rel="noopener" href="https://site.ip138.com/">https://site.ip138.com/</a></p>
+<h4 id="C段存活主机探测">C段存活主机探测</h4>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>Author: </span><span class="post-copyright-info"><a href="http://example.com">听风</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>Link: </span><span class="post-copyright-info"><a href="http://example.com/2025/04/30/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/">http://example.com/2025/04/30/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>Copyright Notice: </span><span class="post-copyright-info">All articles on this blog are licensed under <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> unless otherwise stated.</span></div></div><div class="tag_share"><div class="post-share"><div class="social-share" data-image="/img/cover1.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related full-width no-desc" href="/2025/04/25/Git/" title="Git"><img class="cover" src="/img/cover5.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="info text-right"><div class="info-1"><div class="info-item-1">Next</div><div class="info-item-2">Git</div></div></div></a></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">听风</div><div class="author-info-description"></div><div class="site-data"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">7</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">3</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">0</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/cyan-01" target="_blank" title="Github"><i class="fab fa-github" style="color: #000000;"></i></a><a class="social-icon" href="mailto:cznymlz@163.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #000000;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>Announcement</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>Contents</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">1.</span> <span class="toc-text">信息收集</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%9C%80%E6%94%B6%E9%9B%86%E7%9A%84%E4%BF%A1%E6%81%AF%EF%BC%9A"><span class="toc-number">1.1.</span> <span class="toc-text">需收集的信息：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9F%9F%E5%90%8D%E4%BF%A1%E6%81%AF"><span class="toc-number">1.2.</span> <span class="toc-text">域名信息</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#whois"><span class="toc-number">1.2.1.</span> <span class="toc-text">whois</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%9F%9F%E5%90%8D%E6%9F%A5%E8%AF%A2whois"><span class="toc-number">1.2.1.1.</span> <span class="toc-text">域名查询whois</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#whois%E5%8F%8D%E6%9F%A5%E5%9F%9F%E5%90%8D"><span class="toc-number">1.2.1.2.</span> <span class="toc-text">whois反查域名</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A4%87%E6%A1%88%E5%8F%B7"><span class="toc-number">1.2.2.</span> <span class="toc-text">备案号</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AD%90%E5%9F%9F%E5%90%8D"><span class="toc-number">1.2.3.</span> <span class="toc-text">子域名</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#google-hacking"><span class="toc-number">1.2.3.1.</span> <span class="toc-text">google hacking</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%BD%91%E7%BB%9C%E7%A9%BA%E9%97%B4%E6%B5%8B%E7%BB%98%E5%B7%A5%E5%85%B7"><span class="toc-number">1.2.3.2.</span> <span class="toc-text">网络空间测绘工具</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#SSL%E8%AF%81%E4%B9%A6%E6%9F%A5%E8%AF%A2"><span class="toc-number">1.2.3.3.</span> <span class="toc-text">SSL证书查询</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#JS%E6%96%87%E4%BB%B6%E5%8F%91%E7%8E%B0"><span class="toc-number">1.2.3.4.</span> <span class="toc-text">JS文件发现</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%81%9A%E5%90%88%E5%B7%A5%E5%85%B7"><span class="toc-number">1.2.3.5.</span> <span class="toc-text">聚合工具</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%88%86%E7%A0%B4"><span class="toc-number">1.2.3.6.</span> <span class="toc-text">爆破</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%BF%A1%E6%81%AF"><span class="toc-number">1.3.</span> <span class="toc-text">服务器信息</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#IP%E5%8F%8A%E7%AB%AF%E5%8F%A3"><span class="toc-number">1.3.1.</span> <span class="toc-text">IP及端口</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#IP%E5%8F%8D%E6%9F%A5%E5%9F%9F%E5%90%8D"><span class="toc-number">1.3.1.1.</span> <span class="toc-text">IP反查域名</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%9F%9F%E5%90%8D%E6%9F%A5IP"><span class="toc-number">1.3.1.2.</span> <span class="toc-text">域名查IP</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#C%E6%AE%B5%E5%AD%98%E6%B4%BB%E4%B8%BB%E6%9C%BA%E6%8E%A2%E6%B5%8B"><span class="toc-number">1.3.1.3.</span> <span class="toc-text">C段存活主机探测</span></a></li></ol></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>Recent Posts</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2025/04/30/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/" title="渗透测试"><img src="/img/cover1.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="渗透测试"/></a><div class="content"><a class="title" href="/2025/04/30/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/" title="渗透测试">渗透测试</a><time datetime="2025-04-30T12:41:44.000Z" title="Created 2025-04-30 20:41:44">2025-04-30</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/04/25/Git/" title="Git"><img src="/img/cover5.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Git"/></a><div class="content"><a class="title" href="/2025/04/25/Git/" title="Git">Git</a><time datetime="2025-04-25T06:03:36.000Z" title="Created 2025-04-25 14:03:36">2025-04-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/03/17/leetcode/" title="leetcode"><img src="/img/cover4.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="leetcode"/></a><div class="content"><a class="title" href="/2025/03/17/leetcode/" title="leetcode">leetcode</a><time datetime="2025-03-17T03:03:32.000Z" title="Created 2025-03-17 11:03:32">2025-03-17</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/03/10/%E7%AE%97%E6%B3%95/" title="算法"><img src="/img/cover2.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="算法"/></a><div class="content"><a class="title" href="/2025/03/10/%E7%AE%97%E6%B3%95/" title="算法">算法</a><time datetime="2025-03-10T08:37:46.000Z" title="Created 2025-03-10 16:37:46">2025-03-10</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/03/10/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/" title="软件测试"><img src="/img/cover3.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="软件测试"/></a><div class="content"><a class="title" href="/2025/03/10/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/" title="软件测试">软件测试</a><time datetime="2025-03-10T06:38:09.000Z" title="Created 2025-03-10 14:38:09">2025-03-10</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url(/img/top.png);"><div id="footer-wrap"><div class="copyright">&copy;2025 By 听风</div><div class="framework-info"><span>Framework </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>Theme </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="Reading Mode"><i class="fas fa-book-open"></i></button><button id="translateLink" type="button" title="Toggle Between Traditional and Simplified Chinese">简</button><button id="darkmode" type="button" title="Toggle Between Light and Dark Mode"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="Toggle Between Single-column and Double-column"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="Settings"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="Table of Contents"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="Back to Top"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">Search</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  Loading Database</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="Search for Posts" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js"></script></div></div></body></html>
